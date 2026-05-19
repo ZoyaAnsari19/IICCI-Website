@@ -1,26 +1,229 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@source "../**/*.{js,ts,jsx,tsx}";
+
+@theme {
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+
+  --color-navy-50: #f0f4fa;
+  --color-navy-100: #dae4f1;
+  --color-navy-200: #b5c9e3;
+  --color-navy-300: #86a5cf;
+  --color-navy-400: #557fb6;
+  --color-navy-500: #36629c;
+  --color-navy-600: #264c7e;
+  --color-navy-700: #1d3c66;
+  --color-navy-800: #142a4a;
+  --color-navy-900: #0c1c34;
+  --color-navy-950: #081120;
+
+  --color-royal: #1e40af;
+  --color-royal-light: #3b82f6;
+  --color-royal-dark: #1e3a8a;
+
+  --color-gold-50: #fbf8ec;
+  --color-gold-100: #f6efce;
+  --color-gold-200: #eddd9d;
+  --color-gold-300: #e2c466;
+  --color-gold-400: #d9ac3d;
+  --color-gold-500: #c79328;
+  --color-gold-600: #a87320;
+  --color-gold-700: #86551e;
+  --color-gold-800: #70451f;
+  --color-gold-900: #5f3a1f;
+  --color-gold: #d4af37;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-shimmer: shimmer 3s linear infinite;
+  --animate-spin-slow: spin 30s linear infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  }
+  to {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ============================================================
+   Orbital satellite system around the central globe.
+   Each satellite is composed of three nested layers so that:
+     1. .orbit-track  -> spins the satellite around the center
+     2. .orbit-counter -> counter-spins to keep the card upright
+     3. .orbit-float   -> adds a subtle, eased bob for life
+   The radius, duration, direction and phase are configured per
+   satellite via CSS custom properties.
+   ============================================================ */
+
+.orbit-system {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  container-type: size;
+  z-index: 5;
+}
+
+.orbit-track {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+  animation: orbit-spin var(--orbit-dur, 30s) linear infinite;
+  animation-delay: var(--orbit-delay, 0s);
+  will-change: transform;
+}
+
+.orbit-track.is-reverse {
+  animation-name: orbit-spin-reverse;
+}
+
+.orbit-card-pos {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%) translateX(var(--orbit-radius, 200px));
+  pointer-events: auto;
+  white-space: nowrap;
+}
+
+.orbit-counter {
+  display: inline-block;
+  animation: orbit-spin-reverse var(--orbit-dur, 30s) linear infinite;
+  animation-delay: var(--orbit-delay, 0s);
+  will-change: transform;
+}
+
+.orbit-track.is-reverse .orbit-counter {
+  animation-name: orbit-spin;
+}
+
+.orbit-float {
+  display: inline-block;
+  animation: orbit-float var(--orbit-float-dur, 5s) ease-in-out infinite;
+  animation-delay: var(--orbit-float-delay, 0s);
+  filter:
+    drop-shadow(0 10px 28px rgba(8, 17, 32, 0.55))
+    drop-shadow(0 0 18px rgba(212, 175, 55, 0.18))
+    drop-shadow(0 0 28px rgba(30, 64, 175, 0.22));
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-spin-reverse {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes orbit-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Per-satellite parameters. Radii are derived from the smaller of
+   the container's two dimensions so the orbit stays inside the
+   globe region across breakpoints. */
+
+.orbit-bilateral {
+  --orbit-radius: min(36cqw, 36cqh);
+  --orbit-dur: 28s;
+  --orbit-delay: -24s;
+  --orbit-float-dur: 5s;
+  --orbit-float-delay: 0s;
+}
+
+.orbit-trades {
+  --orbit-radius: min(30cqw, 30cqh);
+  --orbit-dur: 34s;
+  --orbit-delay: -16s;
+  --orbit-float-dur: 6.5s;
+  --orbit-float-delay: -1.5s;
+}
+
+.orbit-delegation {
+  --orbit-radius: min(42cqw, 42cqh);
+  --orbit-dur: 40s;
+  --orbit-delay: -28s;
+  --orbit-float-dur: 7s;
+  --orbit-float-delay: -2.6s;
+}
+
+/* Soft outline ring rendered behind the satellites to hint at the
+   orbital path without distracting from the globe. */
+.orbit-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 9999px;
+  border: 1px dashed rgba(212, 175, 55, 0.08);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.orbit-ring-bilateral {
+  width: calc(min(36cqw, 36cqh) * 2);
+  height: calc(min(36cqw, 36cqh) * 2);
+}
+
+.orbit-ring-trades {
+  width: calc(min(30cqw, 30cqh) * 2);
+  height: calc(min(30cqw, 30cqh) * 2);
+  border-color: rgba(59, 130, 246, 0.08);
+}
+
+.orbit-ring-delegation {
+  width: calc(min(42cqw, 42cqh) * 2);
+  height: calc(min(42cqw, 42cqh) * 2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-track,
+  .orbit-counter,
+  .orbit-float {
+    animation: none !important;
+  }
+  .orbit-card-pos {
+    transform: translate(-50%, -50%);
+  }
 }
