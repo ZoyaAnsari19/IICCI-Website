@@ -175,41 +175,79 @@ export const Hero = () => {
                   ))}
                 </svg>
 
-                {/* Floating glass cards */}
-                <div className="absolute top-[12%] right-[5%] glass rounded-2xl p-3 float-chip shadow-premium hidden md:block">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-                      <i className="fas fa-arrow-trend-up text-emerald-400 text-xs"></i>
+                {/* Orbital satellite system — Bilateral, Live Trades, Delegation
+                    each orbit the globe on a distinct ring at its own speed
+                    and phase. Cards remain upright via a counter-rotation and
+                    receive a subtle eased bob + soft glow. */}
+                <div className="orbit-system" aria-hidden="false">
+                  {/* Subtle orbit guide rings */}
+                  <div className="orbit-ring orbit-ring-trades hidden md:block" />
+                  <div className="orbit-ring orbit-ring-bilateral hidden md:block" />
+                  <div className="orbit-ring orbit-ring-delegation hidden lg:block" />
+
+                  {/* Bilateral — outer ring, clockwise */}
+                  <div className="orbit-track orbit-bilateral hidden md:block">
+                    <div className="orbit-card-pos">
+                      <div className="orbit-counter">
+                        <div className="orbit-float">
+                          <div className="glass rounded-2xl p-3 shadow-premium">
+                            <div className="flex items-center gap-2">
+                              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+                                <i className="fas fa-arrow-trend-up text-emerald-400 text-xs"></i>
+                              </div>
+                              <div>
+                                <div className="text-[10px] text-white/60 uppercase tracking-wider">Bilateral</div>
+                                <div className="text-sm font-bold text-white">+28.4%</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-[10px] text-white/60 uppercase tracking-wider">Bilateral</div>
-                      <div className="text-sm font-bold text-white">+28.4%</div>
+                  </div>
+
+                  {/* Live Trades — inner ring, counter-clockwise */}
+                  <div className="orbit-track orbit-trades is-reverse hidden md:block">
+                    <div className="orbit-card-pos">
+                      <div className="orbit-counter">
+                        <div className="orbit-float">
+                          <div className="glass rounded-2xl p-3 shadow-premium">
+                            <div className="flex items-center gap-2">
+                              <div className="w-8 h-8 rounded-lg bg-gold/20 flex items-center justify-center">
+                                <i className="fas fa-ship text-gold text-xs"></i>
+                              </div>
+                              <div>
+                                <div className="text-[10px] text-white/60 uppercase tracking-wider">Live Trades</div>
+                                <div className="text-sm font-bold text-white">2,847</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Delegation — outermost ring, clockwise, slowest */}
+                  <div className="orbit-track orbit-delegation hidden lg:block">
+                    <div className="orbit-card-pos">
+                      <div className="orbit-counter">
+                        <div className="orbit-float">
+                          <div className="glass rounded-2xl p-3 shadow-premium">
+                            <div className="text-[10px] text-gold uppercase tracking-wider">Delegation</div>
+                            <div className="flex items-center gap-1 mt-1">
+                              <span className="text-lg">🇮🇳</span>
+                              <i className="fas fa-arrow-right text-white/40 text-xs"></i>
+                              <span className="text-lg">🇦🇪</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="absolute bottom-[18%] left-[5%] glass rounded-2xl p-3 float-chip-slow shadow-premium hidden md:block">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-gold/20 flex items-center justify-center">
-                      <i className="fas fa-ship text-gold text-xs"></i>
-                    </div>
-                    <div>
-                      <div className="text-[10px] text-white/60 uppercase tracking-wider">Live Trades</div>
-                      <div className="text-sm font-bold text-white">2,847</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="absolute top-[40%] left-[-8%] glass rounded-2xl p-3 float-chip-fast shadow-premium hidden lg:block">
-                  <div className="text-[10px] text-gold uppercase tracking-wider">Delegation</div>
-                  <div className="flex items-center gap-1 mt-1">
-                    <span className="text-lg">🇮🇳</span>
-                    <i className="fas fa-arrow-right text-white/40 text-xs"></i>
-                    <span className="text-lg">🇦🇪</span>
-                  </div>
-                </div>
-
-                <div className="absolute bottom-[5%] right-[-3%] glass rounded-2xl p-3 float-chip shadow-premium hidden lg:block">
+                {/* Static anchor card — kept gently floating to balance the composition */}
+                <div className="absolute bottom-[5%] right-[-3%] glass rounded-2xl p-3 float-chip shadow-premium hidden lg:block z-10">
                   <div className="flex items-center gap-2">
                     <div className="flex -space-x-2">
                       <div className="w-6 h-6 rounded-full bg-gradient-to-br from-gold to-gold-600 border-2 border-navy-950"></div>
