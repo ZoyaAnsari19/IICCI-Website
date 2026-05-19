@@ -116,8 +116,8 @@ export const Navbar = () => {
                             <i className={`fas ${c.icon} text-sm`}></i>
                           </div>
                           <div>
-                            <div className="text-navy-950 text-sm font-semibold">{c.t}</div>
-                            <div className="text-gray-500 text-xs mt-0.5">{c.d}</div>
+                            <div className="mega-item-title text-navy-950 text-sm font-semibold">{c.t}</div>
+                            <div className="mega-item-desc text-gray-500 text-xs mt-0.5">{c.d}</div>
                           </div>
                         </a>
                       ))}
@@ -146,7 +146,7 @@ export const Navbar = () => {
                           <div className="w-9 h-9 rounded-lg bg-royal/10 flex items-center justify-center text-royal group-hover/item:bg-gold group-hover/item:text-white transition">
                             <i className={`fas ${c.icon} text-sm`}></i>
                           </div>
-                          <span className="text-navy-900/80 text-sm font-medium group-hover/item:text-navy-950">
+                          <span className="mega-item-title text-navy-900 text-sm font-medium group-hover/item:text-navy-950">
                             {c.t}
                           </span>
                         </a>
@@ -189,19 +189,23 @@ export const Navbar = () => {
                         </div>
                         <div className="space-y-2">
                           {[
-                            { f: '🇮🇳', n: 'New Delhi HQ' },
-                            { f: '🇦🇪', n: 'Dubai Chapter' },
-                            { f: '🇸🇬', n: 'Singapore Chapter' },
-                            { f: '🇺🇸', n: 'New York Chapter' },
-                            { f: '🇬🇧', n: 'London Chapter' },
+                            { code: 'IN', n: 'New Delhi HQ' },
+                            { code: 'AE', n: 'Dubai Chapter' },
+                            { code: 'SG', n: 'Singapore Chapter' },
+                            { code: 'US', n: 'New York Chapter' },
+                            { code: 'GB', n: 'London Chapter' },
                           ].map((c) => (
                             <a
                               key={c.n}
                               href="#global"
-                              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition"
+                              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition group/ch"
                             >
-                              <span className="text-xl">{c.f}</span>
-                              <span className="text-navy-900/80 text-sm">{c.n}</span>
+                              <span className="mega-chapter-code" aria-hidden>
+                                {c.code}
+                              </span>
+                              <span className="mega-item-title text-navy-900 text-sm group-hover/ch:text-navy-950">
+                                {c.n}
+                              </span>
                             </a>
                           ))}
                         </div>
@@ -211,7 +215,7 @@ export const Navbar = () => {
                 )}
               </li>
             ))}
-            <li className="relative group">
+            <li className="has-mega-menu relative group">
               <button type="button" className={navLinkClass}>
                 More <i className="fas fa-chevron-down text-[9px] text-navy-900/50"></i>
               </button>

@@ -152,7 +152,12 @@ html.lenis, html.lenis body {
   pointer-events: none;
   z-index: 9999;
   mix-blend-mode: difference;
-  transition: opacity 0.3s;
+  transition: opacity 0.2s ease;
+}
+/* Difference blend inverts text on light mega menus — hide custom cursor in navbar */
+body.nav-cursor-hidden .cursor-dot,
+body.nav-cursor-hidden .cursor-ring {
+  opacity: 0 !important;
 }
 .cursor-dot {
   width: 6px;
@@ -488,17 +493,65 @@ html.iicci-animate .reveal-scale:not(.in-view) {
 }
 
 /* Mega Menu */
+.has-mega-menu {
+  position: relative;
+}
+/* Invisible bridge so hover does not drop between link and panel */
+.has-mega-menu::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 14px;
+}
 .mega-menu {
   opacity: 0;
   visibility: hidden;
-  transform: translateY(10px);
-  transition: opacity 0.3s, visibility 0.3s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(8px);
+  transition: opacity 0.25s, visibility 0.25s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+  pointer-events: none;
 }
 .has-mega-menu:hover .mega-menu,
+.has-mega-menu:focus-within .mega-menu,
 .mega-menu:hover {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  pointer-events: auto;
+}
+.mega-menu a,
+.mega-menu button {
+  position: relative;
+  z-index: 1;
+}
+.mega-menu a:hover,
+.mega-menu a:focus-visible {
+  color: #081120;
+}
+.mega-menu a:hover .mega-item-title,
+.mega-menu a:focus-visible .mega-item-title {
+  color: #081120 !important;
+}
+.mega-menu a:hover .mega-item-desc,
+.mega-menu a:focus-visible .mega-item-desc {
+  color: #4b5563 !important;
+}
+.mega-menu .mega-chapter-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.35rem;
+  border-radius: 0.5rem;
+  background: rgba(8, 17, 32, 0.06);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #142a4a;
+  flex-shrink: 0;
 }
 
 /* Mobile menu */

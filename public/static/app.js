@@ -277,6 +277,13 @@
     let mouseX = 0, mouseY = 0;
     let ringX = 0, ringY = 0;
 
+    const navbar = document.getElementById('navbar');
+    const setNavCursorHidden = (hidden) => {
+      document.body.classList.toggle('nav-cursor-hidden', hidden);
+    };
+    navbar?.addEventListener('mouseenter', () => setNavCursorHidden(true));
+    navbar?.addEventListener('mouseleave', () => setNavCursorHidden(false));
+
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -293,11 +300,14 @@
     }
     animateRing();
 
-    // Hover targets
-    document.querySelectorAll('a, button, [role="button"], .service-card, .country-pin, input, select').forEach((el) => {
-      el.addEventListener('mouseenter', () => cursorRing.classList.add('hover-active'));
-      el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover-active'));
-    });
+    // Hover targets (skip navbar — light mega menus + blend mode hide labels)
+    document
+      .querySelectorAll('a, button, [role="button"], .service-card, .country-pin, input, select')
+      .forEach((el) => {
+        if (el.closest('#navbar')) return;
+        el.addEventListener('mouseenter', () => cursorRing.classList.add('hover-active'));
+        el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover-active'));
+      });
   }
 
   // ===== Service card spotlight =====
