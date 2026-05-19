@@ -599,7 +599,7 @@ html.iicci-animate .reveal-scale:not(.in-view) {
 
 /* Hero title large */
 .hero-title {
-  font-size: clamp(2.5rem, 7vw, 6.5rem);
+  font-size: clamp(2rem, 5.5vw, 5rem);
   line-height: 0.95;
   letter-spacing: -0.04em;
 }
