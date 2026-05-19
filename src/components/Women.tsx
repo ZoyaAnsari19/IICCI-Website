@@ -1,10 +1,14 @@
 export const Women = () => {
   return (
     <section id="women" className="relative section-padding overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-rose-950/30 to-navy-950"></div>
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-pink-500/10 blur-3xl"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-royal-dark to-navy-950"></div>
+      <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-gold/10 blur-[120px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-royal/20 blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
+      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8 z-10">
         <div className="grid lg:grid-cols-12 gap-12 items-start mb-16">
           <div className="lg:col-span-5 lg:sticky lg:top-32">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-4 reveal-up">
@@ -19,13 +23,16 @@ export const Women = () => {
             <p className="text-white/60 text-base md:text-lg leading-relaxed mb-8 reveal-up">
               A powerful platform dedicated to nurturing women business leaders, fostering female entrepreneurship, and creating opportunities at the intersection of tradition and ambition.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 reveal-up">
-              <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white text-sm font-bold btn-premium btn-shine">
+            <div className="flex flex-col sm:flex-row gap-4 reveal-up">
+              <a href="#" className="group inline-flex items-center justify-center gap-3 px-7 py-4 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold tracking-wide btn-premium btn-shine shadow-gold">
                 Join Women Wing
-                <i className="fas fa-arrow-right text-xs"></i>
+                <span className="w-6 h-6 rounded-full bg-navy-950 flex items-center justify-center group-hover:rotate-45 transition-transform">
+                  <i className="fas fa-arrow-right text-gold text-[10px]"></i>
+                </span>
               </a>
-              <a href="#" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full glass border border-white/10 text-white text-sm font-medium hover:border-pink-400/40 transition">
-                <i className="fas fa-play text-pink-400 text-xs"></i> Watch Stories
+              <a href="#" className="group inline-flex items-center justify-center gap-3 px-7 py-4 rounded-full glass border border-white/10 text-white text-sm font-semibold tracking-wide hover:border-gold/50 transition">
+                <i className="fas fa-play text-gold text-xs"></i>
+                Watch Stories
               </a>
             </div>
           </div>
