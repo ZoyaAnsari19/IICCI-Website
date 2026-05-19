@@ -407,12 +407,17 @@ html.iicci-animate .reveal-scale:not(.in-view) {
   font-variant-numeric: tabular-nums;
 }
 
-/* ===== Nav drop shadows ===== */
-.nav-blur {
-  background: rgba(8, 17, 32, 0.7);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+/* ===== Nav (light header) scroll state ===== */
+.nav-blur #main-nav {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  box-shadow: 0 4px 24px rgba(8, 17, 32, 0.1);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  width: 100%;
 }
 
 /* ===== Loader ===== */

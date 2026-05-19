@@ -13,11 +13,17 @@ export const Navbar = () => {
     { label: 'Contact', href: '#contact' },
   ]
 
+  const navLinkClass =
+    'text-navy-900/85 hover:text-navy-950 transition-colors flex items-center gap-1.5 py-2 px-2.5 rounded-lg hover:bg-gray-100 nav-link link-underline'
+
   return (
-    <header id="navbar" className="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <header
+      id="navbar"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 shadow-[0_2px_20px_rgba(8,17,32,0.08)]"
+    >
       {/* Top bar */}
-      <div className="hidden lg:block border-b border-white/5 bg-navy-950/60 backdrop-blur-md">
-        <div className="max-w-[1400px] mx-auto px-6 py-2 flex items-center justify-between text-xs text-white/60">
+      <div className="hidden lg:block bg-[#0a192f] border-b border-white/10">
+        <div className="max-w-[1400px] mx-auto px-6 py-2.5 flex items-center justify-between text-xs text-white/90">
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2">
               <i className="fas fa-phone text-gold text-[10px]"></i>
@@ -33,50 +39,65 @@ export const Navbar = () => {
             </span>
           </div>
           <div className="flex items-center gap-5">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 text-white/80">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               50+ Global Chapters Active
             </span>
-            <div className="flex items-center gap-3">
-              <a href="#" className="hover:text-gold transition" aria-label="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
-              <a href="#" className="hover:text-gold transition" aria-label="Twitter"><i className="fab fa-x-twitter"></i></a>
-              <a href="#" className="hover:text-gold transition" aria-label="Facebook"><i className="fab fa-facebook-f"></i></a>
-              <a href="#" className="hover:text-gold transition" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-              <a href="#" className="hover:text-gold transition" aria-label="YouTube"><i className="fab fa-youtube"></i></a>
+            <div className="flex items-center gap-3 text-white/80">
+              <a href="#" className="hover:text-gold transition" aria-label="LinkedIn">
+                <i className="fab fa-linkedin-in"></i>
+              </a>
+              <a href="#" className="hover:text-gold transition" aria-label="Twitter">
+                <i className="fab fa-x-twitter"></i>
+              </a>
+              <a href="#" className="hover:text-gold transition" aria-label="Facebook">
+                <i className="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" className="hover:text-gold transition" aria-label="Instagram">
+                <i className="fab fa-instagram"></i>
+              </a>
+              <a href="#" className="hover:text-gold transition" aria-label="YouTube">
+                <i className="fab fa-youtube"></i>
+              </a>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main nav */}
-      <nav id="main-nav" className="transition-all duration-500">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
+      <nav id="main-nav" className="bg-white transition-all duration-500">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-3 group">
-            <div className="relative">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-gold via-gold-300 to-gold-600 p-[1.5px] shadow-gold">
-                <div className="w-full h-full rounded-lg bg-navy-950 flex items-center justify-center">
-                  <span className="font-display font-black text-gold text-lg">II</span>
-                </div>
-              </div>
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-gold animate-pulse"></div>
+          <a href="#home" className="flex items-center gap-3 group shrink-0">
+            <div className="w-12 h-12 rounded-md bg-navy-950 flex flex-col items-center justify-center leading-none shadow-sm">
+              <span className="font-display font-black text-gold text-[11px] tracking-tight">II</span>
+              <span className="font-display font-bold text-gold/90 text-[8px] tracking-wider">CCI</span>
             </div>
-            <div className="hidden sm:block leading-tight">
-              <div className="font-display font-bold text-white text-base tracking-tight">IICCI</div>
-              <div className="text-[10px] text-white/50 tracking-[0.15em] uppercase">Global Trade Chamber</div>
+            <div className="hidden sm:block leading-tight max-w-[200px] lg:max-w-none">
+              <div className="font-serif font-bold text-navy-950 text-sm lg:text-[15px] tracking-tight leading-snug">
+                IICCI
+              </div>
+              <div className="text-[9px] lg:text-[10px] text-gray-500 tracking-[0.12em] uppercase font-sans">
+                Global Trade Chamber
+              </div>
             </div>
           </a>
 
           {/* Menu - desktop */}
-          <ul className="hidden xl:flex items-center gap-7 text-sm font-medium">
+          <ul className="hidden xl:flex items-center gap-1 text-sm font-medium">
             {menuItems.slice(0, 7).map((item) => (
-              <li key={item.href ?? item.label} className={`has-mega-menu relative ${item.mega ? 'group' : ''}`}>
-                <a href={item.href} className="text-white/80 hover:text-white transition-colors flex items-center gap-1.5 link-underline py-2">
+              <li
+                key={item.href ?? item.label}
+                className={`has-mega-menu relative ${item.mega ? 'group' : ''}`}
+              >
+                <a href={item.href} className={navLinkClass}>
                   {item.label}
-                  {item.mega && <i className="fas fa-chevron-down text-[9px] opacity-60"></i>}
+                  {item.mega && (
+                    <i className="fas fa-chevron-down text-[9px] text-navy-900/50"></i>
+                  )}
                 </a>
                 {item.mega === 'about' && (
-                  <div className="mega-menu absolute top-full left-0 mt-2 w-[640px] glass-dark rounded-2xl p-6 shadow-premium border border-white/10">
+                  <div className="mega-menu absolute top-full left-0 mt-2 w-[640px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
                     <div className="grid grid-cols-2 gap-2">
                       {[
                         { icon: 'fa-building-columns', t: 'About IICCI', d: 'Our story, legacy & impact' },
@@ -86,13 +107,17 @@ export const Navbar = () => {
                         { icon: 'fa-handshake', t: 'Partnerships', d: 'Strategic global alliances' },
                         { icon: 'fa-flag', t: 'Manifesto', d: '1 Lakh Billionaires Vision' },
                       ].map((c) => (
-                        <a key={c.t} href="#about" className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition group/item">
-                          <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center text-gold group-hover/item:bg-gold group-hover/item:text-navy-950 transition">
+                        <a
+                          key={c.t}
+                          href="#about"
+                          className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition group/item"
+                        >
+                          <div className="w-10 h-10 rounded-lg bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition">
                             <i className={`fas ${c.icon} text-sm`}></i>
                           </div>
                           <div>
-                            <div className="text-white text-sm font-semibold">{c.t}</div>
-                            <div className="text-white/50 text-xs mt-0.5">{c.d}</div>
+                            <div className="text-navy-950 text-sm font-semibold">{c.t}</div>
+                            <div className="text-gray-500 text-xs mt-0.5">{c.d}</div>
                           </div>
                         </a>
                       ))}
@@ -100,7 +125,7 @@ export const Navbar = () => {
                   </div>
                 )}
                 {item.mega === 'services' && (
-                  <div className="mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[760px] glass-dark rounded-2xl p-6 shadow-premium border border-white/10">
+                  <div className="mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[760px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
                     <div className="grid grid-cols-3 gap-2">
                       {[
                         { icon: 'fa-globe', t: 'Trade Facilitation' },
@@ -113,38 +138,55 @@ export const Navbar = () => {
                         { icon: 'fa-chart-line', t: 'Market Research' },
                         { icon: 'fa-link', t: 'Joint Ventures' },
                       ].map((c) => (
-                        <a key={c.t} href="#services" className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition group/item">
-                          <div className="w-9 h-9 rounded-lg bg-royal/10 flex items-center justify-center text-royal-light group-hover/item:bg-gold group-hover/item:text-navy-950 transition">
+                        <a
+                          key={c.t}
+                          href="#services"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-50 transition group/item"
+                        >
+                          <div className="w-9 h-9 rounded-lg bg-royal/10 flex items-center justify-center text-royal group-hover/item:bg-gold group-hover/item:text-white transition">
                             <i className={`fas ${c.icon} text-sm`}></i>
                           </div>
-                          <span className="text-white/80 text-sm font-medium group-hover/item:text-white">{c.t}</span>
+                          <span className="text-navy-900/80 text-sm font-medium group-hover/item:text-navy-950">
+                            {c.t}
+                          </span>
                         </a>
                       ))}
                     </div>
-                    <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-                      <span className="text-xs text-white/50">15+ enterprise services for global trade</span>
-                      <a href="#services" className="text-gold text-xs font-semibold flex items-center gap-2 hover:gap-3 transition-all">
+                    <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+                      <span className="text-xs text-gray-500">15+ enterprise services for global trade</span>
+                      <a
+                        href="#services"
+                        className="text-gold-600 text-xs font-semibold flex items-center gap-2 hover:gap-3 transition-all"
+                      >
                         View all services <i className="fas fa-arrow-right text-[10px]"></i>
                       </a>
                     </div>
                   </div>
                 )}
                 {item.mega === 'global' && (
-                  <div className="mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[680px] glass-dark rounded-2xl p-6 shadow-premium border border-white/10">
+                  <div className="mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[680px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
                     <div className="grid grid-cols-2 gap-6">
                       <div>
-                        <div className="text-[10px] uppercase tracking-[0.2em] text-gold font-semibold mb-3">Continents</div>
+                        <div className="text-[10px] uppercase tracking-[0.2em] text-gold-600 font-semibold mb-3">
+                          Continents
+                        </div>
                         <div className="space-y-2">
                           {['Asia Pacific', 'Europe & UK', 'Middle East', 'Africa', 'Americas'].map((c) => (
-                            <a key={c} href="#global" className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition group/i">
-                              <span className="text-white/80 text-sm group-hover/i:text-white">{c}</span>
+                            <a
+                              key={c}
+                              href="#global"
+                              className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition group/i"
+                            >
+                              <span className="text-navy-900/80 text-sm group-hover/i:text-navy-950">{c}</span>
                               <i className="fas fa-arrow-right text-[10px] text-gold opacity-0 group-hover/i:opacity-100 transition"></i>
                             </a>
                           ))}
                         </div>
                       </div>
                       <div>
-                        <div className="text-[10px] uppercase tracking-[0.2em] text-gold font-semibold mb-3">Featured Chapters</div>
+                        <div className="text-[10px] uppercase tracking-[0.2em] text-gold-600 font-semibold mb-3">
+                          Featured Chapters
+                        </div>
                         <div className="space-y-2">
                           {[
                             { f: '🇮🇳', n: 'New Delhi HQ' },
@@ -153,9 +195,13 @@ export const Navbar = () => {
                             { f: '🇺🇸', n: 'New York Chapter' },
                             { f: '🇬🇧', n: 'London Chapter' },
                           ].map((c) => (
-                            <a key={c.n} href="#global" className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition">
+                            <a
+                              key={c.n}
+                              href="#global"
+                              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition"
+                            >
                               <span className="text-xl">{c.f}</span>
-                              <span className="text-white/80 text-sm">{c.n}</span>
+                              <span className="text-navy-900/80 text-sm">{c.n}</span>
                             </a>
                           ))}
                         </div>
@@ -166,67 +212,102 @@ export const Navbar = () => {
               </li>
             ))}
             <li className="relative group">
-              <button className="text-white/80 hover:text-white transition-colors flex items-center gap-1.5 link-underline py-2">
-                More <i className="fas fa-chevron-down text-[9px] opacity-60"></i>
+              <button type="button" className={navLinkClass}>
+                More <i className="fas fa-chevron-down text-[9px] text-navy-900/50"></i>
               </button>
-              <div className="mega-menu absolute top-full right-0 mt-2 w-64 glass-dark rounded-2xl p-3 shadow-premium border border-white/10">
+              <div className="mega-menu absolute top-full right-0 mt-2 w-64 bg-white rounded-2xl p-3 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
                 {menuItems.slice(7).map((item) => (
-                  <a key={item.href ?? item.label} href={item.href} className="block px-3 py-2 rounded-lg text-white/80 hover:bg-white/5 hover:text-white text-sm transition">{item.label}</a>
+                  <a
+                    key={item.href ?? item.label}
+                    href={item.href}
+                    className="block px-3 py-2 rounded-lg text-navy-900/80 hover:bg-gray-50 hover:text-navy-950 text-sm transition"
+                  >
+                    {item.label}
+                  </a>
                 ))}
               </div>
             </li>
           </ul>
 
           {/* Right actions */}
-          <div className="flex items-center gap-3">
-            <button id="search-btn" className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full glass text-white/70 hover:text-white text-xs transition" aria-label="Search">
+          <div className="flex items-center gap-2 lg:gap-3 shrink-0">
+            <button
+              id="search-btn"
+              type="button"
+              className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full border border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300 hover:text-navy-950 text-xs transition"
+              aria-label="Search"
+            >
               <i className="fas fa-search text-xs"></i>
               <span className="hidden lg:inline">Search</span>
-              <kbd className="hidden lg:inline-flex items-center px-1.5 py-0.5 text-[10px] bg-white/10 rounded">⌘K</kbd>
+              <kbd className="hidden lg:inline-flex items-center px-1.5 py-0.5 text-[10px] bg-white border border-gray-200 rounded text-gray-500">
+                ⌘K
+              </kbd>
             </button>
 
-            <div className="hidden md:flex items-center gap-1 px-2 py-1.5 rounded-full glass text-white/70 text-xs">
+            <div className="hidden md:flex items-center gap-1 px-2 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-xs">
               <i className="fas fa-globe text-gold text-[10px]"></i>
-              <select className="bg-transparent text-white/80 text-xs outline-none cursor-pointer">
-                <option className="bg-navy-900">EN</option>
-                <option className="bg-navy-900">हिं</option>
-                <option className="bg-navy-900">عربي</option>
-                <option className="bg-navy-900">中文</option>
+              <select className="bg-transparent text-navy-900/80 text-xs outline-none cursor-pointer">
+                <option className="bg-white text-navy-950">EN</option>
+                <option className="bg-white text-navy-950">हिं</option>
+                <option className="bg-white text-navy-950">عربي</option>
+                <option className="bg-white text-navy-950">中文</option>
               </select>
             </div>
 
-            <button id="ai-toggle" className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/5 text-gold hover:bg-gold hover:text-navy-950 text-xs font-semibold transition btn-shine">
+            <button
+              id="ai-toggle"
+              type="button"
+              className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-gold/40 bg-gold/10 text-gold-700 hover:bg-gold hover:text-white text-xs font-semibold transition"
+            >
               <i className="fas fa-robot text-xs"></i>
               <span className="hidden lg:inline">AI Assistant</span>
             </button>
 
-            <a href="#membership" className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-gold text-navy-950 text-xs font-bold tracking-wide btn-premium btn-shine shadow-gold">
+            <a
+              href="#membership"
+              className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-navy-950 text-white text-xs font-bold tracking-wide shadow-md hover:bg-navy-900 transition"
+            >
               JOIN IICCI
               <i className="fas fa-arrow-right text-[10px]"></i>
             </a>
 
             {/* Mobile burger */}
-            <button id="burger" className="xl:hidden w-10 h-10 rounded-lg glass flex flex-col items-center justify-center gap-1.5 hover:bg-white/10 transition" aria-label="Menu">
-              <span className="block w-5 h-[1.5px] bg-white transition-all"></span>
-              <span className="block w-5 h-[1.5px] bg-white transition-all"></span>
+            <button
+              id="burger"
+              type="button"
+              className="xl:hidden w-10 h-10 rounded-lg border border-gray-200 bg-gray-50 flex flex-col items-center justify-center gap-1.5 hover:bg-gray-100 transition"
+              aria-label="Menu"
+            >
+              <span className="block w-5 h-[1.5px] bg-navy-950 transition-all"></span>
+              <span className="block w-5 h-[1.5px] bg-navy-950 transition-all"></span>
             </button>
           </div>
         </div>
       </nav>
 
       {/* Mobile menu */}
-      <div id="mobile-menu" className="mobile-menu fixed top-0 right-0 h-screen w-full sm:w-96 bg-navy-950/98 backdrop-blur-2xl border-l border-white/10 z-50 xl:hidden overflow-y-auto">
+      <div
+        id="mobile-menu"
+        className="mobile-menu fixed top-0 right-0 h-screen w-full sm:w-96 bg-white border-l border-gray-200 z-50 xl:hidden overflow-y-auto shadow-2xl"
+      >
         <div className="p-6">
           <div className="flex items-center justify-between mb-8">
-            <span className="font-display font-bold text-white text-lg">Menu</span>
-            <button id="close-mobile" className="w-10 h-10 rounded-lg glass flex items-center justify-center text-white hover:text-gold transition">
+            <span className="font-serif font-bold text-navy-950 text-lg">Menu</span>
+            <button
+              id="close-mobile"
+              type="button"
+              className="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-navy-950 hover:bg-gray-50 hover:text-gold transition"
+            >
               <i className="fas fa-xmark"></i>
             </button>
           </div>
           <ul className="space-y-1">
             {menuItems.map((item, i) => (
               <li key={item.href ?? item.label}>
-                <a href={item.href} className="flex items-center justify-between p-3 rounded-xl text-white/80 hover:text-white hover:bg-white/5 transition group">
+                <a
+                  href={item.href}
+                  className="flex items-center justify-between p-3 rounded-xl text-navy-900/80 hover:text-navy-950 hover:bg-gray-50 transition group"
+                >
                   <span className="flex items-center gap-3">
                     <span className="text-gold text-xs font-mono">0{i + 1}</span>
                     <span className="text-base">{item.label}</span>
@@ -236,11 +317,20 @@ export const Navbar = () => {
               </li>
             ))}
           </ul>
-          <div className="mt-8 pt-8 border-t border-white/10">
-            <a href="#membership" className="block w-full py-3 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold text-center btn-premium">JOIN IICCI</a>
-            <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-white/60">
-              <a href="tel:+911145678900" className="flex items-center gap-2"><i className="fas fa-phone text-gold"></i> Call us</a>
-              <a href="mailto:info@iicci.global" className="flex items-center gap-2"><i className="fas fa-envelope text-gold"></i> Email</a>
+          <div className="mt-8 pt-8 border-t border-gray-200">
+            <a
+              href="#membership"
+              className="block w-full py-3 rounded-full bg-navy-950 text-white text-sm font-bold text-center shadow-md hover:bg-navy-900 transition"
+            >
+              JOIN IICCI
+            </a>
+            <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-gray-600">
+              <a href="tel:+911145678900" className="flex items-center gap-2 hover:text-navy-950">
+                <i className="fas fa-phone text-gold"></i> Call us
+              </a>
+              <a href="mailto:info@iicci.global" className="flex items-center gap-2 hover:text-navy-950">
+                <i className="fas fa-envelope text-gold"></i> Email
+              </a>
             </div>
           </div>
         </div>
