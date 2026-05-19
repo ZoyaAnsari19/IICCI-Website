@@ -108,6 +108,12 @@ html.lenis, html.lenis body {
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
   -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
 }
+.bg-grid-light {
+  background-image:
+    linear-gradient(rgba(8, 17, 32, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8, 17, 32, 0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
 
 /* ===== Aurora / Glow Background ===== */
 .aurora {
@@ -751,6 +757,21 @@ html.iicci-animate .reveal-scale:not(.in-view) {
   min-width: 0;
   overflow: hidden;
   isolation: isolate;
+  position: relative;
+  z-index: 1;
+}
+
+/* Lift + border on hover; z-index beats fixed floats (z-40) on the rightmost card */
+.stats-card:hover {
+  z-index: 45;
+  transform: translateY(-8px);
+  border-color: rgba(212, 175, 55, 0.45) !important;
+  box-shadow: 0 20px 40px -12px rgba(8, 17, 32, 0.12);
+}
+
+/* reveal-up sets transform on .in-view — must not cancel stats-card hover */
+html.iicci-animate .stats-card.reveal-up.in-view:hover {
+  transform: translateY(-8px);
 }
 
 .stats-card .stat-value {
