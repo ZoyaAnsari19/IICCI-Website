@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  document.documentElement.classList.add('iicci-anim-ready');
+  document.documentElement.classList.add('iicci-animate');
 
   // ===== Loader =====
   function hideLoader() {
@@ -14,7 +14,7 @@
   if (document.readyState === 'complete') {
     hideLoader();
   } else {
-    window.addEventListener('load', hideLoader);
+    window.addEventListener('load', hideLoader, { once: true });
   }
 
   // ===== Lenis Smooth Scroll =====
@@ -26,6 +26,12 @@
       smoothWheel: true,
       smoothTouch: false,
     });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
 
     // Anchor links
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
@@ -60,12 +66,6 @@
       gsap.ticker.add((time) => { lenis.raf(time * 1000); });
       gsap.ticker.lagSmoothing(0);
     }
-  } else if (lenis) {
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
   }
 
   // ===== Scroll Progress =====
@@ -116,14 +116,19 @@
     },
     { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
   );
-  revealEls.forEach((el) => io.observe(el));
+  revealEls.forEach((el) => {
+    io.observe(el);
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+      el.classList.add('in-view');
+    }
+  });
 
-  // Fallback: ensure sections become visible if observer misses (e.g. hydration race)
   setTimeout(() => {
     document
       .querySelectorAll('.reveal-up:not(.in-view), .reveal-fade:not(.in-view), .reveal-scale:not(.in-view)')
       .forEach((el) => el.classList.add('in-view'));
-  }, 3000);
+  }, 2500);
 
   // ===== Counter Animation =====
   const counters = document.querySelectorAll('.counter');
@@ -157,11 +162,9 @@
   );
   counters.forEach((c) => counterIO.observe(c));
 
-  // ===== Particles (defer until after React hydration) =====
-  function initParticles() {
-    const particlesContainer = document.getElementById('particles');
-    if (!particlesContainer || particlesContainer.dataset.particlesInit) return;
-    particlesContainer.dataset.particlesInit = 'true';
+  // ===== Particles =====
+  const particlesContainer = document.getElementById('particles');
+  if (particlesContainer) {
     const colors = ['#d4af37', '#3b82f6', '#ffffff'];
     for (let i = 0; i < 30; i++) {
       const p = document.createElement('div');
@@ -177,7 +180,6 @@
       particlesContainer.appendChild(p);
     }
   }
-  requestAnimationFrame(() => requestAnimationFrame(initParticles));
 
   // ===== Mobile Menu =====
   const burger = document.getElementById('burger');

@@ -7,8 +7,8 @@ export const Hero = () => {
       {/* Aurora */}
       <div className="aurora"></div>
 
-      {/* Particles container — app.js injects children; suppress hydration mismatch */}
-      <div id="particles" className="absolute inset-0 pointer-events-none" suppressHydrationWarning />
+      {/* Particles container */}
+      <div id="particles" className="absolute inset-0 pointer-events-none" suppressHydrationWarning></div>
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8 z-10">
         <div className="grid lg:grid-cols-12 gap-8 items-center min-h-[80vh]">

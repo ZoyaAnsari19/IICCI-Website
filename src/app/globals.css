@@ -1,1 +1,70 @@
-/* IICCI uses Tailwind CDN + /static/style.css — see layout.tsx */
+@import "tailwindcss";
+
+@source "../**/*.{js,ts,jsx,tsx}";
+
+@theme {
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+
+  --color-navy-50: #f0f4fa;
+  --color-navy-100: #dae4f1;
+  --color-navy-200: #b5c9e3;
+  --color-navy-300: #86a5cf;
+  --color-navy-400: #557fb6;
+  --color-navy-500: #36629c;
+  --color-navy-600: #264c7e;
+  --color-navy-700: #1d3c66;
+  --color-navy-800: #142a4a;
+  --color-navy-900: #0c1c34;
+  --color-navy-950: #081120;
+
+  --color-royal: #1e40af;
+  --color-royal-light: #3b82f6;
+  --color-royal-dark: #1e3a8a;
+
+  --color-gold-50: #fbf8ec;
+  --color-gold-100: #f6efce;
+  --color-gold-200: #eddd9d;
+  --color-gold-300: #e2c466;
+  --color-gold-400: #d9ac3d;
+  --color-gold-500: #c79328;
+  --color-gold-600: #a87320;
+  --color-gold-700: #86551e;
+  --color-gold-800: #70451f;
+  --color-gold-900: #5f3a1f;
+  --color-gold: #d4af37;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-shimmer: shimmer 3s linear infinite;
+  --animate-spin-slow: spin 30s linear infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  }
+  to {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}

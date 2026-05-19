@@ -320,7 +320,15 @@ html.lenis, html.lenis body {
 }
 
 /* ===== Reveal animations ===== */
-.reveal-up {
+/* SSR / pre-JS: content visible (Next.js). app.js adds html.iicci-animate to enable scroll reveals. */
+.reveal-up,
+.reveal-fade,
+.reveal-scale {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+html.iicci-animate .reveal-up:not(.in-view) {
   opacity: 0;
   transform: translateY(60px);
   transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
@@ -329,7 +337,7 @@ html.lenis, html.lenis body {
   opacity: 1;
   transform: translateY(0);
 }
-.reveal-fade {
+html.iicci-animate .reveal-fade:not(.in-view) {
   opacity: 0;
   filter: blur(10px);
   transition: opacity 1.2s ease, filter 1.2s ease;
@@ -338,7 +346,7 @@ html.lenis, html.lenis body {
   opacity: 1;
   filter: blur(0);
 }
-.reveal-scale {
+html.iicci-animate .reveal-scale:not(.in-view) {
   opacity: 0;
   transform: scale(0.9);
   transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
@@ -421,6 +429,7 @@ html.lenis, html.lenis body {
 .loader-screen.hidden-loader {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
 }
 .loader-logo {
   position: relative;
@@ -648,99 +657,4 @@ html.lenis, html.lenis body {
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.04em;
-}
-
-/* ===== Next.js / layout safety (prevents overlap when Tailwind is delayed) ===== */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-#navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-}
-
-#home {
-  position: relative;
-  min-height: 100vh;
-  padding-top: 8rem;
-  overflow: hidden;
-}
-
-main {
-  display: block;
-  position: relative;
-  z-index: 1;
-}
-
-section {
-  position: relative;
-}
-
-.loader-screen.hidden-loader {
-  pointer-events: none;
-}
-
-/* If reveal JS is slow/fails, still show content (no invisible stacked blocks) */
-html.tailwind-ready .reveal-up:not(.in-view),
-html.tailwind-ready .reveal-fade:not(.in-view),
-html.tailwind-ready .reveal-scale:not(.in-view) {
-  opacity: 1;
-  transform: none;
-  filter: none;
-}
-
-/* Re-enable reveal animation once app.js marks the page ready */
-html.iicci-anim-ready .reveal-up:not(.in-view) {
-  opacity: 0;
-  transform: translateY(60px);
-  filter: none;
-}
-html.iicci-anim-ready .reveal-fade:not(.in-view) {
-  opacity: 0;
-  filter: blur(10px);
-}
-html.iicci-anim-ready .reveal-scale:not(.in-view) {
-  opacity: 0;
-  transform: scale(0.9);
-}
-
-.hero-title {
-  font-size: clamp(2.5rem, 6vw, 5.5rem);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-}
-
-.display-title {
-  font-size: clamp(2rem, 4.5vw, 3.75rem);
-  line-height: 1.1;
-}
-
-#particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.particle {
-  position: absolute;
-  bottom: -10px;
-  border-radius: 50%;
-  animation: particle-rise linear infinite;
-}
-
-.mobile-menu {
-  position: fixed;
-  z-index: 50;
-}
-
-#ai-panel {
-  position: fixed;
-  z-index: 60;
 }

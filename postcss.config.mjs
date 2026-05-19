@@ -1,6 +1,7 @@
-/** PostCSS disabled — IICCI uses Tailwind CDN + /static/style.css only */
 const config = {
-  plugins: {},
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
 };
 
 export default config;
