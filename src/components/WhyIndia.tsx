@@ -147,7 +147,7 @@ export const WhyIndia = () => {
         <div className="mt-12 grid md:grid-cols-3 gap-4 reveal-up">
           {[
             {
-              icon: 'fa-shield-check',
+              icon: 'fa-shield-halved',
               title: 'Ease of Doing Business',
               desc: 'Top 50 globally, 100+ position improvement since 2014',
             },
