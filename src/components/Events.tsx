@@ -7,23 +7,22 @@ export const Events = () => {
   ]
 
   return (
-    <section id="events" className="relative section-padding overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-950 to-navy-900"></div>
+    <section id="events" className="relative section-padding overflow-hidden bg-white">
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="reveal-up">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950/5 border border-navy-950/10 mb-4">
               <i className="fas fa-calendar-star text-gold text-xs"></i>
-              <span className="text-[10px] uppercase tracking-[0.25em] text-white/70">Upcoming Events</span>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-navy-950/70">Upcoming Events</span>
             </div>
             <h2 className="display-title font-display font-bold">
-              <span className="text-white">Where global</span>{' '}
+              <span className="text-navy-950">Where global</span>{' '}
               <span className="text-gradient-gold italic font-serif font-normal">trade happens.</span>
             </h2>
           </div>
           <div className="flex items-center gap-3 reveal-up">
-            <button className="px-4 py-2 rounded-full glass border border-white/10 text-white/70 hover:text-white text-xs font-medium transition">
+            <button className="px-4 py-2 rounded-full bg-navy-950/5 border border-navy-950/10 text-navy-950/70 hover:text-navy-950 text-xs font-medium transition">
               <i className="fas fa-calendar mr-2 text-gold"></i> View Calendar
             </button>
           </div>
@@ -88,23 +87,23 @@ export const Events = () => {
         {/* Event list */}
         <div className="grid lg:grid-cols-2 gap-4">
           {events.map((e) => (
-            <div key={`${e.day}-${e.month}-${e.year}`} className="group glass-dark rounded-2xl p-5 border border-white/5 card-lift flex items-center gap-5 reveal-up cursor-pointer">
-              <div className="shrink-0 w-20 h-24 rounded-xl bg-gradient-to-br from-gold/15 to-gold/5 border border-gold/20 flex flex-col items-center justify-center text-center">
+            <div key={`${e.day}-${e.month}-${e.year}`} className="group glass-light rounded-2xl p-5 border border-navy-950/10 card-lift flex items-center gap-5 reveal-up cursor-pointer">
+              <div className="shrink-0 w-20 h-24 rounded-xl bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex flex-col items-center justify-center text-center">
                 <div className="text-[10px] uppercase tracking-wider text-gold">{e.month}</div>
-                <div className="text-3xl font-display font-bold text-white">{e.day}</div>
-                <div className="text-[10px] text-white/50">{e.year}</div>
+                <div className="text-3xl font-display font-bold text-navy-950">{e.day}</div>
+                <div className="text-[10px] text-navy-950/50">{e.year}</div>
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="px-2 py-0.5 rounded-full bg-royal/15 text-royal-light text-[10px] uppercase tracking-wider font-bold">{e.type}</span>
+                  <span className="px-2 py-0.5 rounded-full bg-royal/10 text-royal-dark text-[10px] uppercase tracking-wider font-bold">{e.type}</span>
                 </div>
-                <h3 className="text-base lg:text-lg font-display font-bold text-white mb-1 group-hover:text-gold transition">{e.title}</h3>
-                <div className="flex items-center gap-4 text-xs text-white/60">
-                  <span className="flex items-center gap-1.5"><i className="fas fa-location-dot text-gold/70 text-[10px]"></i> {e.loc}</span>
-                  <span className="flex items-center gap-1.5"><i className="fas fa-users text-gold/70 text-[10px]"></i> {e.spots}</span>
+                <h3 className="text-base lg:text-lg font-display font-bold text-navy-950 mb-1 group-hover:text-gold transition">{e.title}</h3>
+                <div className="flex items-center gap-4 text-xs text-navy-950/60">
+                  <span className="flex items-center gap-1.5"><i className="fas fa-location-dot text-gold text-[10px]"></i> {e.loc}</span>
+                  <span className="flex items-center gap-1.5"><i className="fas fa-users text-gold text-[10px]"></i> {e.spots}</span>
                 </div>
               </div>
-              <i className="fas fa-arrow-right text-white/30 group-hover:text-gold group-hover:translate-x-1 transition"></i>
+              <i className="fas fa-arrow-right text-navy-950/30 group-hover:text-gold group-hover:translate-x-1 transition"></i>
             </div>
           ))}
         </div>
