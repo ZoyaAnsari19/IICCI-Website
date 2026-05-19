@@ -8,9 +8,14 @@ export const Training = () => {
 
   return (
     <section id="ai" className="relative section-padding overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-royal-dark to-navy-950" />
+      <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-gold/10 blur-[120px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-royal/20 blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
+      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8 z-10">
         <div className="grid lg:grid-cols-12 gap-12 items-end mb-16">
           <div className="lg:col-span-7">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-4 reveal-up">

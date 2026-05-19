@@ -2,39 +2,60 @@
 
 export const Footer = () => {
   return (
-    <footer id="contact" className="relative overflow-hidden bg-navy-950 border-t border-white/5">
+    <footer id="contact" className="relative overflow-x-hidden bg-navy-950 border-t border-white/5">
       <div className="absolute inset-0 bg-grid opacity-20"></div>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gold/5 blur-3xl rounded-full"></div>
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
         {/* Newsletter top section */}
-        <div className="py-16 lg:py-20 border-b border-white/10">
+        <div className="py-16 lg:py-20 border-b border-navy-950/10 bg-white -mx-6 px-6 lg:-mx-8 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
-              <h3 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 leading-tight">
+              <h3 className="text-3xl md:text-5xl font-display font-bold text-navy-950 mb-4 leading-tight">
                 Stay ahead of global trade.
               </h3>
-              <p className="text-white/60 max-w-md">
+              <p className="text-navy-950/70 max-w-md">
                 Get weekly insights on bilateral trade, policy changes, and exclusive IICCI opportunities — straight to your inbox.
               </p>
             </div>
             <div>
               <form className="flex flex-col sm:flex-row gap-3 mb-4" onSubmit={(e) => { e.preventDefault(); alert("Thank you! Welcome to the IICCI community."); }}>
                 <div className="flex-1 relative">
-                  <i className="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
-                  <input type="email" required placeholder="Enter your work email" className="w-full pl-11 pr-4 py-4 rounded-full glass-dark border border-white/10 focus:border-gold/40 text-white placeholder:text-white/40 text-sm outline-none transition" />
+                  <i className="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-navy-950/40 text-sm"></i>
+                  <input type="email" required placeholder="Enter your work email" className="w-full pl-11 pr-4 py-4 rounded-full bg-navy-950/5 border border-navy-950/10 focus:border-gold/40 text-navy-950 placeholder:text-navy-950/40 text-sm outline-none transition" />
                 </div>
                 <button type="submit" className="px-7 py-4 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold tracking-wide btn-premium btn-shine shadow-gold whitespace-nowrap">
                   Subscribe
                 </button>
               </form>
-              <p className="text-[11px] text-white/40">
+              <p className="text-[11px] text-navy-950/50">
                 We respect your privacy. Unsubscribe anytime. Read our <a href="#" className="text-gold hover:underline">Privacy Policy</a>.
               </p>
             </div>
           </div>
         </div>
 
+        {/* Dark footer area with background watermark */}
+        <div className="relative">
+          <div
+            className="pointer-events-none select-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden"
+            aria-hidden
+          >
+            <span
+              className="font-display font-black leading-[0.85] tracking-tighter text-transparent whitespace-nowrap"
+              style={{
+                fontSize: 'clamp(4.5rem, 12vw, 11rem)',
+                background:
+                  'linear-gradient(180deg, rgba(212,175,55,0.14) 0%, rgba(212,175,55,0.05) 55%, transparent 100%)',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+              }}
+            >
+              IICCI
+            </span>
+          </div>
+
+          <div className="relative z-10">
         {/* Main footer */}
         <div className="py-16 grid lg:grid-cols-12 gap-10">
           {/* Brand */}
@@ -144,12 +165,7 @@ export const Footer = () => {
             <a href="#" className="hover:text-gold transition">Sitemap</a>
           </div>
         </div>
-      </div>
-
-      {/* Massive watermark */}
-      <div className="pointer-events-none select-none -mb-10 lg:-mb-20 text-center overflow-hidden">
-        <div className="font-display font-black text-transparent leading-none tracking-tighter" style={{ fontSize: "clamp(6rem, 18vw, 18rem)", background: "linear-gradient(180deg, rgba(212,175,55,0.1) 0%, transparent 90%)", WebkitBackgroundClip: "text", backgroundClip: "text" }}>
-          IICCI
+          </div>
         </div>
       </div>
     </footer>
