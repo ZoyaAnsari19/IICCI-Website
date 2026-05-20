@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { SiteClientInit } from "@/components/SiteClientInit";
 import "./globals.css";
 
@@ -63,22 +64,22 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"
         />
-        <script
-          src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"
-          suppressHydrationWarning
-        />
-        <script
-          src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"
-          suppressHydrationWarning
-        />
-        <script
-          src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"
-          suppressHydrationWarning
-        />
         <link href="/static/style.css" rel="stylesheet" />
       </head>
       <body className="bg-navy-950 text-white font-sans antialiased overflow-x-hidden">
         {children}
+        <Script
+          src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"
+          strategy="beforeInteractive"
+        />
+        <Script
+          src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"
+          strategy="beforeInteractive"
+        />
+        <Script
+          src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"
+          strategy="beforeInteractive"
+        />
         <SiteClientInit />
       </body>
     </html>
