@@ -1,20 +1,63 @@
-export const Navbar = () => {
-  const menuItems = [
-    { label: 'About', href: '#about', mega: 'about' },
-    { label: 'Membership', href: '#membership' },
-    { label: 'Services', href: '#services', mega: 'services' },
-    { label: 'Trade Verticals', href: '#verticals' },
-    { label: 'Global Presence', href: '#global', mega: 'global' },
-    { label: 'Events', href: '#events' },
-    { label: 'Media', href: '#media' },
-    { label: 'CSR & SDG', href: '#csr' },
-    { label: 'AI & Innovation', href: '#ai' },
-    { label: 'Women Wing', href: '#women' },
-    { label: 'Contact', href: '#contact' },
-  ]
+"use client";
 
-  const navLinkClass =
-    'text-navy-900/85 hover:text-navy-950 transition-colors flex items-center gap-1.5 py-2 px-2.5 rounded-lg hover:bg-gray-100 nav-link link-underline'
+import { useCallback, useEffect, useState } from "react";
+
+const menuItems = [
+  { label: "About", href: "#about", mega: "about" as const },
+  { label: "Membership", href: "#membership" },
+  { label: "Services", href: "#services", mega: "services" as const },
+  { label: "Trade Verticals", href: "#verticals" },
+  { label: "Global Presence", href: "#global", mega: "global" as const },
+  { label: "Events", href: "#events" },
+  { label: "Media", href: "#media" },
+  { label: "CSR & SDG", href: "#csr" },
+  { label: "AI & Innovation", href: "#ai" },
+  { label: "Women Wing", href: "#women" },
+  { label: "Contact", href: "#contact" },
+];
+
+const navLinkClass =
+  "text-navy-900/85 hover:text-navy-950 transition-colors flex items-center gap-1.5 py-2 px-2.5 rounded-lg hover:bg-gray-100 nav-link link-underline";
+
+function cx(...parts: Array<string | false | null | undefined>) {
+  return parts.filter(Boolean).join(" ");
+}
+
+export const Navbar = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const closeMobile = useCallback(() => setMobileOpen(false), []);
+  const openMobile = useCallback(() => setMobileOpen(true), []);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    window.__closeMobileMenu = closeMobile;
+    return () => {
+      delete window.__closeMobileMenu;
+    };
+  }, [closeMobile]);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMobile();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [closeMobile]);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 1280) closeMobile();
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [closeMobile]);
 
   return (
     <header
@@ -66,18 +109,22 @@ export const Navbar = () => {
 
       {/* Main nav */}
       <nav id="main-nav" className="bg-white transition-all duration-500">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3 sm:gap-4">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-3 group shrink-0">
-            <div className="w-12 h-12 rounded-md bg-navy-950 flex flex-col items-center justify-center leading-none shadow-sm">
-              <span className="font-display font-black text-gold text-[11px] tracking-tight">II</span>
-              <span className="font-display font-bold text-gold/90 text-[8px] tracking-wider">CCI</span>
+          <a href="#home" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 min-w-0">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-md bg-navy-950 flex flex-col items-center justify-center leading-none shadow-sm shrink-0">
+              <span className="font-display font-black text-gold text-[10px] sm:text-[11px] tracking-tight">
+                II
+              </span>
+              <span className="font-display font-bold text-gold/90 text-[7px] sm:text-[8px] tracking-wider">
+                CCI
+              </span>
             </div>
-            <div className="hidden sm:block leading-tight max-w-[200px] lg:max-w-none">
-              <div className="font-serif font-bold text-navy-950 text-sm lg:text-[15px] tracking-tight leading-snug">
+            <div className="leading-tight min-w-0">
+              <div className="font-serif font-bold text-navy-950 text-sm sm:text-[15px] tracking-tight leading-snug truncate">
                 IICCI
               </div>
-              <div className="text-[9px] lg:text-[10px] text-gray-500 tracking-[0.12em] uppercase font-sans">
+              <div className="text-[8px] sm:text-[10px] text-gray-500 tracking-[0.1em] sm:tracking-[0.12em] uppercase font-sans truncate">
                 Global Trade Chamber
               </div>
             </div>
@@ -88,7 +135,7 @@ export const Navbar = () => {
             {menuItems.slice(0, 7).map((item) => (
               <li
                 key={item.href ?? item.label}
-                className={`has-mega-menu relative ${item.mega ? 'group' : ''}`}
+                className={`has-mega-menu relative ${item.mega ? "group" : ""}`}
               >
                 <a href={item.href} className={navLinkClass}>
                   {item.label}
@@ -96,16 +143,16 @@ export const Navbar = () => {
                     <i className="fas fa-chevron-down text-[9px] text-navy-900/50"></i>
                   )}
                 </a>
-                {item.mega === 'about' && (
+                {item.mega === "about" && (
                   <div className="mega-menu absolute top-full left-0 mt-2 w-[640px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
                     <div className="grid grid-cols-2 gap-2">
                       {[
-                        { icon: 'fa-building-columns', t: 'About IICCI', d: 'Our story, legacy & impact' },
-                        { icon: 'fa-bullseye', t: 'Mission & Vision', d: 'Driving global trade forward' },
-                        { icon: 'fa-user-tie', t: 'Leadership', d: 'Board & advisory council' },
-                        { icon: 'fa-medal', t: 'Recognition', d: 'Awards & certifications' },
-                        { icon: 'fa-handshake', t: 'Partnerships', d: 'Strategic global alliances' },
-                        { icon: 'fa-flag', t: 'Manifesto', d: '1 Lakh Billionaires Vision' },
+                        { icon: "fa-building-columns", t: "About IICCI", d: "Our story, legacy & impact" },
+                        { icon: "fa-bullseye", t: "Mission & Vision", d: "Driving global trade forward" },
+                        { icon: "fa-user-tie", t: "Leadership", d: "Board & advisory council" },
+                        { icon: "fa-medal", t: "Recognition", d: "Awards & certifications" },
+                        { icon: "fa-handshake", t: "Partnerships", d: "Strategic global alliances" },
+                        { icon: "fa-flag", t: "Manifesto", d: "1 Lakh Billionaires Vision" },
                       ].map((c) => (
                         <a
                           key={c.t}
@@ -116,7 +163,9 @@ export const Navbar = () => {
                             <i className={`fas ${c.icon} text-sm`}></i>
                           </div>
                           <div>
-                            <div className="mega-item-title text-navy-950 text-sm font-semibold">{c.t}</div>
+                            <div className="mega-item-title text-navy-950 text-sm font-semibold">
+                              {c.t}
+                            </div>
                             <div className="mega-item-desc text-gray-500 text-xs mt-0.5">{c.d}</div>
                           </div>
                         </a>
@@ -124,19 +173,19 @@ export const Navbar = () => {
                     </div>
                   </div>
                 )}
-                {item.mega === 'services' && (
+                {item.mega === "services" && (
                   <div className="mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[760px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
                     <div className="grid grid-cols-3 gap-2">
                       {[
-                        { icon: 'fa-globe', t: 'Trade Facilitation' },
-                        { icon: 'fa-ship', t: 'Import Export' },
-                        { icon: 'fa-certificate', t: 'Global Certification' },
-                        { icon: 'fa-briefcase', t: 'Placement Program' },
-                        { icon: 'fa-microchip', t: 'AI & ML Services' },
-                        { icon: 'fa-people-arrows', t: 'Business Matchmaking' },
-                        { icon: 'fa-handshake-angle', t: 'Bilateral Trade' },
-                        { icon: 'fa-chart-line', t: 'Market Research' },
-                        { icon: 'fa-link', t: 'Joint Ventures' },
+                        { icon: "fa-globe", t: "Trade Facilitation" },
+                        { icon: "fa-ship", t: "Import Export" },
+                        { icon: "fa-certificate", t: "Global Certification" },
+                        { icon: "fa-briefcase", t: "Placement Program" },
+                        { icon: "fa-microchip", t: "AI & ML Services" },
+                        { icon: "fa-people-arrows", t: "Business Matchmaking" },
+                        { icon: "fa-handshake-angle", t: "Bilateral Trade" },
+                        { icon: "fa-chart-line", t: "Market Research" },
+                        { icon: "fa-link", t: "Joint Ventures" },
                       ].map((c) => (
                         <a
                           key={c.t}
@@ -163,7 +212,7 @@ export const Navbar = () => {
                     </div>
                   </div>
                 )}
-                {item.mega === 'global' && (
+                {item.mega === "global" && (
                   <div className="mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[680px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
                     <div className="grid grid-cols-2 gap-6">
                       <div>
@@ -171,16 +220,20 @@ export const Navbar = () => {
                           Continents
                         </div>
                         <div className="space-y-2">
-                          {['Asia Pacific', 'Europe & UK', 'Middle East', 'Africa', 'Americas'].map((c) => (
-                            <a
-                              key={c}
-                              href="#global"
-                              className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition group/i"
-                            >
-                              <span className="text-navy-900/80 text-sm group-hover/i:text-navy-950">{c}</span>
-                              <i className="fas fa-arrow-right text-[10px] text-gold opacity-0 group-hover/i:opacity-100 transition"></i>
-                            </a>
-                          ))}
+                          {["Asia Pacific", "Europe & UK", "Middle East", "Africa", "Americas"].map(
+                            (c) => (
+                              <a
+                                key={c}
+                                href="#global"
+                                className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition group/i"
+                              >
+                                <span className="text-navy-900/80 text-sm group-hover/i:text-navy-950">
+                                  {c}
+                                </span>
+                                <i className="fas fa-arrow-right text-[10px] text-gold opacity-0 group-hover/i:opacity-100 transition"></i>
+                              </a>
+                            ),
+                          )}
                         </div>
                       </div>
                       <div>
@@ -189,11 +242,11 @@ export const Navbar = () => {
                         </div>
                         <div className="space-y-2">
                           {[
-                            { code: 'IN', n: 'New Delhi HQ' },
-                            { code: 'AE', n: 'Dubai Chapter' },
-                            { code: 'SG', n: 'Singapore Chapter' },
-                            { code: 'US', n: 'New York Chapter' },
-                            { code: 'GB', n: 'London Chapter' },
+                            { code: "IN", n: "New Delhi HQ" },
+                            { code: "AE", n: "Dubai Chapter" },
+                            { code: "SG", n: "Singapore Chapter" },
+                            { code: "US", n: "New York Chapter" },
+                            { code: "GB", n: "London Chapter" },
                           ].map((c) => (
                             <a
                               key={c.n}
@@ -234,7 +287,7 @@ export const Navbar = () => {
           </ul>
 
           {/* Right actions */}
-          <div className="flex items-center gap-2 lg:gap-3 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               id="search-btn"
               type="button"
@@ -269,9 +322,10 @@ export const Navbar = () => {
 
             <a
               href="#membership"
-              className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-navy-950 text-white text-xs font-bold tracking-wide shadow-md hover:bg-navy-900 transition"
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 lg:px-5 lg:py-2.5 rounded-full bg-navy-950 text-white text-[10px] sm:text-xs font-bold tracking-wide shadow-md hover:bg-navy-900 transition"
             >
-              JOIN IICCI
+              JOIN
+              <span className="hidden md:inline">IICCI</span>
               <i className="fas fa-arrow-right text-[10px]"></i>
             </a>
 
@@ -280,65 +334,140 @@ export const Navbar = () => {
               id="burger"
               type="button"
               className="xl:hidden w-10 h-10 rounded-lg border border-gray-200 bg-gray-50 flex flex-col items-center justify-center gap-1.5 hover:bg-gray-100 transition"
-              aria-label="Menu"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
+              onClick={() => (mobileOpen ? closeMobile() : openMobile())}
             >
-              <span className="block w-5 h-[1.5px] bg-navy-950 transition-all"></span>
-              <span className="block w-5 h-[1.5px] bg-navy-950 transition-all"></span>
+              <span
+                className={cx(
+                  "block w-5 h-[1.5px] bg-navy-950 transition-all origin-center",
+                  mobileOpen && "translate-y-[5px] rotate-45",
+                )}
+              />
+              <span
+                className={cx(
+                  "block w-5 h-[1.5px] bg-navy-950 transition-all",
+                  mobileOpen && "opacity-0 scale-0",
+                )}
+              />
+              <span
+                className={cx(
+                  "block w-5 h-[1.5px] bg-navy-950 transition-all origin-center",
+                  mobileOpen && "-translate-y-[5px] -rotate-45",
+                )}
+              />
             </button>
           </div>
         </div>
       </nav>
 
+      {/* Mobile backdrop */}
+      <button
+        type="button"
+        className={cx(
+          "fixed inset-0 z-[60] bg-navy-950/50 backdrop-blur-sm transition-opacity duration-300 xl:hidden",
+          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+        )}
+        aria-label="Close menu"
+        onClick={closeMobile}
+        tabIndex={mobileOpen ? 0 : -1}
+      />
+
       {/* Mobile menu */}
       <div
         id="mobile-menu"
-        className="mobile-menu fixed top-0 right-0 h-screen w-full sm:w-96 bg-white border-l border-gray-200 z-50 xl:hidden overflow-y-auto shadow-2xl"
+        className={cx(
+          "mobile-menu fixed top-0 right-0 h-[100dvh] w-[min(100%,20rem)] sm:w-96 bg-white border-l border-gray-200 z-[70] xl:hidden overflow-y-auto shadow-2xl",
+          mobileOpen && "open",
+        )}
+        aria-hidden={!mobileOpen}
       >
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-8">
-            <span className="font-serif font-bold text-navy-950 text-lg">Menu</span>
+        <div className="p-5 sm:p-6 pb-8">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-10 h-10 rounded-md bg-navy-950 flex flex-col items-center justify-center leading-none shrink-0">
+                <span className="font-display font-black text-gold text-[10px]">II</span>
+                <span className="font-display font-bold text-gold/90 text-[7px] tracking-wider">
+                  CCI
+                </span>
+              </div>
+              <span className="font-serif font-bold text-navy-950 text-base truncate">Menu</span>
+            </div>
             <button
               id="close-mobile"
               type="button"
-              className="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-navy-950 hover:bg-gray-50 hover:text-gold transition"
+              className="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-navy-950 hover:bg-gray-50 hover:text-gold transition shrink-0"
+              aria-label="Close menu"
+              onClick={closeMobile}
             >
               <i className="fas fa-xmark"></i>
             </button>
           </div>
-          <ul className="space-y-1">
+
+          <ul className="space-y-0.5">
             {menuItems.map((item, i) => (
               <li key={item.href ?? item.label}>
                 <a
                   href={item.href}
-                  className="flex items-center justify-between p-3 rounded-xl text-navy-900/80 hover:text-navy-950 hover:bg-gray-50 transition group"
+                  className="flex items-center justify-between p-3 rounded-xl text-navy-900/80 hover:text-navy-950 hover:bg-gray-50 active:bg-gray-100 transition"
+                  onClick={closeMobile}
                 >
-                  <span className="flex items-center gap-3">
-                    <span className="text-gold text-xs font-mono">0{i + 1}</span>
-                    <span className="text-base">{item.label}</span>
+                  <span className="flex items-center gap-3 min-w-0">
+                    <span className="text-gold text-xs font-mono shrink-0">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-base truncate">{item.label}</span>
                   </span>
-                  <i className="fas fa-arrow-right text-xs text-gold opacity-0 group-hover:opacity-100 transition"></i>
+                  <i className="fas fa-arrow-right text-xs text-gold shrink-0"></i>
                 </a>
               </li>
             ))}
           </ul>
-          <div className="mt-8 pt-8 border-t border-gray-200">
+
+          <div className="mt-6 pt-6 border-t border-gray-200 space-y-4">
             <a
               href="#membership"
-              className="block w-full py-3 rounded-full bg-navy-950 text-white text-sm font-bold text-center shadow-md hover:bg-navy-900 transition"
+              className="block w-full py-3.5 rounded-full bg-navy-950 text-white text-sm font-bold text-center shadow-md hover:bg-navy-900 active:scale-[0.98] transition"
+              onClick={closeMobile}
             >
               JOIN IICCI
             </a>
-            <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-gray-600">
-              <a href="tel:+911145678900" className="flex items-center gap-2 hover:text-navy-950">
-                <i className="fas fa-phone text-gold"></i> Call us
+
+            <div className="grid grid-cols-1 gap-2 text-sm text-gray-600">
+              <a
+                href="tel:+911145678900"
+                className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:bg-gray-50 hover:text-navy-950 transition"
+              >
+                <i className="fas fa-phone text-gold w-4 text-center"></i>
+                +91 11 4567 8900
               </a>
-              <a href="mailto:info@iicci.global" className="flex items-center gap-2 hover:text-navy-950">
-                <i className="fas fa-envelope text-gold"></i> Email
+              <a
+                href="mailto:info@iicci.global"
+                className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:bg-gray-50 hover:text-navy-950 transition"
+              >
+                <i className="fas fa-envelope text-gold w-4 text-center"></i>
+                info@iicci.global
+              </a>
+            </div>
+
+            <div className="flex items-center justify-center gap-4 pt-2 text-navy-900/70">
+              <a href="#" className="hover:text-gold transition" aria-label="LinkedIn">
+                <i className="fab fa-linkedin-in"></i>
+              </a>
+              <a href="#" className="hover:text-gold transition" aria-label="Twitter">
+                <i className="fab fa-x-twitter"></i>
+              </a>
+              <a href="#" className="hover:text-gold transition" aria-label="Facebook">
+                <i className="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" className="hover:text-gold transition" aria-label="Instagram">
+                <i className="fab fa-instagram"></i>
               </a>
             </div>
           </div>
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
