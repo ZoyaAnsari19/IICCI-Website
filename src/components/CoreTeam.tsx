@@ -238,7 +238,7 @@ function Portrait({
         </span>
       </div>
       {compact && (
-        <div className="absolute inset-x-0 bottom-0 z-[4] flex items-end justify-center px-3 pb-4 pt-14 bg-gradient-to-t from-navy-950 via-navy-950/95 to-transparent opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none">
+        <div className="absolute inset-x-0 bottom-0 z-[4] flex items-end justify-center px-3 pb-4 pt-14 bg-gradient-to-t from-navy-950 via-navy-950/95 to-transparent opacity-100 translate-y-0 transition-all duration-300 pointer-events-none md:opacity-0 md:translate-y-1 md:group-hover:opacity-100 md:group-hover:translate-y-0">
           <p className="font-display text-sm font-bold text-center text-white leading-snug">
             {member.name}
           </p>
