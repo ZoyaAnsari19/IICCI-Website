@@ -43,10 +43,8 @@
             e.preventDefault();
             lenis.scrollTo(target, { offset: -80, duration: 1.4 });
             // Close mobile menu if open
-            const mm = document.getElementById('mobile-menu');
-            if (mm && mm.classList.contains('open')) {
-              mm.classList.remove('open');
-              document.body.style.overflow = '';
+            if (typeof window.__closeMobileMenu === 'function') {
+              window.__closeMobileMenu();
             }
           }
         }
@@ -181,21 +179,7 @@
     }
   }
 
-  // ===== Mobile Menu =====
-  const burger = document.getElementById('burger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const closeMobile = document.getElementById('close-mobile');
-
-  function openMobile() {
-    mobileMenu?.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeMobileMenu() {
-    mobileMenu?.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  burger?.addEventListener('click', openMobile);
-  closeMobile?.addEventListener('click', closeMobileMenu);
+  // Mobile menu toggle is handled in Navbar.tsx (React)
 
   // ===== AI Assistant =====
   const aiPanel = document.getElementById('ai-panel');
