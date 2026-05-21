@@ -1,8 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const INITIAL_VISIBLE = 4;
+const INITIAL_VISIBLE_MOBILE = 4;
+const INITIAL_VISIBLE_DESKTOP = 6;
+const DESKTOP_MQ = "(min-width: 1024px)";
+
+function useInitialVisibleCount() {
+  const [count, setCount] = useState(INITIAL_VISIBLE_MOBILE);
+
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_MQ);
+    const update = () =>
+      setCount(mq.matches ? INITIAL_VISIBLE_DESKTOP : INITIAL_VISIBLE_MOBILE);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return count;
+}
 
 const services = [
   { icon: "fa-handshake", title: "Trade Facilitation", desc: "End-to-end import/export coordination, regulatory navigation, and bilateral trade enablement.", tag: "Core" },
@@ -24,8 +41,9 @@ const services = [
 
 export const Services = () => {
   const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? services : services.slice(0, INITIAL_VISIBLE);
-  const hasMore = services.length > INITIAL_VISIBLE;
+  const initialVisible = useInitialVisibleCount();
+  const visible = expanded ? services : services.slice(0, initialVisible);
+  const hasMore = services.length > initialVisible;
 
   return (
     <section id="services" className="relative section-padding overflow-hidden bg-white">
@@ -57,7 +75,7 @@ export const Services = () => {
           {visible.map((s, i) => (
             <div
               key={s.title}
-              className={`service-card group glass-light rounded-2xl p-6 lg:p-7 border border-navy-950/10 card-lift cursor-pointer reveal-up${expanded || i < INITIAL_VISIBLE ? " in-view" : ""}`}
+              className={`service-card group glass-light rounded-2xl p-6 lg:p-7 border border-navy-950/10 card-lift cursor-pointer reveal-up${expanded || i < initialVisible ? " in-view" : ""}`}
               data-service-index={i}
             >
               <div className="flex items-start justify-between mb-5">
