@@ -43,7 +43,7 @@ export const Stats = () => {
                 <div className="mt-auto min-w-0">
                   <div className="flex flex-wrap items-baseline gap-x-1 gap-y-0 min-w-0">
                     <span
-                      className="stat-value text-navy-950 tabular-nums counter break-all sm:break-normal"
+                      className="stat-value text-navy-950 tabular-nums counter break-normal"
                       data-target={stat.value}
                     >
                       0
