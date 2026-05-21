@@ -2,9 +2,9 @@ export const Floats = () => {
   return (
     <>
       {/* AI Assistant */}
-      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
-        {/* Panel */}
-        <div id="ai-panel" className="ai-assistant-panel w-[360px] max-w-[calc(100vw-3rem)] glass-dark border border-white/10 rounded-3xl shadow-premium overflow-hidden">
+      <div className="fixed bottom-6 right-6 z-40 relative flex flex-col items-end gap-3 pointer-events-none">
+        {/* Panel — absolute so closed state does not expand the float stack hit area */}
+        <div id="ai-panel" className="ai-assistant-panel pointer-events-none absolute bottom-full right-0 mb-3 w-[360px] max-w-[calc(100vw-3rem)] glass-dark border border-white/10 rounded-3xl shadow-premium overflow-hidden">
           <div className="relative p-5 bg-gradient-to-br from-royal-dark to-navy-900 border-b border-white/10">
             <div className="flex items-center gap-3">
               <div className="relative">
@@ -51,13 +51,13 @@ export const Floats = () => {
         </div>
 
         {/* WhatsApp button */}
-        <a href="https://wa.me/911145678900" target="_blank" rel="noopener" className="group w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 shadow-lg flex items-center justify-center text-white transition magnetic" aria-label="WhatsApp">
+        <a href="https://wa.me/911145678900" target="_blank" rel="noopener" className="group pointer-events-auto w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 shadow-lg flex items-center justify-center text-white transition magnetic" aria-label="WhatsApp">
           <i className="fab fa-whatsapp text-2xl"></i>
           <span className="absolute right-full mr-3 px-3 py-1.5 rounded-lg bg-navy-900 text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition">Chat on WhatsApp</span>
         </a>
 
         {/* AI toggle button */}
-        <button id="ai-floating-btn" className="group relative w-16 h-16 rounded-full bg-gradient-to-br from-gold to-gold-600 shadow-gold flex items-center justify-center text-navy-950 transition magnetic" aria-label="AI Assistant">
+        <button id="ai-floating-btn" className="group pointer-events-auto relative w-16 h-16 rounded-full bg-gradient-to-br from-gold to-gold-600 shadow-gold flex items-center justify-center text-navy-950 transition magnetic" aria-label="AI Assistant">
           <i className="fas fa-robot text-xl"></i>
           <span className="absolute inset-0 rounded-full bg-gold animate-ping opacity-30"></span>
           <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center border-2 border-navy-950">1</span>

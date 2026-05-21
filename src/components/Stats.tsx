@@ -10,7 +10,7 @@ export const Stats = () => {
   return (
     <section
       id="stats"
-      className="relative section-padding overflow-hidden bg-white border-y border-navy-950/10 z-10"
+      className="relative section-padding overflow-hidden bg-white border-y border-navy-950/10"
     >
       <div className="absolute inset-0 bg-grid-light bg-grid-fade opacity-40 pointer-events-none" />
       <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-gold/10 blur-3xl pointer-events-none" />
@@ -32,10 +32,10 @@ export const Stats = () => {
 
         <ul className="stats-grid list-none p-0 m-0">
           {stats.map((stat) => (
-            <li key={stat.label} className="min-w-0 relative">
+            <li key={stat.label} className="min-w-0">
               <article className="stats-card relative group glass-light rounded-2xl p-5 sm:p-6 lg:p-7 card-lift border border-navy-950/10 reveal-up h-full flex flex-col shadow-sm hover:shadow-lg">
                 <div className="mb-4">
-                  <div className="w-10 h-10 shrink-0 rounded-xl bg-gold/10 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-navy-950 transition">
+                  <div className="stats-card-icon w-10 h-10 shrink-0 rounded-xl bg-gold/10 flex items-center justify-center text-gold transition">
                     <i className={`fas ${stat.icon} text-sm`} aria-hidden />
                   </div>
                 </div>
