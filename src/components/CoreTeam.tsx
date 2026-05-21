@@ -17,20 +17,20 @@ type TeamMember = {
 
 const TEAM: TeamMember[] = [
   {
-    id: "geeta-kumar",
-    name: "Mrs. Geeta Kumar",
-    designation: "Trustee",
-    tier: "leadership",
-    initials: "GK",
-    bio: "Provides governance oversight and strategic stewardship, ensuring IICCI upholds fiduciary excellence and institutional integrity across all chamber operations.",
-  },
-  {
     id: "tk-pandey",
     name: "Mr. T.K. Pandey",
     designation: "Director",
     tier: "leadership",
     image: "/images/tk-pandey.png",
     bio: "Leads organizational direction, bilateral engagement, and high-level partnerships that strengthen IICCI's international trade facilitation mandate.",
+  },
+  {
+    id: "geeta-kumar",
+    name: "Mrs. Geeta Kumar",
+    designation: "Trustee",
+    tier: "leadership",
+    initials: "GK",
+    bio: "Provides governance oversight and strategic stewardship, ensuring IICCI upholds fiduciary excellence and institutional integrity across all chamber operations.",
   },
   {
     id: "prem-kishore",
