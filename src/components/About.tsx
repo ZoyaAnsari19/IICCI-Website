@@ -41,9 +41,9 @@ export const About = () => {
 
           {/* Right - Bento grid */}
           <div className="lg:col-span-7">
-            <div className="grid grid-cols-6 gap-4 auto-rows-[140px]">
+            <div className="grid grid-cols-6 gap-4 auto-rows-[minmax(140px,auto)]">
               {/* Mission - large */}
-              <div className="col-span-6 md:col-span-4 row-span-2 glass-dark rounded-3xl p-7 card-lift border border-white/5 relative overflow-hidden group reveal-up">
+              <div className="col-span-6 md:col-span-4 md:row-span-2 glass-dark rounded-3xl p-7 card-lift border border-white/5 relative overflow-hidden group reveal-up">
                 <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-gold/10 blur-2xl group-hover:bg-gold/20 transition"></div>
                 <div className="relative">
                   <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold to-gold-600 flex items-center justify-center text-navy-950 mb-5">

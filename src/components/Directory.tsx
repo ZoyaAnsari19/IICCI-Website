@@ -27,28 +27,37 @@ export const Directory = () => {
         </div>
 
         {/* Search bar */}
-        <div className="glass-dark rounded-2xl border border-white/10 p-3 mb-8 reveal-up">
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="flex-1 min-w-[200px] flex items-center gap-3 px-4">
-              <i className="fas fa-search text-white/40"></i>
-              <input type="text" placeholder="Search companies, sectors, or countries..." className="bg-transparent outline-none flex-1 text-white placeholder:text-white/40 text-sm py-2" />
+        <div className="glass-dark rounded-2xl border border-white/10 p-3 sm:p-4 mb-8 reveal-up">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-2">
+            <div className="flex items-center gap-3 px-2 md:px-4 md:flex-1 md:min-w-0">
+              <i className="fas fa-search text-white/40 shrink-0" aria-hidden />
+              <input
+                type="text"
+                placeholder="Search companies, sectors, or countries..."
+                className="bg-transparent outline-none flex-1 min-w-0 text-white placeholder:text-white/40 text-sm py-2"
+              />
             </div>
-            <select className="bg-white/5 border border-white/10 rounded-xl text-white text-sm px-3 py-2 outline-none">
-              <option className="bg-navy-900">All Sectors</option>
-              <option className="bg-navy-900">Electronics</option>
-              <option className="bg-navy-900">Agri</option>
-              <option className="bg-navy-900">Energy</option>
-              <option className="bg-navy-900">Textiles</option>
-            </select>
-            <select className="bg-white/5 border border-white/10 rounded-xl text-white text-sm px-3 py-2 outline-none">
-              <option className="bg-navy-900">All Countries</option>
-              <option className="bg-navy-900">India</option>
-              <option className="bg-navy-900">UAE</option>
-              <option className="bg-navy-900">Singapore</option>
-            </select>
-            <button className="px-5 py-2 rounded-xl bg-gradient-gold text-navy-950 text-sm font-bold btn-premium">
-              Search
-            </button>
+            <div className="flex items-center gap-2 w-full md:w-auto md:shrink-0">
+              <select className="flex-1 min-w-0 bg-white/5 border border-white/10 rounded-xl text-white text-sm px-3 py-2 outline-none">
+                <option className="bg-navy-900">All Sectors</option>
+                <option className="bg-navy-900">Electronics</option>
+                <option className="bg-navy-900">Agri</option>
+                <option className="bg-navy-900">Energy</option>
+                <option className="bg-navy-900">Textiles</option>
+              </select>
+              <select className="flex-1 min-w-0 bg-white/5 border border-white/10 rounded-xl text-white text-sm px-3 py-2 outline-none">
+                <option className="bg-navy-900">All Countries</option>
+                <option className="bg-navy-900">India</option>
+                <option className="bg-navy-900">UAE</option>
+                <option className="bg-navy-900">Singapore</option>
+              </select>
+              <button
+                type="button"
+                className="shrink-0 px-5 py-2 rounded-xl bg-gradient-gold text-navy-950 text-sm font-bold btn-premium whitespace-nowrap"
+              >
+                Search
+              </button>
+            </div>
           </div>
         </div>
 

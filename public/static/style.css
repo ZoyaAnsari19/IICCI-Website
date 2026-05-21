@@ -657,6 +657,7 @@ html.iicci-animate .reveal-scale:not(.in-view) {
   transform: translateY(20px) scale(0.95);
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   transform-origin: bottom right;
 }
@@ -664,6 +665,7 @@ html.iicci-animate .reveal-scale:not(.in-view) {
   transform: translateY(0) scale(1);
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 /* Tilt effect */
@@ -726,17 +728,10 @@ html.iicci-animate .reveal-scale:not(.in-view) {
 /* ===== Stats section grid ===== */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
   width: 100%;
   align-items: stretch;
-}
-
-@media (min-width: 480px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-  }
 }
 
 @media (min-width: 768px) {
@@ -753,25 +748,43 @@ html.iicci-animate .reveal-scale:not(.in-view) {
   }
 }
 
+.stats-grid > li {
+  position: relative;
+  z-index: 1;
+}
+
+/* Above fixed float buttons (z-40) so the rightmost card receives hover */
+.stats-grid > li:hover {
+  z-index: 45;
+}
+
 .stats-card {
   min-width: 0;
   overflow: hidden;
   isolation: isolate;
   position: relative;
-  z-index: 1;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease,
+    border-color 0.5s ease;
 }
 
-/* Lift + border on hover; z-index beats fixed floats (z-40) on the rightmost card */
-.stats-card:hover {
-  z-index: 45;
-  transform: translateY(-8px);
+/* Lift + border on hover (incl. rightmost card under fixed floats) */
+.stats-card:hover,
+.stats-grid > li:hover .stats-card {
+  transform: translateY(-8px) !important;
   border-color: rgba(212, 175, 55, 0.45) !important;
   box-shadow: 0 20px 40px -12px rgba(8, 17, 32, 0.12);
 }
 
+.stats-card:hover .stats-card-icon,
+.stats-grid > li:hover .stats-card-icon {
+  background-color: #d4af37;
+  color: #081120;
+}
+
 /* reveal-up sets transform on .in-view — must not cancel stats-card hover */
-html.iicci-animate .stats-card.reveal-up.in-view:hover {
-  transform: translateY(-8px);
+html.iicci-animate .stats-card.reveal-up.in-view:hover,
+html.iicci-animate .stats-grid > li:hover .stats-card.reveal-up.in-view {
+  transform: translateY(-8px) !important;
 }
 
 .stats-card .stat-value {
@@ -781,6 +794,43 @@ html.iicci-animate .stats-card.reveal-up.in-view:hover {
   line-height: 1.05;
   letter-spacing: -0.03em;
   max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .stats-card {
+    padding: 1rem !important;
+  }
+
+  .stats-card .stats-card-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .stats-card .stats-card-icon i {
+    font-size: 0.65rem;
+  }
+
+  .stats-card > div:first-child {
+    margin-bottom: 0.75rem;
+  }
+
+  .stats-card .stat-value {
+    font-size: clamp(1.35rem, 5.5vw, 1.65rem);
+  }
+
+  .stats-card .stat-suffix {
+    font-size: clamp(1rem, 3.5vw, 1.25rem);
+  }
+
+  .stats-card p.text-sm {
+    font-size: 0.75rem;
+    margin-top: 0.375rem;
+  }
+
+  .stats-card p.text-xs {
+    font-size: 0.65rem;
+    margin-top: 0.25rem;
+  }
 }
 
 @media (min-width: 1280px) {
