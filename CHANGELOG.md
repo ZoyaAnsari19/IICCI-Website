@@ -1,5 +1,55 @@
 # Changelog
 
+## [21-05-2026 17:10] — Stats registered businesses count
+
+**What changed:** Increased the registered businesses statistic in the By the Numbers section from 10,000+ to 50,000+ and updated the label to "Registered Businesses".
+**Files touched:** `src/components/Stats.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [21-05-2026 16:55] — About IICCI section official content rebuild
+
+**What changed:** Rebuilt the About section using the official client-provided IICCI copy. New layout features: cinematic gradient + grid + dual-blur background, a custom world-map SVG backdrop with meridians/trade routes/nodes, animated header badge with pulse dot, hero philosophy pull-quote ("Global trade today is no longer limited by borders…"), redesigned premium Mission & Vision cards (gold-glow Mission card + royal-gradient Vision card with key stat tiles), 3 pillar cards (Global Network / Bilateral Trade / Rapid Facilitation), and a closing "Looking Forward" panel with 4 outcome tiles (International Trade, Investment Growth, Industrial Development, Business Collaboration). Added Framer Motion staggered reveal animations, glassmorphism, premium shadows, and tag chips for credentials (Govt. of India Recognized, ISO 9001, WTO Affiliated, UN Compact).
+**Files touched:** `src/components/About.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [21-05-2026 11:45] — CSR & SDG section overhaul
+
+**What changed:** Rebuilt the CSR section with official IICCI CSR & SDG copy, updated heading, eight enhanced SDG pillar cards with descriptions, Framer Motion animations, animated globe, sustainability particles, glassmorphism hover glows, and realistic impact counters (10,000+ members, 50+ nations, 200+ programs, 47+ years).
+**Files touched:** `src/components/CSR.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [21-05-2026 11:32] — President card photo
+
+**What changed:** Replaced the SVG avatar placeholder on the President profile card with the official photo `/images/RK sir.png` (Rajesh Kaithwas), keeping the President badge, signature overlay, and quote chip.
+**Files touched:** `src/components/President.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [21-05-2026 11:25] — Media section local MoU images
+
+**What changed:** Replaced the featured media card and first two grid cards with local MoU signing photos (`/images/img1.png`, `img2.png`, `img3.png`) and updated titles, dates, and categories to match the signing ceremony content.
+**Files touched:** `src/components/Media.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [21-05-2026 11:15] — Services 6 cards on desktop
 
 **What changed:** Services section shows 6 cards before “View all” on desktop (lg+, 1024px); mobile and tablet still show 4. Responsive count updates on viewport resize.

@@ -1,123 +1,438 @@
+"use client";
+
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.05 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 28 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
+  },
+};
+
+const pillars = [
+  {
+    icon: "fa-globe",
+    title: "Global Network",
+    body: "Building a strong worldwide network of members and overseas offices that enables seamless business facilitation, strategic partnerships, and rapid implementation of commercial ventures across diverse sectors and international markets.",
+  },
+  {
+    icon: "fa-handshake-angle",
+    title: "Bilateral Trade",
+    body: "Receiving strong support and membership interest from foreign nationals, trade bodies, and international business communities — motivating IICCI to establish offices in multiple countries and create stronger bilateral trade networks.",
+  },
+  {
+    icon: "fa-bolt",
+    title: "Rapid Facilitation",
+    body: "Facilitating and finalizing business opportunities quickly, professionally, and effectively — while promoting long-term economic cooperation between nations and sustainable international trade.",
+  },
+];
+
+const credentials = [
+  "Govt. of India Recognized",
+  "ISO 9001 Certified",
+  "WTO Affiliated",
+  "UN Compact Member",
+];
+
+function WorldMapBackdrop() {
+  return (
+    <svg
+      viewBox="0 0 1600 800"
+      className="absolute inset-0 w-full h-full opacity-[0.06] pointer-events-none"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden
+    >
+      <defs>
+        <radialGradient id="about-map-glow" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stopColor="#d4af37" stopOpacity="0.45" />
+          <stop offset="60%" stopColor="#1e40af" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="#081120" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="about-meridian" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(212,175,55,0)" />
+          <stop offset="50%" stopColor="rgba(212,175,55,0.35)" />
+          <stop offset="100%" stopColor="rgba(212,175,55,0)" />
+        </linearGradient>
+      </defs>
+      <rect width="1600" height="800" fill="url(#about-map-glow)" />
+      <g fill="none" stroke="rgba(212,175,55,0.18)" strokeWidth="0.8">
+        <ellipse cx="800" cy="400" rx="720" ry="300" />
+        <ellipse cx="800" cy="400" rx="560" ry="230" />
+        <ellipse cx="800" cy="400" rx="400" ry="160" />
+        <ellipse cx="800" cy="400" rx="240" ry="95" />
+      </g>
+      <g stroke="url(#about-meridian)" strokeWidth="1" fill="none">
+        <line x1="200" y1="50" x2="200" y2="750" />
+        <line x1="500" y1="50" x2="500" y2="750" />
+        <line x1="800" y1="50" x2="800" y2="750" />
+        <line x1="1100" y1="50" x2="1100" y2="750" />
+        <line x1="1400" y1="50" x2="1400" y2="750" />
+      </g>
+      <g fill="rgba(212,175,55,0.35)">
+        {[
+          [380, 280],
+          [560, 230],
+          [820, 250],
+          [1020, 290],
+          [1240, 330],
+          [640, 420],
+          [880, 470],
+          [460, 500],
+          [1140, 510],
+          [760, 360],
+        ].map(([cx, cy], i) => (
+          <circle key={i} cx={cx} cy={cy} r="3.5" />
+        ))}
+      </g>
+      <g stroke="rgba(212,175,55,0.22)" strokeWidth="1" fill="none">
+        <path d="M 380 280 Q 600 160, 820 250" />
+        <path d="M 820 250 Q 950 200, 1020 290" />
+        <path d="M 1020 290 Q 1180 280, 1240 330" />
+        <path d="M 460 500 Q 660 380, 880 470" />
+        <path d="M 640 420 Q 760 380, 880 470" />
+      </g>
+    </svg>
+  );
+}
+
 export const About = () => {
   return (
-    <section id="about" className="relative section-padding overflow-hidden">
-      <div className="absolute right-0 top-1/4 w-[500px] h-[500px] rounded-full bg-royal/10 blur-3xl"></div>
+    <section
+      id="about"
+      className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-950 via-navy-950 to-navy-900"
+    >
+      <WorldMapBackdrop />
+      <div className="absolute top-1/3 -right-32 w-[600px] h-[600px] rounded-full bg-royal/10 blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 -left-32 w-[520px] h-[520px] rounded-full bg-gold/[0.06] blur-[140px] pointer-events-none" />
+      <div className="absolute inset-0 bg-grid opacity-[0.08] pointer-events-none" />
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left intro */}
-          <div className="lg:col-span-5 lg:sticky lg:top-32">
-            <div className="reveal-up">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-gold"></span>
-                <span className="text-[10px] uppercase tracking-[0.25em] text-white/70">About IICCI</span>
-              </div>
-              <h2 className="display-title font-display font-bold mb-6">
-                <span className="text-white">A bridge between</span>
-                <br />
-                <span className="text-gradient-gold italic font-serif font-normal">India & the world.</span>
-              </h2>
-              <p className="text-white/70 leading-relaxed mb-6">
-                The <span className="text-white font-semibold">Indian Importers Chambers of Commerce & Industry (IICCI)</span> is a premier apex body representing the interests of Indian importers, exporters, and global businesses. We facilitate seamless international trade, foster bilateral partnerships, and unlock investment corridors across continents.
-              </p>
-              <p className="text-white/60 leading-relaxed mb-8">
-                For nearly five decades, IICCI has been the trusted voice of India's import community — driving policy advocacy, market access, and global business intelligence for our members.
-              </p>
+        <motion.div
+          className="text-center max-w-4xl mx-auto mb-16 lg:mb-20"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={containerVariants}
+        >
+          <motion.div
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass mb-6"
+            variants={itemVariants}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+            <span className="text-[10px] uppercase tracking-[0.3em] text-white/75 font-semibold">
+              About the Chamber
+            </span>
+            <span className="h-3 w-px bg-white/20" />
+            <span className="text-[10px] uppercase tracking-[0.3em] text-gold/90 font-semibold">
+              IICCI
+            </span>
+          </motion.div>
 
-              <div className="flex flex-wrap gap-3 mb-8">
-                {['ISO 9001 Certified', 'Govt. Recognized', 'WTO Affiliated', 'UN Compact Member'].map((b) => (
-                  <span key={b} className="px-3 py-1.5 rounded-full glass border border-white/10 text-[11px] text-white/80">{b}</span>
+          <motion.h2
+            className="display-title font-display font-bold mb-6 leading-[0.95]"
+            style={{ letterSpacing: "-0.02em" }}
+            variants={itemVariants}
+          >
+            <span className="text-white">A bridge between</span>
+            <br />
+            <span className="text-gradient-gold italic font-serif font-normal">
+              India &amp; the world.
+            </span>
+          </motion.h2>
+
+          <motion.p
+            className="text-white/70 text-base md:text-lg leading-relaxed max-w-3xl mx-auto"
+            variants={itemVariants}
+          >
+            The{" "}
+            <span className="text-white font-semibold">
+              Indian Importers Chambers of Commerce &amp; Industry (IICCI)
+            </span>{" "}
+            is committed to empowering India's importing community through
+            policy advocacy, market intelligence, trade facilitation services,
+            and strategic global collaborations that enable seamless and
+            sustainable international trade.
+          </motion.p>
+
+          <motion.div
+            className="flex flex-wrap items-center justify-center gap-2.5 mt-8"
+            variants={itemVariants}
+          >
+            {credentials.map((c) => (
+              <span
+                key={c}
+                className="px-3.5 py-1.5 rounded-full glass border border-white/10 text-[11px] text-white/85 font-medium tracking-wide"
+              >
+                {c}
+              </span>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        <motion.figure
+          className="relative max-w-5xl mx-auto mb-16 lg:mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
+            <span className="h-px w-12 bg-gradient-to-r from-transparent to-gold/50" />
+            <i className="fas fa-quote-left text-gold/70 text-sm" />
+            <span className="h-px w-12 bg-gradient-to-l from-transparent to-gold/50" />
+          </div>
+          <blockquote className="relative glass-dark border border-white/10 rounded-3xl px-8 md:px-14 py-10 md:py-12 text-center shadow-premium">
+            <p className="font-serif italic text-xl md:text-2xl lg:text-3xl text-white/90 leading-snug">
+              Global trade today is no longer limited by borders — it is driven
+              by{" "}
+              <span className="text-gradient-gold not-italic font-display font-semibold">
+                collaboration, innovation, and trusted partnerships.
+              </span>
+            </p>
+            <figcaption className="mt-6 text-[10px] uppercase tracking-[0.35em] text-gold/80 font-semibold">
+              The IICCI Philosophy
+            </figcaption>
+          </blockquote>
+        </motion.figure>
+
+        <motion.div
+          className="grid lg:grid-cols-2 gap-6 lg:gap-7 mb-14"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={containerVariants}
+        >
+          <motion.article
+            variants={itemVariants}
+            className="group relative rounded-3xl p-8 md:p-10 border border-gold/15 bg-gradient-to-br from-navy-900/90 via-navy-950/80 to-navy-950 backdrop-blur-xl card-lift overflow-hidden shadow-premium"
+          >
+            <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-gold/10 blur-3xl group-hover:bg-gold/20 transition duration-700" />
+            <div className="absolute inset-0 bg-grid opacity-[0.05]" />
+            <div className="relative">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold to-gold-600 flex items-center justify-center text-navy-950 shadow-gold">
+                  <i className="fas fa-bullseye text-xl" />
+                </div>
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.35em] text-gold font-bold">
+                    Our Mission
+                  </div>
+                  <div className="text-[11px] text-white/50 mt-1 tracking-wide">
+                    Empowering India's import community
+                  </div>
+                </div>
+              </div>
+              <h3 className="text-2xl md:text-[28px] font-display font-bold text-white leading-tight mb-4">
+                Enable seamless and sustainable international trade for India.
+              </h3>
+              <p className="text-white/70 leading-relaxed">
+                IICCI empowers India's importing community through{" "}
+                <span className="text-white font-semibold">
+                  policy advocacy
+                </span>
+                ,{" "}
+                <span className="text-white font-semibold">
+                  market intelligence
+                </span>
+                ,{" "}
+                <span className="text-white font-semibold">
+                  trade facilitation services
+                </span>
+                , and{" "}
+                <span className="text-white font-semibold">
+                  strategic global collaborations
+                </span>{" "}
+                that connect Indian businesses to the world.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-2">
+                {[
+                  "Policy Advocacy",
+                  "Market Intelligence",
+                  "Trade Facilitation",
+                  "Global Collaboration",
+                ].map((t) => (
+                  <span
+                    key={t}
+                    className="px-3 py-1 rounded-full text-[10px] uppercase tracking-[0.18em] text-gold/90 bg-gold/[0.08] border border-gold/20 font-semibold"
+                  >
+                    {t}
+                  </span>
                 ))}
               </div>
-
-              <a href="#about" className="inline-flex items-center gap-3 text-gold font-semibold text-sm group">
-                Read our complete story
-                <span className="w-8 h-8 rounded-full border border-gold/40 flex items-center justify-center group-hover:bg-gold group-hover:text-navy-950 transition">
-                  <i className="fas fa-arrow-right text-[10px]"></i>
-                </span>
-              </a>
             </div>
-          </div>
+          </motion.article>
 
-          {/* Right - Bento grid */}
-          <div className="lg:col-span-7">
-            <div className="grid grid-cols-6 gap-4 auto-rows-[minmax(140px,auto)]">
-              {/* Mission - large */}
-              <div className="col-span-6 md:col-span-4 md:row-span-2 glass-dark rounded-3xl p-7 card-lift border border-white/5 relative overflow-hidden group reveal-up">
-                <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-gold/10 blur-2xl group-hover:bg-gold/20 transition"></div>
-                <div className="relative">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold to-gold-600 flex items-center justify-center text-navy-950 mb-5">
-                    <i className="fas fa-bullseye text-lg"></i>
-                  </div>
-                  <div className="text-[10px] uppercase tracking-[0.25em] text-gold font-semibold mb-2">Our Mission</div>
-                  <h3 className="text-2xl md:text-3xl font-display font-bold text-white leading-tight mb-3">
-                    Empowering Indian importers to compete & lead globally.
-                  </h3>
-                  <p className="text-white/60 text-sm leading-relaxed">
-                    Drive bilateral and multilateral trade, advocate progressive policy, deliver world-class trade intelligence, and create a thriving ecosystem of global Indian businesses.
-                  </p>
+          <motion.article
+            variants={itemVariants}
+            className="group relative rounded-3xl p-8 md:p-10 overflow-hidden card-lift shadow-premium border border-white/10 bg-gradient-to-br from-royal via-royal-dark to-navy-900"
+          >
+            <div className="absolute inset-0 bg-grid opacity-[0.12]" />
+            <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-gold/15 blur-3xl group-hover:bg-gold/25 transition duration-700" />
+            <div className="relative">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 rounded-2xl glass border border-gold/30 flex items-center justify-center text-gold">
+                  <i className="fas fa-eye text-xl" />
                 </div>
-              </div>
-
-              {/* Vision */}
-              <div className="col-span-6 md:col-span-2 row-span-2 bg-gradient-to-br from-royal to-royal-dark rounded-3xl p-6 card-lift relative overflow-hidden reveal-up">
-                <div className="absolute inset-0 bg-grid opacity-10"></div>
-                <div className="relative h-full flex flex-col">
-                  <div className="text-[10px] uppercase tracking-[0.25em] text-gold font-semibold mb-2">Our Vision</div>
-                  <h3 className="text-xl font-display font-bold text-white leading-tight mb-3">
-                    To make India the world's most influential trade nation by 2047.
-                  </h3>
-                  <div className="mt-auto">
-                    <div className="text-4xl font-display font-bold text-gold">2047</div>
-                    <div className="text-xs text-white/70">Centenary Goal</div>
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.35em] text-gold font-bold">
+                    Our Vision
+                  </div>
+                  <div className="text-[11px] text-white/60 mt-1 tracking-wide">
+                    A globally recognized Chamber
                   </div>
                 </div>
               </div>
-
-              {/* Legacy timeline */}
-              <div className="col-span-3 md:col-span-2 glass-dark rounded-2xl p-5 card-lift border border-white/5 reveal-up">
-                <i className="fas fa-landmark text-gold text-xl mb-3"></i>
-                <div className="text-2xl font-display font-bold text-white">1978</div>
-                <div className="text-xs text-white/60 mt-1">Founded in New Delhi</div>
-              </div>
-
-              {/* Tagline */}
-              <div className="col-span-3 md:col-span-2 glass-dark rounded-2xl p-5 card-lift border border-white/5 reveal-up">
-                <i className="fas fa-quote-left text-gold text-lg mb-2"></i>
-                <div className="text-sm text-white font-semibold italic">"Trade is not just commerce, it is diplomacy."</div>
-              </div>
-
-              {/* Recognition */}
-              <div className="col-span-6 md:col-span-2 glass-dark rounded-2xl p-5 card-lift border border-white/5 reveal-up">
-                <div className="flex items-center gap-2 mb-2">
-                  {[1,2,3,4,5].map((n) => <i key={n} className="fas fa-star text-gold text-xs"></i>)}
-                </div>
-                <div className="text-sm text-white font-semibold">Govt. of India Recognized</div>
-                <div className="text-xs text-white/60 mt-1">Apex trade body</div>
-              </div>
-
-              {/* Values row */}
-              <div className="col-span-6 glass-dark rounded-2xl p-5 card-lift border border-white/5 reveal-up">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {[
-                    { i: 'fa-shield-halved', t: 'Integrity' },
-                    { i: 'fa-globe', t: 'Global Vision' },
-                    { i: 'fa-lightbulb', t: 'Innovation' },
-                    { i: 'fa-handshake', t: 'Partnership' },
-                  ].map((v) => (
-                    <div key={v.t} className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-gold/10 flex items-center justify-center text-gold">
-                        <i className={`fas ${v.i} text-xs`}></i>
-                      </div>
-                      <span className="text-white/80 text-sm font-medium">{v.t}</span>
+              <h3 className="text-2xl md:text-[28px] font-display font-bold text-white leading-tight mb-4">
+                A trusted catalyst for international business growth.
+              </h3>
+              <p className="text-white/80 leading-relaxed">
+                To emerge as a{" "}
+                <span className="text-gold font-semibold">
+                  globally recognized Chamber of Commerce and Industry
+                </span>{" "}
+                — serving as a trusted catalyst for international business
+                growth, bilateral trade promotion, and economic cooperation
+                between India and the world.
+              </p>
+              <div className="mt-7 grid grid-cols-3 gap-3">
+                {[
+                  { v: "Global", l: "Recognition" },
+                  { v: "Bilateral", l: "Trade" },
+                  { v: "Economic", l: "Cooperation" },
+                ].map((s) => (
+                  <div
+                    key={s.l}
+                    className="rounded-xl bg-white/[0.04] border border-white/10 px-3 py-3 text-center backdrop-blur-md"
+                  >
+                    <div className="text-sm font-display font-bold text-gold">
+                      {s.v}
                     </div>
-                  ))}
-                </div>
+                    <div className="text-[10px] uppercase tracking-[0.18em] text-white/60 mt-0.5">
+                      {s.l}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
+          </motion.article>
+        </motion.div>
+
+        <motion.div
+          className="grid md:grid-cols-3 gap-5 mb-14"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={containerVariants}
+        >
+          {pillars.map((p, idx) => (
+            <motion.div
+              key={p.title}
+              variants={itemVariants}
+              className="group relative glass-dark rounded-2xl p-7 border border-white/10 card-lift overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-gold/0 via-transparent to-transparent group-hover:from-gold/[0.06] transition-all duration-700" />
+              <div className="relative">
+                <div className="flex items-center justify-between mb-5">
+                  <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-navy-950 transition">
+                    <i className={`fas ${p.icon} text-base`} />
+                  </div>
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-white/30 font-bold">
+                    0{idx + 1}
+                  </span>
+                </div>
+                <h4 className="text-lg font-display font-bold text-white mb-3">
+                  {p.title}
+                </h4>
+                <p className="text-sm text-white/65 leading-relaxed">
+                  {p.body}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          className="relative rounded-3xl overflow-hidden border border-gold/20 shadow-premium"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-navy-900/90 via-navy-950/80 to-navy-950" />
+          <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-gold/15 blur-3xl" />
+          <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-royal/25 blur-3xl" />
+          <div className="absolute inset-0 bg-grid opacity-[0.08]" />
+
+          <div className="relative grid lg:grid-cols-12 gap-8 p-8 md:p-12 lg:p-14 items-center">
+            <div className="lg:col-span-7">
+              <div className="text-[10px] uppercase tracking-[0.35em] text-gold font-bold mb-4">
+                Looking Forward
+              </div>
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white leading-tight mb-5">
+                A globally respected institution shaping the future of{" "}
+                <span className="text-gradient-gold italic font-serif font-normal">
+                  international commerce.
+                </span>
+              </h3>
+              <p className="text-white/70 leading-relaxed max-w-2xl">
+                IICCI aims to become a globally respected institution
+                contributing significantly to international trade, investment,
+                industrial growth, and business collaboration — connecting
+                India with international markets and empowering businesses to
+                grow globally.
+              </p>
+            </div>
+
+            <div className="lg:col-span-5 grid grid-cols-2 gap-3">
+              {[
+                {
+                  icon: "fa-earth-asia",
+                  k: "International",
+                  v: "Trade",
+                },
+                {
+                  icon: "fa-chart-line",
+                  k: "Investment",
+                  v: "Growth",
+                },
+                {
+                  icon: "fa-industry",
+                  k: "Industrial",
+                  v: "Development",
+                },
+                {
+                  icon: "fa-people-arrows",
+                  k: "Business",
+                  v: "Collaboration",
+                },
+              ].map((p) => (
+                <div
+                  key={p.k}
+                  className="rounded-2xl glass border border-white/10 px-4 py-5 hover:border-gold/30 transition"
+                >
+                  <i
+                    className={`fas ${p.icon} text-gold text-base mb-3 block`}
+                  />
+                  <div className="text-sm font-display font-bold text-white leading-tight">
+                    {p.k}
+                  </div>
+                  <div className="text-xs text-white/60 mt-0.5">{p.v}</div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
-  )
-}
+  );
+};
