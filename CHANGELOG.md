@@ -1,5 +1,15 @@
 # Changelog
 
+## [21-05-2026 11:25] — Media section local MoU images
+
+**What changed:** Replaced the featured media card and first two grid cards with local MoU signing photos (`/images/img1.png`, `img2.png`, `img3.png`) and updated titles, dates, and categories to match the signing ceremony content.
+**Files touched:** `src/components/Media.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [21-05-2026 11:15] — Services 6 cards on desktop
 
 **What changed:** Services section shows 6 cards before “View all” on desktop (lg+, 1024px); mobile and tablet still show 4. Responsive count updates on viewport resize.
