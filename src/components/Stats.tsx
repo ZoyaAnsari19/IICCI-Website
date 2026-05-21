@@ -1,7 +1,7 @@
 export const Stats = () => {
   const stats = [
     { value: 47, suffix: '+', label: 'Years of Legacy', icon: 'fa-landmark', desc: 'Since 1978' },
-    { value: 10000, suffix: '+', label: 'Importers Network', icon: 'fa-users', desc: 'Active Members' },
+    { value: 50000, suffix: '+', label: 'Registered Businesses', icon: 'fa-users', desc: 'Active Members' },
     { value: 50, suffix: '+', label: 'Countries Connected', icon: 'fa-globe', desc: 'Global Reach' },
     { value: 500, suffix: '+', label: 'Trade Delegations', icon: 'fa-handshake', desc: 'Hosted & Led' },
     { value: 1000, suffix: '+', label: 'Business Matchmakings', icon: 'fa-people-arrows', desc: 'Successful Deals' },
