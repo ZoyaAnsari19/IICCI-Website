@@ -1,5 +1,15 @@
 # Changelog
 
+## [21-05-2026 11:45] — CSR & SDG section overhaul
+
+**What changed:** Rebuilt the CSR section with official IICCI CSR & SDG copy, updated heading, eight enhanced SDG pillar cards with descriptions, Framer Motion animations, animated globe, sustainability particles, glassmorphism hover glows, and realistic impact counters (10,000+ members, 50+ nations, 200+ programs, 47+ years).
+**Files touched:** `src/components/CSR.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [21-05-2026 11:32] — President card photo
 
 **What changed:** Replaced the SVG avatar placeholder on the President profile card with the official photo `/images/RK sir.png` (Rajesh Kaithwas), keeping the President badge, signature overlay, and quote chip.
