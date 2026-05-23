@@ -4,6 +4,7 @@ import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
 import { About } from "@/components/About";
 import { President } from "@/components/President";
+import { MentorsForewordSection } from "@/components/MentorsForewordSection";
 import { CoreTeam } from "@/components/CoreTeam";
 import { Manifesto } from "@/components/Manifesto";
 import { GlobalPresence } from "@/components/GlobalPresence";
@@ -30,6 +31,7 @@ export default function Home() {
         <Stats />
         <About />
         <President />
+        <MentorsForewordSection />
         <CoreTeam />
         <Manifesto />
         <GlobalPresence />

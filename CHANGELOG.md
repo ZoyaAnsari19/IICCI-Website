@@ -1,5 +1,15 @@
 # Changelog
 
+## [23-05-2026 16:35] — Mentor's Foreword leadership section
+
+**What changed:** Added a new premium, cinematic `MentorsForewordSection` (`id="mentors-foreword"`) between the President's Foreword and Core Team sections on the homepage. The section uses a luxurious split layout that visually continues the leadership area: left column carries a framed mentor portrait (glassmorphism `border-gradient` card on `bg-navy-950`, concentric gold ring frames, animated outer gold glow halo, "Mentor" gold badge, gradient bottom signature overlay, and two floating glass chips — a quote chip and a "Global Trade Council" chip — both with Framer Motion bobbing); right column carries a "Leadership Voice / Mentor" pulsing badge, the heading "Mentor's Foreword" with the second word styled in `text-gradient-gold` italic serif, the tagline "Guiding IICCI Towards a Stronger Global Trade Future", a gold-rail quoted three-paragraph foreword, and a closing block with a script-style gold signature, the mentor name/designation/organization, and three glass social icons (LinkedIn, X, Email). Backdrop layers include the same world-map/trade-route SVG language used by `About`/`CoreTeam` (meridians, orbital ellipses, trade nodes, curved corridors), `bg-grid` with radial fade, animated drifting gold + royal blur blobs, an animated horizontal gold light-sweep, and softly floating gold particles. Animations use the existing `[0.16, 1, 0.3, 1]` ease with `viewport={{ once: true }}` — staggered fade-up for text, image scale-in for the portrait, soft-glow hover on the framed card, and lightweight infinite motion on the decorative layers. Fully responsive (image first on mobile, then heading/tagline → foreword → name block), dark-theme compatible with the existing IICCI palette/typography (`section-padding`, `display-title`, `glass`, `glass-dark`, `shadow-premium`, `shadow-gold`, `border-gradient`), uses the placeholder mentor "Dr. R.K. Sinha — Chief Mentor & Strategic Advisor" with graceful initials fallback (no image asset required to ship). Section wired into `src/app/page.tsx` immediately after `<President />` and before `<CoreTeam />`.
+**Files touched:** `src/components/MentorsForewordSection.tsx`, `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [23-05-2026 14:00] — Prem Kishore profile photo path fix
 
 **What changed:** Fixed Mr. Prem Kishore’s Core Team card image path from `/images/prem-kishore.png` (missing file) to `/images/prem-kishor.png` so the official headshot displays correctly.
