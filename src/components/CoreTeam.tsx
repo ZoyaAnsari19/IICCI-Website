@@ -37,7 +37,7 @@ const TEAM: TeamMember[] = [
     name: "Mr. Prem Kishore",
     designation: "Manager (Accounts & Finance)",
     tier: "management",
-    image: "/images/prem-kishore.png",
+    image: "/images/prem-kishor.png",
     bio: "Oversees financial governance, member billing, compliance reporting, and fiscal planning that supports transparent chamber administration.",
   },
   {

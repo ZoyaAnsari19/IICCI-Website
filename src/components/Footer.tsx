@@ -1,5 +1,7 @@
 "use client"
 
+import Image from "next/image";
+
 export const Footer = () => {
   return (
     <footer id="contact" className="relative overflow-x-hidden bg-navy-950 border-t border-white/5">
@@ -60,15 +62,16 @@ export const Footer = () => {
         <div className="py-16 grid lg:grid-cols-12 gap-10">
           {/* Brand */}
           <div className="lg:col-span-4">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-gold via-gold-300 to-gold-600 p-[1.5px]">
-                <div className="w-full h-full rounded-lg bg-navy-950 flex items-center justify-center">
-                  <span className="font-display font-black text-gold text-lg">II</span>
-                </div>
-              </div>
-              <div>
-                <div className="font-display font-bold text-white">IICCI</div>
-                <div className="text-[10px] text-white/50 tracking-[0.15em] uppercase">Global Trade Chamber</div>
+            <div className="mb-6">
+              <div className="inline-flex items-center rounded-2xl bg-white/95 px-4 py-3 shadow-[0_8px_28px_rgba(0,0,0,0.25)] ring-1 ring-gold/20">
+                <Image
+                  src="/images/logoiicifinal.jpg"
+                  alt="IICCI — Indian Importers Chambers of Commerce and Industry — Together We Progress"
+                  width={245}
+                  height={122}
+                  sizes="220px"
+                  className="h-14 w-auto object-contain select-none"
+                />
               </div>
             </div>
             <p className="text-sm text-white/60 leading-relaxed mb-6 max-w-sm">
