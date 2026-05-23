@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
 const menuItems = [
@@ -111,23 +112,20 @@ export const Navbar = () => {
       <nav id="main-nav" className="bg-white transition-all duration-500">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3 sm:gap-4">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 min-w-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-md bg-navy-950 flex flex-col items-center justify-center leading-none shadow-sm shrink-0">
-              <span className="font-display font-black text-gold text-[10px] sm:text-[11px] tracking-tight">
-                II
-              </span>
-              <span className="font-display font-bold text-gold/90 text-[7px] sm:text-[8px] tracking-wider">
-                CCI
-              </span>
-            </div>
-            <div className="leading-tight min-w-0">
-              <div className="font-serif font-bold text-navy-950 text-sm sm:text-[15px] tracking-tight leading-snug truncate">
-                IICCI
-              </div>
-              <div className="text-[8px] sm:text-[10px] text-gray-500 tracking-[0.1em] sm:tracking-[0.12em] uppercase font-sans truncate">
-                Global Trade Chamber
-              </div>
-            </div>
+          <a
+            href="#home"
+            className="flex items-center group shrink-0 min-w-0"
+            aria-label="IICCI — Indian Importers Chambers of Commerce and Industry"
+          >
+            <Image
+              src="/images/logoiicifinal.jpg"
+              alt="IICCI — Indian Importers Chambers of Commerce and Industry — Together We Progress"
+              width={245}
+              height={122}
+              priority
+              sizes="(max-width: 640px) 160px, (max-width: 1024px) 200px, 240px"
+              className="h-10 sm:h-11 lg:h-12 w-auto object-contain select-none transition-transform duration-300 group-hover:scale-[1.02]"
+            />
           </a>
 
           {/* Menu - desktop */}
@@ -384,16 +382,22 @@ export const Navbar = () => {
         aria-hidden={!mobileOpen}
       >
         <div className="p-5 sm:p-6 pb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-10 h-10 rounded-md bg-navy-950 flex flex-col items-center justify-center leading-none shrink-0">
-                <span className="font-display font-black text-gold text-[10px]">II</span>
-                <span className="font-display font-bold text-gold/90 text-[7px] tracking-wider">
-                  CCI
-                </span>
-              </div>
-              <span className="font-serif font-bold text-navy-950 text-base truncate">Menu</span>
-            </div>
+          <div className="flex items-center justify-between mb-6 gap-3">
+            <a
+              href="#home"
+              className="flex items-center min-w-0 shrink"
+              onClick={closeMobile}
+              aria-label="IICCI home"
+            >
+              <Image
+                src="/images/logoiicifinal.jpg"
+                alt="IICCI — Indian Importers Chambers of Commerce and Industry"
+                width={245}
+                height={122}
+                sizes="180px"
+                className="h-10 w-auto object-contain select-none"
+              />
+            </a>
             <button
               id="close-mobile"
               type="button"

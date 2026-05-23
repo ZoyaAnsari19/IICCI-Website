@@ -1,5 +1,25 @@
 # Changelog
 
+## [23-05-2026 14:00] — Prem Kishore profile photo path fix
+
+**What changed:** Fixed Mr. Prem Kishore’s Core Team card image path from `/images/prem-kishore.png` (missing file) to `/images/prem-kishor.png` so the official headshot displays correctly.
+**Files touched:** `src/components/CoreTeam.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [23-05-2026 13:50] — Real IICCI logo wired across navbar, mobile menu, footer and loader
+
+**What changed:** Replaced the placeholder "II/CCI" gold-on-navy tile and the manual "IICCI / Global Trade Chamber" text-mark with the real official logo (`/images/logoiicifinal.jpg`, 245×122 — full "IICCI" letter mark + "Indian Importers Chambers Of Commerce And Industry" wordmark + tricolor underline + "Together We Progress" tagline) using `next/image`. Navbar uses the logo at responsive heights (`h-10 sm:h-11 lg:h-12 w-auto object-contain`) with `priority` and a `group-hover` micro-scale, plus a proper `aria-label`/`alt`. The mobile menu header now shows the same logo (h-10) linking back to `#home`. The Footer brand block renders the logo on a white rounded card with a gold ring + soft shadow so it reads cleanly on the dark navy background. The Loader was upgraded to a 220×140 card with the real logo on white inside a rounded gold "ring" halo, preserving the spin and load-bar animations.
+**Files touched:** `src/components/Navbar.tsx`, `src/components/Footer.tsx`, `src/components/Loader.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [21-05-2026 17:10] — Stats registered businesses count
 
 **What changed:** Increased the registered businesses statistic in the By the Numbers section from 10,000+ to 50,000+ and updated the label to "Registered Businesses".
