@@ -8,6 +8,7 @@ import { President } from "@/components/President";
 import { MentorsForewordSection } from "@/components/MentorsForewordSection";
 import { CoreTeam } from "@/components/CoreTeam";
 import { OrganizationalStructureSection } from "@/components/OrganizationalStructureSection";
+import { HonoraryDirectorsSection } from "@/components/HonoraryDirectorsSection";
 import { Manifesto } from "@/components/Manifesto";
 import { GlobalPresence } from "@/components/GlobalPresence";
 import { Services } from "@/components/Services";
@@ -37,6 +38,7 @@ export default function Home() {
         <MentorsForewordSection />
         <CoreTeam />
         <OrganizationalStructureSection />
+        <HonoraryDirectorsSection />
         <Manifesto />
         <GlobalPresence />
         <Services />
