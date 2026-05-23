@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
 import { About } from "@/components/About";
+import { MissionVisionSection } from "@/components/MissionVisionSection";
 import { President } from "@/components/President";
 import { MentorsForewordSection } from "@/components/MentorsForewordSection";
 import { CoreTeam } from "@/components/CoreTeam";
@@ -30,6 +31,7 @@ export default function Home() {
         <Hero />
         <Stats />
         <About />
+        <MissionVisionSection />
         <President />
         <MentorsForewordSection />
         <CoreTeam />
