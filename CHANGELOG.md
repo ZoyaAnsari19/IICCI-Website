@@ -1,5 +1,15 @@
 # Changelog
 
+## [23-05-2026 17:35] — Our Team section & dedicated Leadership page
+
+**What changed:** Added premium `OurTeamSection` (`id="our-team"`) showcasing IICCI's operational staff across six departments (Trade Facilitation, Membership, Operations, Research, Administration, International Coordination) in a responsive 1→2→3→4 column photo-grid with glassmorphism cards, portrait zoom, department badge, designation, bio, LinkedIn/contact icons, mouse-tracking spotlight hover, expandable profile modal, animated team stats (members, departments, support, chapters), and department filter tabs with layout transitions. Includes 8 team members (4 from existing Core Team assets + 4 department representatives). Created dedicated `/leadership` page (`src/app/leadership/page.tsx`) with `LeadershipHero`, President, Mentor's Foreword, Mission & Vision, Organizational Structure, Honorary Directors, and Our Team (Our Team placed immediately after Honorary Directors). Added `LeadershipHero` intro component. Updated Navbar mega-menu Leadership link to `/leadership` and Footer chamber links (Leadership → `/leadership`, Mission & Vision → `/#mission-vision`, About → `/#about`).
+**Files touched:** `src/components/OurTeamSection.tsx`, `src/components/LeadershipHero.tsx`, `src/app/leadership/page.tsx`, `src/components/Navbar.tsx`, `src/components/Footer.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [23-05-2026 17:20] — Honorary Directors executive leadership showcase
 
 **What changed:** Added a premium `HonoraryDirectorsSection` (`id="honorary-directors"`) placed immediately after Organizational Structure and before Manifesto. Header includes "Executive Council / Honorary Board" glass badge, `display-title` heading "Honorary" + gradient-gold italic serif "Directors", and tagline "Distinguished Leaders Guiding IICCI's Global Vision." Six distinguished leaders in a responsive 1→2→3 column equal-height card grid (`DirectorCard` reusable component): professional portrait (`aspect-[4/5]`, image zoom on hover, gradient overlay, "Honorary" badge, initials fallback), full name, designation, expertise sector line, 2–3 line bio (`line-clamp-3`), LinkedIn icon, and "Read full profile" CTA. Cards use glassmorphism (`bg-navy-950/45 backdrop-blur-xl`), `shadow-premium` → `shadow-gold` on hover, lift (`-translate-y-1`), mouse-tracking spotlight radial glow via `--mx`/`--my`, and shimmer sweep on portrait. `DirectorBioModal` opens on profile click with full bio, expertise, and LinkedIn link. Backdrop: world-map/trade-route SVG, `bg-grid` fade, drifting gold + royal blur blobs, floating particles. Framer Motion staggered fade-up card reveal, modal enter/exit. Closes with assurance pills (6 honorary directors / institutional credibility). Wired into `src/app/page.tsx` after `<OrganizationalStructureSection />`.

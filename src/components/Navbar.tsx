@@ -147,14 +147,14 @@ export const Navbar = () => {
                       {[
                         { icon: "fa-building-columns", t: "About IICCI", d: "Our story, legacy & impact" },
                         { icon: "fa-bullseye", t: "Mission & Vision", d: "Driving global trade forward" },
-                        { icon: "fa-user-tie", t: "Leadership", d: "Board & advisory council" },
+                        { icon: "fa-user-tie", t: "Leadership", d: "Board & advisory council", href: "/leadership" },
                         { icon: "fa-medal", t: "Recognition", d: "Awards & certifications" },
                         { icon: "fa-handshake", t: "Partnerships", d: "Strategic global alliances" },
                         { icon: "fa-flag", t: "Manifesto", d: "1 Lakh Billionaires Vision" },
                       ].map((c) => (
                         <a
                           key={c.t}
-                          href="#about"
+                          href={"href" in c && c.href ? c.href : "#about"}
                           className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition group/item"
                         >
                           <div className="w-10 h-10 rounded-lg bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition">
