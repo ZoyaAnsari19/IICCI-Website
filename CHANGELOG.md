@@ -1,5 +1,15 @@
 # Changelog
 
+## [23-05-2026 18:00] — About mega-menu dedicated pages & folder structure
+
+**What changed:** Implemented proper Next.js App Router structure under `src/app/about/` so each About mega-menu tab opens its own page with the matching section(s). Routes: `/about` (About IICCI + `About` section), `/about/mission-vision` (`MissionVisionSection`), `/about/leadership` (President, Mentor's Foreword, Org Structure, Honorary Directors, Our Team), `/about/recognition` (new `RecognitionSection`), `/about/partnerships` (new `PartnershipsSection`), `/about/manifesto` (`Manifesto`). Shared `src/app/about/layout.tsx` wraps all pages with `SitePageShell` (Loader, Navbar, Footer, Floats) + sticky `AboutSubnav` tab bar. Added `src/config/about-navigation.ts` as single source of truth for mega-menu links. Added `SubpageHero` (breadcrumb + title), `RecognitionSection`, `PartnershipsSection`. Legacy `/leadership` redirects to `/about/leadership`. Navbar mega-menu and mobile About sub-links now use `Link` + `ABOUT_NAV`; main About nav → `/about`; logo → `/`. Footer chamber links updated to `/about/*` paths. Added `id="manifesto"` on Manifesto component.
+**Files touched:** `src/app/about/**`, `src/app/leadership/page.tsx`, `src/config/about-navigation.ts`, `src/components/layouts/*`, `src/components/RecognitionSection.tsx`, `src/components/PartnershipsSection.tsx`, `src/components/Navbar.tsx`, `src/components/Footer.tsx`, `src/components/Manifesto.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [23-05-2026 17:35] — Our Team section & dedicated Leadership page
 
 **What changed:** Added premium `OurTeamSection` (`id="our-team"`) showcasing IICCI's operational staff across six departments (Trade Facilitation, Membership, Operations, Research, Administration, International Coordination) in a responsive 1→2→3→4 column photo-grid with glassmorphism cards, portrait zoom, department badge, designation, bio, LinkedIn/contact icons, mouse-tracking spotlight hover, expandable profile modal, animated team stats (members, departments, support, chapters), and department filter tabs with layout transitions. Includes 8 team members (4 from existing Core Team assets + 4 department representatives). Created dedicated `/leadership` page (`src/app/leadership/page.tsx`) with `LeadershipHero`, President, Mentor's Foreword, Mission & Vision, Organizational Structure, Honorary Directors, and Our Team (Our Team placed immediately after Honorary Directors). Added `LeadershipHero` intro component. Updated Navbar mega-menu Leadership link to `/leadership` and Footer chamber links (Leadership → `/leadership`, Mission & Vision → `/#mission-vision`, About → `/#about`).

@@ -118,10 +118,12 @@ export const Footer = () => {
               <div className="text-[10px] uppercase tracking-[0.2em] text-gold font-bold mb-4">Chamber</div>
               <ul className="space-y-2.5 text-sm">
                 {[
-                  { l: 'About IICCI', href: '/#about' },
-                  { l: 'Leadership', href: '/leadership' },
-                  { l: 'Mission & Vision', href: '/#mission-vision' },
-                  { l: 'Manifesto', href: '/#manifesto' },
+                  { l: 'About IICCI', href: '/about' },
+                  { l: 'Leadership', href: '/about/leadership' },
+                  { l: 'Mission & Vision', href: '/about/mission-vision' },
+                  { l: 'Recognition', href: '/about/recognition' },
+                  { l: 'Partnerships', href: '/about/partnerships' },
+                  { l: 'Manifesto', href: '/about/manifesto' },
                   { l: 'Annual Reports', href: '#' },
                   { l: 'Careers', href: '#' },
                 ].map((item) => (
