@@ -24,7 +24,6 @@ const menuItems: MenuItem[] = [
   { label: "Services", mega: "services", triggerOnly: true },
   { label: "Global Presence", href: "#global", mega: "global" },
   { label: "Events", href: "#events" },
-  { label: "Media", href: "#media" },
 ];
 
 const navLinkClass =

@@ -3,10 +3,7 @@ import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
 import { ObjectivesSection } from "@/components/ObjectivesSection";
 import { CoreTeam } from "@/components/CoreTeam";
-import { Manifesto } from "@/components/Manifesto";
 import { GlobalPresence } from "@/components/GlobalPresence";
-import { Services } from "@/app/services/page";
-import { IndustryVerticalsSection } from "@/app/services/industryVerticals/page";
 import { WhyIndia } from "@/components/WhyIndia";
 import { ForeignDesk } from "@/components/ForeignDesk";
 import { Media } from "@/components/Media";
@@ -26,10 +23,7 @@ export default function Home() {
         <Stats />
         <ObjectivesSection />
         <CoreTeam />
-        <Manifesto />
         <GlobalPresence />
-        <Services />
-        <IndustryVerticalsSection />
         <WhyIndia />
         <ForeignDesk />
         <Media />
