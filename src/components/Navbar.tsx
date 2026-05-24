@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ABOUT_NAV } from "@/config/about-navigation";
 import { MORE_NAV } from "@/config/more-navigation";
 
@@ -34,15 +34,18 @@ function cx(...parts: Array<string | false | null | undefined>) {
 export const Navbar = () => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [megaDismissed, setMegaDismissed] = useState(false);
+  const [openMega, setOpenMega] = useState<string | null>(null);
+  const prevPathRef = useRef(pathname);
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
   const openMobile = useCallback(() => setMobileOpen(true), []);
-  const dismissMegaMenu = useCallback(() => setMegaDismissed(true), []);
-  const resetMegaMenu = useCallback(() => setMegaDismissed(false), []);
+  const closeMegaMenu = useCallback(() => setOpenMega(null), []);
 
   useEffect(() => {
-    setMegaDismissed(true);
+    if (prevPathRef.current !== pathname) {
+      setOpenMega(null);
+      prevPathRef.current = pathname;
+    }
   }, [pathname]);
 
   useEffect(() => {
@@ -124,13 +127,7 @@ export const Navbar = () => {
       </div>
 
       {/* Main nav */}
-      <nav
-        id="main-nav"
-        className={cx(
-          "bg-white transition-all duration-500",
-          megaDismissed && "mega-dismissed",
-        )}
-      >
+      <nav id="main-nav" className="bg-white transition-all duration-500">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3 sm:gap-4">
           {/* Logo */}
           <Link
@@ -155,7 +152,8 @@ export const Navbar = () => {
               <li
                 key={item.href ?? item.label}
                 className={`has-mega-menu relative ${item.mega ? "group" : ""}`}
-                onMouseLeave={item.mega ? resetMegaMenu : undefined}
+                onMouseEnter={item.mega ? () => setOpenMega(item.mega!) : undefined}
+                onMouseLeave={item.mega ? closeMegaMenu : undefined}
               >
                 {item.triggerOnly ? (
                   <button
@@ -184,14 +182,19 @@ export const Navbar = () => {
                   </a>
                 )}
                 {item.mega === "about" && (
-                  <div className="mega-menu absolute top-full left-0 mt-2 w-[640px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
+                  <div
+                    className={cx(
+                      "mega-menu absolute top-full left-0 mt-2 w-[640px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
+                      openMega === "about" && "is-open",
+                    )}
+                  >
                     <div className="grid grid-cols-2 gap-2">
                       {ABOUT_NAV.map((c) => (
                         <Link
                           key={c.href}
                           href={c.href}
                           className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition group/item"
-                          onClick={dismissMegaMenu}
+                          onClick={closeMegaMenu}
                         >
                           <div className="w-10 h-10 rounded-lg bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition">
                             <i className={`fas ${c.icon} text-sm`}></i>
@@ -210,7 +213,12 @@ export const Navbar = () => {
                   </div>
                 )}
                 {item.mega === "services" && (
-                  <div className="mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[760px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
+                  <div
+                    className={cx(
+                      "mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[760px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
+                      openMega === "services" && "is-open",
+                    )}
+                  >
                     <div className="grid grid-cols-3 gap-2">
                       {[
                         { icon: "fa-globe", t: "Trade Facilitation" },
@@ -227,7 +235,7 @@ export const Navbar = () => {
                           key={c.t}
                           href="#services"
                           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-50 transition group/item"
-                          onClick={dismissMegaMenu}
+                          onClick={closeMegaMenu}
                         >
                           <div className="w-9 h-9 rounded-lg bg-royal/10 flex items-center justify-center text-royal group-hover/item:bg-gold group-hover/item:text-white transition">
                             <i className={`fas ${c.icon} text-sm`}></i>
@@ -243,7 +251,7 @@ export const Navbar = () => {
                       <a
                         href="#services"
                         className="text-gold-600 text-xs font-semibold flex items-center gap-2 hover:gap-3 transition-all"
-                        onClick={dismissMegaMenu}
+                        onClick={closeMegaMenu}
                       >
                         View all services <i className="fas fa-arrow-right text-[10px]"></i>
                       </a>
@@ -251,7 +259,12 @@ export const Navbar = () => {
                   </div>
                 )}
                 {item.mega === "global" && (
-                  <div className="mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[680px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
+                  <div
+                    className={cx(
+                      "mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[680px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
+                      openMega === "global" && "is-open",
+                    )}
+                  >
                     <div className="grid grid-cols-2 gap-6">
                       <div>
                         <div className="text-[10px] uppercase tracking-[0.2em] text-gold-600 font-semibold mb-3">
@@ -264,7 +277,7 @@ export const Navbar = () => {
                                 key={c}
                                 href="#global"
                                 className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition group/i"
-                                onClick={dismissMegaMenu}
+                                onClick={closeMegaMenu}
                               >
                                 <span className="text-navy-900/80 text-sm group-hover/i:text-navy-950">
                                   {c}
@@ -291,7 +304,7 @@ export const Navbar = () => {
                               key={c.n}
                               href="#global"
                               className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition group/ch"
-                              onClick={dismissMegaMenu}
+                              onClick={closeMegaMenu}
                             >
                               <span className="mega-chapter-code" aria-hidden>
                                 {c.code}
@@ -310,19 +323,25 @@ export const Navbar = () => {
             ))}
             <li
               className="has-mega-menu relative group"
-              onMouseLeave={resetMegaMenu}
+              onMouseEnter={() => setOpenMega("more")}
+              onMouseLeave={closeMegaMenu}
             >
-              <button type="button" className={navLinkClass}>
+              <button type="button" className={navLinkClass} aria-haspopup="true">
                 More <i className="fas fa-chevron-down text-[9px] text-navy-900/50"></i>
               </button>
-              <div className="mega-menu absolute top-full right-0 mt-2 w-64 bg-white rounded-2xl p-3 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
+              <div
+                className={cx(
+                  "mega-menu absolute top-full right-0 mt-2 w-64 bg-white rounded-2xl p-3 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
+                  openMega === "more" && "is-open",
+                )}
+              >
                 {MORE_NAV.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     className="block px-3 py-2 rounded-lg text-navy-900/80 hover:bg-gray-50 hover:text-navy-950 text-sm transition"
                     onClick={() => {
-                      dismissMegaMenu();
+                      closeMegaMenu();
                       closeMobile();
                     }}
                   >

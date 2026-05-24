@@ -1,5 +1,15 @@
 # Changelog
 
+## [24-05-2026 14:45] — Fix navbar mega-menu hover (About, Services, More)
+
+**What changed:** Mega menus (About, Services, Global Presence, More) now open reliably on hover. Replaced `megaDismissed` (which blocked all dropdowns after every page load) with `openMega` state controlled by `onMouseEnter`/`onMouseLeave` on each nav item. Added `.mega-menu.is-open` CSS class; menus still close on link click and route change.
+**Files touched:** `src/components/Navbar.tsx`, `public/static/style.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 14:35] — Remove CSR & Women from homepage
 
 **What changed:** Removed `CSR` and `Women` sections from the homepage (`src/app/page.tsx`). These sections remain available on `/more/csr-sdg` and `/more/women-wing`.
