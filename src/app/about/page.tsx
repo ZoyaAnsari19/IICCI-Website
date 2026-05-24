@@ -1,5 +1,6 @@
 import { SubpageHero } from "@/components/layouts/SubpageHero";
 import { About } from "@/components/About";
+import { ObjectivesSection } from "@/components/ObjectivesSection";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default function AboutPage() {
         badge="The Chamber"
       />
       <About />
+      <ObjectivesSection />
     </>
   );
 }

@@ -2,6 +2,7 @@ import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
 import { About } from "@/components/About";
+import { ObjectivesSection } from "@/components/ObjectivesSection";
 import { MissionVisionSection } from "@/components/MissionVisionSection";
 import { CoreTeam } from "@/components/CoreTeam";
 import { Manifesto } from "@/components/Manifesto";
@@ -25,6 +26,7 @@ export default function Home() {
         <Hero />
         <Stats />
         <About />
+        <ObjectivesSection />
         <MissionVisionSection />
         <CoreTeam />
         <Manifesto />

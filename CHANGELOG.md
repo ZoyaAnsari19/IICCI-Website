@@ -1,5 +1,15 @@
 # Changelog
 
+## [24-05-2026 15:00] — Premium Our Objectives section
+
+**What changed:** Added `ObjectivesSection` (`id="our-objectives"`) — a cinematic icon-based grid showcasing 9 institutional objectives with glassmorphism cards, Framer Motion stagger/hover animations, trade-network SVG backdrop, floating particles, spotlight hover, and counter highlights. Placed after About on homepage and integrated on `/about` page below the About section.
+**Files touched:** `src/components/ObjectivesSection.tsx`, `src/app/page.tsx`, `src/app/about/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 14:45] — Fix navbar mega-menu hover (About, Services, More)
 
 **What changed:** Mega menus (About, Services, Global Presence, More) now open reliably on hover. Replaced `megaDismissed` (which blocked all dropdowns after every page load) with `openMega` state controlled by `onMouseEnter`/`onMouseLeave` on each nav item. Added `.mega-menu.is-open` CSS class; menus still close on link click and route change.
