@@ -3,7 +3,6 @@
 import Image from "next/image";
 import {
   useCallback,
-  useId,
   useMemo,
   useState,
   type MouseEvent,
@@ -67,50 +66,6 @@ const TEAM: ReadonlyArray<TeamMember> = [
     image: "/images/pradeep-kumar.png",
     linkedin: "#",
   },
-  {
-    id: "anand",
-    name: "Mr. Anand",
-    designation: "Office Support Executive",
-    department: "Operations",
-    bio: "Supports daily office operations and front-desk coordination, ensuring a welcoming, efficient environment for members and visiting delegations.",
-    initials: "A",
-  },
-  {
-    id: "kavita-sharma",
-    name: "Mrs. Kavita Sharma",
-    designation: "Trade Facilitation Officer",
-    department: "Trade Facilitation",
-    bio: "Manages import-export documentation workflows, customs liaison, and bilateral trade desk coordination for member enterprises.",
-    image: "/images/img1.png",
-    linkedin: "#",
-  },
-  {
-    id: "rahul-verma",
-    name: "Mr. Rahul Verma",
-    designation: "Senior Research Analyst",
-    department: "Research",
-    bio: "Produces market intelligence briefs, sector reports, and policy analyses that empower members with data-driven trade decisions.",
-    image: "/images/img2.png",
-    linkedin: "#",
-  },
-  {
-    id: "priya-nair",
-    name: "Ms. Priya Nair",
-    designation: "International Coordination Lead",
-    department: "International Coordination",
-    bio: "Coordinates overseas chapter communications, foreign delegation schedules, and cross-border partnership programs for IICCI members.",
-    image: "/images/img3.png",
-    linkedin: "#",
-  },
-  {
-    id: "sanjay-mehta",
-    name: "Mr. Sanjay Mehta",
-    designation: "Membership Executive",
-    department: "Membership",
-    bio: "Handles member onboarding, renewal cycles, and relationship management across IICCI's growing importer and trade community network.",
-    initials: "SM",
-    linkedin: "#",
-  },
 ];
 
 const DEPARTMENT_ICONS: Record<Department, string> = {
@@ -143,86 +98,17 @@ function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-function WorldTradeBackdrop() {
-  const uid = useId().replace(/:/g, "");
-  return (
-    <svg
-      viewBox="0 0 1600 800"
-      className="absolute inset-0 w-full h-full opacity-[0.06] pointer-events-none"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden
-    >
-      <defs>
-        <radialGradient id={`ot-map-glow-${uid}`} cx="50%" cy="50%" r="55%">
-          <stop offset="0%" stopColor="#d4af37" stopOpacity="0.45" />
-          <stop offset="55%" stopColor="#1e40af" stopOpacity="0.14" />
-          <stop offset="100%" stopColor="#081120" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <rect width="1600" height="800" fill={`url(#ot-map-glow-${uid})`} />
-      <g fill="none" stroke="rgba(212,175,55,0.18)" strokeWidth="0.8">
-        <ellipse cx="800" cy="400" rx="700" ry="290" />
-        <ellipse cx="800" cy="400" rx="540" ry="220" />
-      </g>
-      <g stroke="rgba(212,175,55,0.22)" strokeWidth="1" fill="none">
-        <path d="M 360 270 Q 600 160, 820 250" />
-        <path d="M 820 250 Q 1000 200, 1200 300" />
-      </g>
-    </svg>
-  );
-}
-
-function FloatingParticles() {
-  const particles = [
-    { left: "8%", top: "20%", delay: 0, size: 4 },
-    { left: "24%", top: "68%", delay: 0.8, size: 3 },
-    { left: "48%", top: "14%", delay: 1.2, size: 5 },
-    { left: "72%", top: "30%", delay: 0.4, size: 3 },
-    { left: "86%", top: "60%", delay: 1.6, size: 4 },
-  ];
-
-  return (
-    <div
-      className="absolute inset-0 pointer-events-none overflow-hidden"
-      aria-hidden
-    >
-      {particles.map((p, i) => (
-        <motion.span
-          key={i}
-          className="absolute rounded-full bg-gold/40 blur-[1px]"
-          style={{
-            left: p.left,
-            top: p.top,
-            width: p.size,
-            height: p.size,
-          }}
-          animate={{
-            y: [0, -12, 0],
-            opacity: [0.25, 0.65, 0.25],
-          }}
-          transition={{
-            duration: 5 + i * 0.4,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
 function TeamPortrait({ member }: { member: TeamMember }) {
   return (
-    <div className="relative aspect-[4/5] overflow-hidden bg-navy-900 shrink-0">
-      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-navy-950 via-navy-950/20 to-royal/10" />
+    <div className="relative h-[280px] sm:h-[300px] lg:h-[320px] overflow-hidden bg-navy-900 shrink-0">
+      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-navy-950 via-navy-950/30 to-transparent" />
       {member.image ? (
         <Image
           src={member.image}
           alt={member.name}
           fill
-          className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, 280px"
+          className="object-cover object-[center_15%] transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, 360px"
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-navy-800 via-navy-900 to-navy-950 transition-transform duration-700 ease-out group-hover:scale-[1.04]">
@@ -254,7 +140,7 @@ function TeamCard({
     <motion.article
       layout
       variants={cardVariants}
-      className="group relative h-full reveal-up"
+      className="group relative reveal-up"
       onMouseMove={onSpotlight}
     >
       <div
@@ -270,7 +156,7 @@ function TeamCard({
       >
         <TeamPortrait member={member} />
 
-        <div className="relative flex flex-1 flex-col p-4 sm:p-5 border-t border-white/8 bg-navy-950/85 backdrop-blur-md">
+        <div className="relative flex flex-col p-4 sm:p-5 border-t border-white/8 bg-navy-950/85 backdrop-blur-md">
           <div className="flex items-start justify-between gap-2 mb-1.5">
             <h3 className="font-display text-base sm:text-lg font-bold text-white leading-snug transition-colors duration-300 group-hover:text-gold">
               {member.name}
@@ -311,7 +197,7 @@ function TeamCard({
             {member.department}
           </p>
 
-          <p className="mt-2.5 text-xs sm:text-sm text-white/60 leading-relaxed line-clamp-2 flex-1">
+          <p className="mt-2 text-xs sm:text-sm text-white/60 leading-relaxed line-clamp-2">
             {member.bio}
           </p>
 
@@ -476,30 +362,18 @@ export const OurTeamSection = () => {
     <section
       id="our-team"
       aria-labelledby="our-team-heading"
-      className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950"
+      className="relative section-padding overflow-hidden"
     >
-      <WorldTradeBackdrop />
-      <div className="absolute inset-0 bg-grid bg-grid-fade opacity-[0.08] pointer-events-none" />
-
-      <motion.div
-        className="absolute -top-32 right-0 w-[480px] h-[480px] rounded-full bg-royal/[0.15] blur-[140px] pointer-events-none"
-        animate={{ x: [0, -20, 0], y: [0, 14, 0] }}
-        transition={{ duration: 17, repeat: Infinity, ease: "easeInOut" }}
-        aria-hidden
-      />
-      <motion.div
-        className="absolute -bottom-32 -left-24 w-[500px] h-[500px] rounded-full bg-gold/[0.06] blur-[140px] pointer-events-none"
-        animate={{ x: [0, 18, 0], y: [0, -12, 0] }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1,
-        }}
-        aria-hidden
-      />
-
-      <FloatingParticles />
+      {/* Manifesto-style cinematic background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-royal-dark to-navy-950" />
+      <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-gold/15 blur-[120px] animate-pulse" />
+        <div
+          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-royal/20 blur-[120px] animate-pulse"
+          style={{ animationDelay: "1s" }}
+        />
+      </div>
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
         <motion.div
@@ -591,7 +465,7 @@ export const OurTeamSection = () => {
 
         <motion.div
           layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 lg:gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}

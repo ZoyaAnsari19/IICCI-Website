@@ -1,5 +1,27 @@
 # Changelog
 
+## [24-05-2026 14:05] — Our Team cards: taller portraits, faces visible
+
+**What changed:** Increased team card image area from capped `aspect-[4/3] max-h-[220px]` to fixed heights `280px` / `300px` / `320px` (responsive). Image positioning changed from `object-top` to `object-[center_15%]` so headshots show faces properly instead of cropping to foreheads only. Lighter bottom gradient on portrait overlay.
+
+---
+
+## [24-05-2026 13:55] — Our Team: Manifesto-style bg & medium cards
+
+**What changed:** Our Team section background now matches the Manifesto cinematic style (`from-navy-950 via-royal-dark to-navy-950`, grid overlay, gold/royal pulse glow orbs). Removed unused backdrop/particle helpers.
+
+---
+
+## [24-05-2026 13:50] — Our Team: blue background, 3 members only
+
+**What changed:** Removed five placeholder team member cards; kept three core staff (Prem Kishore, Manoj Kumar Bhargava, Pradeep Kumar). Team stats auto-update to 3 members; grid capped at 3 columns on large screens.
+**Files touched:** `src/components/OurTeamSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 13:35] — Honorary Directors: medium cards, 3 directors only
 
 **What changed:** Honorary Directors section trimmed to three profile cards (Dr. Arjun Mehta, Mrs. Elena Vasquez, Mr. Hiroshi Tanaka); removed three extra placeholder directors. Reduced card height with `aspect-[4/3]` and `max-h-[220px]`/`240px` on portraits, tighter content padding, and 2-line bio clamp. Footer stat updated from 6 to 3 directors.
