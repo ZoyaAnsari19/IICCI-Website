@@ -1,39 +1,43 @@
 export const WhyIndia = () => {
+  const cardClass =
+    "bg-white rounded-2xl border border-gray-200/80 shadow-[0_8px_32px_rgba(8,17,32,0.06)]";
+
   return (
-    <section id="why-india" className="relative section-padding overflow-hidden bg-radial-navy">
-      <div className="absolute inset-0 bg-grid bg-grid-fade opacity-40 pointer-events-none" />
-      <div className="aurora opacity-80" />
-      <div className="absolute top-0 right-0 w-[560px] h-[560px] rounded-full bg-gold/10 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[420px] h-[420px] rounded-full bg-royal/15 blur-3xl pointer-events-none" />
+    <section id="why-india" className="relative section-padding overflow-hidden bg-white">
+      <div className="absolute inset-0 bg-grid opacity-[0.04] pointer-events-none" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-royal/5 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] rounded-full bg-gold/5 blur-3xl pointer-events-none" />
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8 z-10">
         <div className="grid lg:grid-cols-12 gap-12 items-start mb-16">
           <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-4 reveal-up">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950/5 border border-navy-950/10 mb-4 reveal-up">
               <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />
-              <span className="text-[10px] uppercase tracking-[0.25em] text-white/70 font-semibold">Why India</span>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-navy-950/70 font-semibold">
+                Why India
+              </span>
             </div>
             <h2 className="display-title font-display font-bold mb-6 reveal-up">
-              <span className="text-white">The world&apos;s </span>
+              <span className="text-navy-950">The world&apos;s </span>
               <span className="text-gradient-gold italic font-serif font-normal">fastest growing</span>
-              <span className="text-white"> major economy.</span>
+              <span className="text-navy-950"> major economy.</span>
             </h2>
-            <p className="text-white/65 text-base md:text-lg leading-relaxed reveal-up max-w-2xl">
+            <p className="text-navy-950/70 text-base md:text-lg leading-relaxed reveal-up max-w-2xl">
               With a $3.7 trillion economy, 1.45 billion people, and the world&apos;s largest demographic dividend, India is uniquely positioned to become the global trade epicenter of the 21st century.
             </p>
           </div>
           <div className="lg:col-span-5 reveal-up">
-            <div className="glass-dark rounded-2xl p-6 shadow-premium border border-white/10">
-              <div className="flex items-center gap-2 text-xs text-white/60 mb-3">
+            <div className={`${cardClass} p-6`}>
+              <div className="flex items-center gap-2 text-xs text-navy-950/60 mb-3">
                 <i className="fas fa-chart-line text-gold" />
                 <span className="uppercase tracking-wider font-semibold">GDP Growth Projection</span>
               </div>
               <div className="flex items-end gap-4 mb-4">
                 <div>
-                  <div className="text-5xl font-display font-bold text-white">
+                  <div className="text-5xl font-display font-bold text-navy-950">
                     7.8<span className="text-2xl text-gold">%</span>
                   </div>
-                  <div className="text-xs text-white/50 mt-1">FY 2024-25 (RBI Est.)</div>
+                  <div className="text-xs text-navy-950/50 mt-1">FY 2024-25 (RBI Est.)</div>
                 </div>
                 <div className="flex-1 ml-auto">
                   <svg viewBox="0 0 100 40" className="w-full" aria-hidden>
@@ -69,28 +73,25 @@ export const WhyIndia = () => {
             { value: '63%', label: 'Working Age Pop.', icon: 'fa-users' },
             { value: '$83B', label: 'FDI 2024', icon: 'fa-arrow-trend-up' },
           ].map((m) => (
-            <div
-              key={m.label}
-              className="glass-dark rounded-2xl p-6 border border-white/10 card-lift reveal-up"
-            >
+            <div key={m.label} className={`${cardClass} p-6 card-lift reveal-up`}>
               <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-gold mb-4">
                 <i className={`fas ${m.icon} text-sm`} aria-hidden />
               </div>
-              <div className="text-3xl font-display font-bold text-white">{m.value}</div>
-              <div className="text-sm text-white/60 mt-1">{m.label}</div>
+              <div className="text-3xl font-display font-bold text-navy-950">{m.value}</div>
+              <div className="text-sm text-navy-950/60 mt-1">{m.label}</div>
             </div>
           ))}
         </div>
 
         {/* Sectors split */}
         <div className="grid lg:grid-cols-2 gap-6">
-          <div className="glass-dark rounded-3xl p-8 lg:p-10 text-white relative overflow-hidden border border-white/10 reveal-up">
-            <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-gold/15 blur-3xl pointer-events-none" />
+          <div className={`${cardClass} rounded-3xl p-8 lg:p-10 relative overflow-hidden reveal-up`}>
+            <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
             <div className="relative">
               <div className="text-[10px] uppercase tracking-[0.25em] text-gold mb-3 font-semibold">
                 Highest Import Demand
               </div>
-              <h3 className="text-2xl md:text-3xl font-display font-bold mb-6">
+              <h3 className="text-2xl md:text-3xl font-display font-bold mb-6 text-navy-950">
                 Sectors driving India&apos;s import boom
               </h3>
               <ul className="space-y-3">
@@ -104,9 +105,9 @@ export const WhyIndia = () => {
                 ].map((s) => (
                   <li
                     key={s.name}
-                    className="flex items-center justify-between py-3 border-b border-white/10 group"
+                    className="flex items-center justify-between py-3 border-b border-gray-200 group"
                   >
-                    <span className="text-white/90 text-sm group-hover:text-gold transition">{s.name}</span>
+                    <span className="text-navy-950/80 text-sm group-hover:text-gold transition">{s.name}</span>
                     <span className="text-gold font-bold text-sm">{s.val}</span>
                   </li>
                 ))}
@@ -114,11 +115,11 @@ export const WhyIndia = () => {
             </div>
           </div>
 
-          <div className="glass-dark rounded-3xl p-8 lg:p-10 border border-white/10 reveal-up">
+          <div className={`${cardClass} rounded-3xl p-8 lg:p-10 reveal-up`}>
             <div className="text-[10px] uppercase tracking-[0.25em] text-gold mb-3 font-semibold">
               State Opportunities
             </div>
-            <h3 className="text-2xl md:text-3xl font-display font-bold mb-6 text-white">Top trade states</h3>
+            <h3 className="text-2xl md:text-3xl font-display font-bold mb-6 text-navy-950">Top trade states</h3>
             <div className="grid grid-cols-2 gap-3">
               {[
                 { state: 'Maharashtra', share: '21%', focus: 'Mumbai Port, Finance' },
@@ -130,13 +131,13 @@ export const WhyIndia = () => {
               ].map((s) => (
                 <div
                   key={s.state}
-                  className="rounded-xl p-4 border border-white/10 hover:border-gold/40 hover:bg-white/5 transition group cursor-pointer"
+                  className="rounded-xl p-4 border border-gray-200 hover:border-gold/40 hover:bg-gray-50 transition group cursor-pointer"
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-bold text-white">{s.state}</span>
+                    <span className="text-sm font-bold text-navy-950">{s.state}</span>
                     <span className="text-xs text-gold font-bold">{s.share}</span>
                   </div>
-                  <div className="text-[11px] text-white/55">{s.focus}</div>
+                  <div className="text-[11px] text-navy-950/55">{s.focus}</div>
                 </div>
               ))}
             </div>
@@ -162,10 +163,10 @@ export const WhyIndia = () => {
               desc: '3rd largest globally, 100+ unicorns and rising',
             },
           ].map((c) => (
-            <div key={c.title} className="glass-dark rounded-2xl p-6 border border-white/10 card-lift">
+            <div key={c.title} className={`${cardClass} p-6 card-lift`}>
               <i className={`fas ${c.icon} text-gold text-xl mb-3`} aria-hidden />
-              <div className="font-display font-bold text-white mb-2">{c.title}</div>
-              <div className="text-sm text-white/60">{c.desc}</div>
+              <div className="font-display font-bold text-navy-950 mb-2">{c.title}</div>
+              <div className="text-sm text-navy-950/60">{c.desc}</div>
             </div>
           ))}
         </div>

@@ -6,7 +6,7 @@ import { CoreTeam } from "@/components/CoreTeam";
 import { GlobalPresence } from "@/components/GlobalPresence";
 import { WhyIndia } from "@/components/WhyIndia";
 import { ForeignDesk } from "@/components/ForeignDesk";
-import { Media } from "@/components/Media";
+import { Media } from "@/app/media/page";
 import { Events } from "@/components/Events";
 import { Membership } from "@/components/Membership";
 import { Training } from "@/components/Training";

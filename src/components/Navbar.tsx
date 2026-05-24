@@ -22,6 +22,7 @@ const menuItems: MenuItem[] = [
   { label: "About", mega: "about", triggerOnly: true },
   { label: "Membership", href: "#membership" },
   { label: "Services", mega: "services", triggerOnly: true },
+  { label: "Media", href: "/media" },
   { label: "Events", href: "#events" },
 ];
 
