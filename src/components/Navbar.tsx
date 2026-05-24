@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { ABOUT_NAV } from "@/config/about-navigation";
+import { MORE_NAV } from "@/config/more-navigation";
 
 type MenuItem = {
   label: string;
@@ -21,10 +22,6 @@ const menuItems: MenuItem[] = [
   { label: "Global Presence", href: "#global", mega: "global" },
   { label: "Events", href: "#events" },
   { label: "Media", href: "#media" },
-  { label: "CSR & SDG", href: "#csr" },
-  { label: "AI & Innovation", href: "#ai" },
-  { label: "Women Wing", href: "#women" },
-  { label: "Contact", href: "#contact" },
 ];
 
 const navLinkClass =
@@ -319,15 +316,18 @@ export const Navbar = () => {
                 More <i className="fas fa-chevron-down text-[9px] text-navy-900/50"></i>
               </button>
               <div className="mega-menu absolute top-full right-0 mt-2 w-64 bg-white rounded-2xl p-3 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
-                {menuItems.slice(7).map((item) => (
-                  <a
-                    key={item.href ?? item.label}
+                {MORE_NAV.map((item) => (
+                  <Link
+                    key={item.href}
                     href={item.href}
                     className="block px-3 py-2 rounded-lg text-navy-900/80 hover:bg-gray-50 hover:text-navy-950 text-sm transition"
-                    onClick={dismissMegaMenu}
+                    onClick={() => {
+                      dismissMegaMenu();
+                      closeMobile();
+                    }}
                   >
-                    {item.label}
-                  </a>
+                    {item.title}
+                  </Link>
                 ))}
               </div>
             </li>
@@ -522,6 +522,29 @@ export const Navbar = () => {
               );
             })}
           </ul>
+
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <div className="px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-navy-900/50 font-bold">
+              More
+            </div>
+            <ul className="space-y-0.5">
+              {MORE_NAV.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="flex items-center justify-between p-3 rounded-xl text-navy-900/80 hover:text-navy-950 hover:bg-gray-50 transition"
+                    onClick={closeMobile}
+                  >
+                    <span className="flex items-center gap-3">
+                      <i className={cx("fas", item.icon, "text-gold text-xs w-4 text-center")} />
+                      <span className="text-sm font-medium">{item.title}</span>
+                    </span>
+                    <i className="fas fa-arrow-right text-xs text-gold shrink-0" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div className="mt-6 pt-6 border-t border-gray-200 space-y-4">
             <a

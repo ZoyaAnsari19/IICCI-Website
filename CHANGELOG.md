@@ -1,5 +1,15 @@
 # Changelog
 
+## [24-05-2026 14:30] — More menu dedicated pages (/more/*)
+
+**What changed:** Navbar "More" dropdown items now navigate to dedicated routes instead of homepage hash links. Added `src/config/more-navigation.ts` and pages: `/more/csr-sdg`, `/more/ai-innovation`, `/more/women-wing`, `/more/contact` with `more/layout.tsx` (SitePageShell), SubpageHero, and existing CSR / Training / Women sections plus new `ContactSection`. Desktop More menu and mobile drawer use `Link` + `MORE_NAV`.
+**Files touched:** `src/config/more-navigation.ts`, `src/app/more/**`, `src/components/ContactSection.tsx`, `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 14:20] — Leadership sections only on /about/leadership
 
 **What changed:** Removed President, MentorsForewordSection, OrganizationalStructureSection, and HonoraryDirectorsSection from the homepage (`src/app/page.tsx`). These sections now render only on `/about/leadership` via `src/app/about/leadership/page.tsx`. CoreTeam remains on the homepage.
