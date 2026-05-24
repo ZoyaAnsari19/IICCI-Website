@@ -39,7 +39,7 @@ const services = [
   { icon: "fa-tractor", title: "Farmer Support Services", desc: "Empowering Indian farmers with export markets, certifications, and global agri-trade.", tag: "Agri" },
 ];
 
-export const Services = () => {
+export function Services() {
   const [expanded, setExpanded] = useState(false);
   const initialVisible = useInitialVisibleCount();
   const visible = expanded ? services : services.slice(0, initialVisible);
@@ -116,4 +116,12 @@ export const Services = () => {
       </div>
     </section>
   );
-};
+}
+
+export default function ServicesPage() {
+  return (
+    <main>
+      <Services />
+    </main>
+  );
+}

@@ -335,4 +335,10 @@ export function IndustryVerticalsSection() {
   );
 }
 
-export default IndustryVerticalsSection;
+export default function IndustryVerticalsPage() {
+  return (
+    <main>
+      <IndustryVerticalsSection />
+    </main>
+  );
+}
