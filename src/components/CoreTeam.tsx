@@ -368,23 +368,18 @@ export const CoreTeam = () => {
   return (
     <section
       id="team"
-      className="relative section-padding overflow-hidden"
+      className="relative section-padding overflow-hidden bg-white"
       aria-labelledby="core-team-heading"
     >
-      <div className="absolute inset-0 bg-radial-navy" />
-      <div className="absolute inset-0 bg-grid bg-grid-fade opacity-25" />
-      <div className="absolute inset-0 overflow-hidden">
-        <WorldMapBackdrop />
-      </div>
-      <FloatingParticles />
-      <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-royal/15 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] rounded-full bg-gold/8 blur-3xl pointer-events-none" />
+      <div className="absolute inset-0 bg-grid opacity-[0.04] pointer-events-none" aria-hidden />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-royal/5 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] rounded-full bg-gold/5 blur-3xl pointer-events-none" />
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-4 reveal-up">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950/5 border border-navy-950/10 mb-4 reveal-up">
             <i className="fas fa-people-group text-gold text-xs" aria-hidden />
-            <span className="text-[10px] uppercase tracking-[0.25em] text-white/70">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-navy-950/70">
               Core Team & Employee Network
             </span>
           </div>
@@ -392,12 +387,12 @@ export const CoreTeam = () => {
             id="core-team-heading"
             className="display-title font-display font-bold mb-4 reveal-up"
           >
-            <span className="text-white">The people powering</span>{" "}
+            <span className="text-navy-950">The people powering</span>{" "}
             <span className="text-gradient-gold italic font-serif font-normal">
               global trade.
             </span>
           </h2>
-          <p className="text-white/65 text-base md:text-lg leading-relaxed reveal-up">
+          <p className="text-navy-950/70 text-base md:text-lg leading-relaxed reveal-up">
             Meet the dedicated professionals behind IICCI — trustees, directors,
             and operational leaders committed to excellence, trust, and
             international business culture.
@@ -447,16 +442,16 @@ export const CoreTeam = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-14 lg:mt-16 flex flex-wrap items-center justify-center gap-6 reveal-up"
         >
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-white/10">
+          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass-light border border-navy-950/10">
             <i className="fas fa-building-columns text-gold" aria-hidden />
-            <span className="text-sm text-white/80">
-              <span className="font-semibold text-white">6</span> core team
+            <span className="text-sm text-navy-950/70">
+              <span className="font-semibold text-navy-950">6</span> core team
               members
             </span>
           </div>
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-white/10">
+          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass-light border border-navy-950/10">
             <i className="fas fa-handshake text-gold" aria-hidden />
-            <span className="text-sm text-white/80">
+            <span className="text-sm text-navy-950/70">
               Institutional strength & corporate governance
             </span>
           </div>
