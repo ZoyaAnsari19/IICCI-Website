@@ -1,5 +1,15 @@
 # Changelog
 
+## [24-05-2026 13:20] — Organizational Structure white theme & enhanced chart
+
+**What changed:** Redesigned the Organizational Structure section with a clean white background and a clearer governance hierarchy. Replaced dark navy theme with white cards, navy text, and gold accents; added a horizontal flow summary strip (Advisors → President → … → Support Teams); level badges (L1–L8) on tier labels; stronger vertical spine and horizontal branch connectors for the triple-column operations tier; light grid backdrop; and a 4-stat summary grid at the bottom. Cards remain interactive with expand/collapse detail panels.
+**Files touched:** `src/components/OrganizationalStructureSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 13:00] — Mega-menu auto-close on About tab click
 
 **What changed:** After clicking any item in the About (or other) mega-menu, the dropdown stayed open because CSS `:hover` persisted across client-side navigation — making it look like multiple pages overlapped. Added `megaDismissed` state in `Navbar` with `usePathname` to force-close mega menus on route change; `onClick={dismissMegaMenu}` on all mega-menu links; `onMouseLeave` on mega-menu `<li>` items to re-enable hover after the pointer leaves; and `#main-nav.mega-dismissed` CSS override so hover/focus-within cannot reopen the panel until reset. About subnav tab links now scroll to top on switch so only the selected page content is shown from the start.
