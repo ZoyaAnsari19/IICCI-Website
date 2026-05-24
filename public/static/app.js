@@ -4,19 +4,6 @@
 
   document.documentElement.classList.add('iicci-animate');
 
-  // ===== Loader =====
-  function hideLoader() {
-    setTimeout(() => {
-      const loader = document.getElementById('loader');
-      if (loader) loader.classList.add('hidden-loader');
-    }, 1500);
-  }
-  if (document.readyState === 'complete') {
-    hideLoader();
-  } else {
-    window.addEventListener('load', hideLoader, { once: true });
-  }
-
   // ===== Lenis Smooth Scroll =====
   let lenis;
   try {

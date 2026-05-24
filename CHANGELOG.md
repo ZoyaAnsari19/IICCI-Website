@@ -1,5 +1,15 @@
 # Changelog
 
+## [24-05-2026 12:45] — Remove splash loader screen
+
+**What changed:** Removed the full-page splash loader (IICCI logo, "Connecting global trade…", progress bar) so the site opens directly on the homepage and subpages. Removed `<Loader />` from `src/app/page.tsx` and `SitePageShell`; deleted `src/components/Loader.tsx`; removed loader hide logic from `public/static/app.js` and the 4s fallback in `SiteClientInit`; removed `.loader-*` CSS from `public/static/style.css`.
+**Files touched:** `src/app/page.tsx`, `src/components/layouts/SitePageShell.tsx`, `src/components/Loader.tsx` (deleted), `src/components/SiteClientInit.tsx`, `public/static/app.js`, `public/static/style.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 12:35] — About navbar trigger no longer navigates on click
 
 **What changed:** Clicking the top-level "About" item in the navbar was navigating directly to `/about`. Per request, "About" should only open the mega-menu; navigation to `/about` should happen only via the "About IICCI" entry inside the mega-menu. Introduced a `triggerOnly` flag on `menuItems` and marked About with it. On desktop, the About trigger now renders as a `<button aria-haspopup="true">` instead of `<Link href="/about">`, so the click does nothing while the existing `:hover` / `:focus-within` CSS keeps opening the mega-menu (and "About IICCI" inside it still routes to `/about`). On mobile, the parent About row is also a `<button>` (chevron-down icon, no nav) — the nested sub-list with "About IICCI", "Mission & Vision", etc. is already rendered beneath it, so each sub-item navigates normally and the menu still closes via their `onClick={closeMobile}` handlers.

@@ -431,61 +431,6 @@ html.iicci-animate .reveal-scale:not(.in-view) {
   width: 100%;
 }
 
-/* ===== Loader ===== */
-.loader-screen {
-  position: fixed;
-  inset: 0;
-  background: #081120;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.8s ease, visibility 0.8s ease;
-}
-.loader-screen.hidden-loader {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-.loader-logo {
-  position: relative;
-  width: 120px;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.loader-ring {
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(212,175,55,0.2);
-  border-top-color: #d4af37;
-  border-radius: 50%;
-  animation: spin 1.2s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.loader-bar {
-  position: absolute;
-  bottom: 5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 2px;
-  background: rgba(255,255,255,0.1);
-  overflow: hidden;
-  border-radius: 999px;
-}
-.loader-bar-fill {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, #1e40af, #d4af37);
-  transform: translateX(-100%);
-  animation: load-fill 1.8s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-}
-@keyframes load-fill {
-  to { transform: translateX(0); }
-}
-
 /* Section padding helpers */
 .section-padding {
   padding-top: 7rem;
