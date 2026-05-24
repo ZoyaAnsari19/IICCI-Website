@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { ABOUT_NAV } from "@/config/about-navigation";
 
 const menuItems = [
-  { label: "About", href: "#about", mega: "about" as const },
+  { label: "About", href: "/about", mega: "about" as const },
   { label: "Membership", href: "#membership" },
   { label: "Services", href: "#services", mega: "services" as const },
   { label: "Trade Verticals", href: "#verticals" },
@@ -112,8 +114,8 @@ export const Navbar = () => {
       <nav id="main-nav" className="bg-white transition-all duration-500">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3 sm:gap-4">
           {/* Logo */}
-          <a
-            href="#home"
+          <Link
+            href="/"
             className="flex items-center group shrink-0 min-w-0"
             aria-label="IICCI — Indian Importers Chambers of Commerce and Industry"
           >
@@ -126,7 +128,7 @@ export const Navbar = () => {
               sizes="(max-width: 640px) 160px, (max-width: 1024px) 200px, 240px"
               className="h-10 sm:h-11 lg:h-12 w-auto object-contain select-none transition-transform duration-300 group-hover:scale-[1.02]"
             />
-          </a>
+          </Link>
 
           {/* Menu - desktop */}
           <ul className="hidden xl:flex items-center gap-1 text-sm font-medium">
@@ -144,17 +146,10 @@ export const Navbar = () => {
                 {item.mega === "about" && (
                   <div className="mega-menu absolute top-full left-0 mt-2 w-[640px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
                     <div className="grid grid-cols-2 gap-2">
-                      {[
-                        { icon: "fa-building-columns", t: "About IICCI", d: "Our story, legacy & impact" },
-                        { icon: "fa-bullseye", t: "Mission & Vision", d: "Driving global trade forward" },
-                        { icon: "fa-user-tie", t: "Leadership", d: "Board & advisory council" },
-                        { icon: "fa-medal", t: "Recognition", d: "Awards & certifications" },
-                        { icon: "fa-handshake", t: "Partnerships", d: "Strategic global alliances" },
-                        { icon: "fa-flag", t: "Manifesto", d: "1 Lakh Billionaires Vision" },
-                      ].map((c) => (
-                        <a
-                          key={c.t}
-                          href="#about"
+                      {ABOUT_NAV.map((c) => (
+                        <Link
+                          key={c.href}
+                          href={c.href}
                           className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition group/item"
                         >
                           <div className="w-10 h-10 rounded-lg bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition">
@@ -162,11 +157,13 @@ export const Navbar = () => {
                           </div>
                           <div>
                             <div className="mega-item-title text-navy-950 text-sm font-semibold">
-                              {c.t}
+                              {c.title}
                             </div>
-                            <div className="mega-item-desc text-gray-500 text-xs mt-0.5">{c.d}</div>
+                            <div className="mega-item-desc text-gray-500 text-xs mt-0.5">
+                              {c.description}
+                            </div>
                           </div>
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -425,6 +422,21 @@ export const Navbar = () => {
                   </span>
                   <i className="fas fa-arrow-right text-xs text-gold shrink-0"></i>
                 </a>
+                {item.mega === "about" && (
+                  <ul className="mt-1 mb-2 ml-4 pl-4 border-l border-gray-200 space-y-0.5">
+                    {ABOUT_NAV.map((sub) => (
+                      <li key={sub.href}>
+                        <Link
+                          href={sub.href}
+                          className="block py-2 px-3 rounded-lg text-sm text-navy-900/70 hover:text-gold hover:bg-gray-50 transition"
+                          onClick={closeMobile}
+                        >
+                          {sub.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>

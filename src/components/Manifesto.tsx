@@ -1,6 +1,6 @@
 export const Manifesto = () => {
   return (
-    <section className="relative section-padding overflow-hidden">
+    <section id="manifesto" className="relative section-padding overflow-hidden">
       {/* Cinematic background */}
       <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-royal-dark to-navy-950"></div>
       <div className="absolute inset-0 bg-grid opacity-20"></div>
