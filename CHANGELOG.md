@@ -1,5 +1,15 @@
 # Changelog
 
+## [24-05-2026 14:20] — Leadership sections only on /about/leadership
+
+**What changed:** Removed President, MentorsForewordSection, OrganizationalStructureSection, and HonoraryDirectorsSection from the homepage (`src/app/page.tsx`). These sections now render only on `/about/leadership` via `src/app/about/leadership/page.tsx`. CoreTeam remains on the homepage.
+**Files touched:** `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 14:15] — Flatten leadership route (no _components folder)
 
 **What changed:** Removed `src/app/about/leadership/_components/` subfolder; leadership section files now live directly in `src/app/about/leadership/` alongside `page.tsx`. Updated imports in `leadership/page.tsx` and `src/app/page.tsx` to reference files directly (e.g. `./President`, `@/app/about/leadership/President`).

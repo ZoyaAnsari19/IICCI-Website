@@ -4,10 +4,6 @@ import { Stats } from "@/components/Stats";
 import { About } from "@/components/About";
 import { MissionVisionSection } from "@/components/MissionVisionSection";
 import { CoreTeam } from "@/components/CoreTeam";
-import { President } from "@/app/about/leadership/President";
-import { MentorsForewordSection } from "@/app/about/leadership/MentorsForewordSection";
-import { OrganizationalStructureSection } from "@/app/about/leadership/OrganizationalStructureSection";
-import { HonoraryDirectorsSection } from "@/app/about/leadership/HonoraryDirectorsSection";
 import { Manifesto } from "@/components/Manifesto";
 import { GlobalPresence } from "@/components/GlobalPresence";
 import { Services } from "@/components/Services";
@@ -32,11 +28,7 @@ export default function Home() {
         <Stats />
         <About />
         <MissionVisionSection />
-        <President />
-        <MentorsForewordSection />
         <CoreTeam />
-        <OrganizationalStructureSection />
-        <HonoraryDirectorsSection />
         <Manifesto />
         <GlobalPresence />
         <Services />
