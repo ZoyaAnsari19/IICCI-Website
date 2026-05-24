@@ -34,6 +34,8 @@ export function AboutSubnav() {
                     : "text-white/65 hover:text-gold hover:bg-white/5 border border-transparent hover:border-white/10",
                 )}
                 aria-current={isActive ? "page" : undefined}
+                scroll
+                onClick={() => window.scrollTo(0, 0)}
               >
                 <i className={cx("fas", item.icon, "text-[10px]")} />
                 <span className="whitespace-nowrap">{item.title}</span>

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { ABOUT_NAV } from "@/config/about-navigation";
 
@@ -34,10 +35,18 @@ function cx(...parts: Array<string | false | null | undefined>) {
 }
 
 export const Navbar = () => {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [megaDismissed, setMegaDismissed] = useState(false);
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
   const openMobile = useCallback(() => setMobileOpen(true), []);
+  const dismissMegaMenu = useCallback(() => setMegaDismissed(true), []);
+  const resetMegaMenu = useCallback(() => setMegaDismissed(false), []);
+
+  useEffect(() => {
+    setMegaDismissed(true);
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -118,7 +127,13 @@ export const Navbar = () => {
       </div>
 
       {/* Main nav */}
-      <nav id="main-nav" className="bg-white transition-all duration-500">
+      <nav
+        id="main-nav"
+        className={cx(
+          "bg-white transition-all duration-500",
+          megaDismissed && "mega-dismissed",
+        )}
+      >
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3 sm:gap-4">
           {/* Logo */}
           <Link
@@ -143,6 +158,7 @@ export const Navbar = () => {
               <li
                 key={item.href ?? item.label}
                 className={`has-mega-menu relative ${item.mega ? "group" : ""}`}
+                onMouseLeave={item.mega ? resetMegaMenu : undefined}
               >
                 {item.triggerOnly ? (
                   <button
@@ -178,6 +194,7 @@ export const Navbar = () => {
                           key={c.href}
                           href={c.href}
                           className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition group/item"
+                          onClick={dismissMegaMenu}
                         >
                           <div className="w-10 h-10 rounded-lg bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition">
                             <i className={`fas ${c.icon} text-sm`}></i>
@@ -213,6 +230,7 @@ export const Navbar = () => {
                           key={c.t}
                           href="#services"
                           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-50 transition group/item"
+                          onClick={dismissMegaMenu}
                         >
                           <div className="w-9 h-9 rounded-lg bg-royal/10 flex items-center justify-center text-royal group-hover/item:bg-gold group-hover/item:text-white transition">
                             <i className={`fas ${c.icon} text-sm`}></i>
@@ -228,6 +246,7 @@ export const Navbar = () => {
                       <a
                         href="#services"
                         className="text-gold-600 text-xs font-semibold flex items-center gap-2 hover:gap-3 transition-all"
+                        onClick={dismissMegaMenu}
                       >
                         View all services <i className="fas fa-arrow-right text-[10px]"></i>
                       </a>
@@ -248,6 +267,7 @@ export const Navbar = () => {
                                 key={c}
                                 href="#global"
                                 className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition group/i"
+                                onClick={dismissMegaMenu}
                               >
                                 <span className="text-navy-900/80 text-sm group-hover/i:text-navy-950">
                                   {c}
@@ -274,6 +294,7 @@ export const Navbar = () => {
                               key={c.n}
                               href="#global"
                               className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition group/ch"
+                              onClick={dismissMegaMenu}
                             >
                               <span className="mega-chapter-code" aria-hidden>
                                 {c.code}
@@ -290,7 +311,10 @@ export const Navbar = () => {
                 )}
               </li>
             ))}
-            <li className="has-mega-menu relative group">
+            <li
+              className="has-mega-menu relative group"
+              onMouseLeave={resetMegaMenu}
+            >
               <button type="button" className={navLinkClass}>
                 More <i className="fas fa-chevron-down text-[9px] text-navy-900/50"></i>
               </button>
@@ -300,6 +324,7 @@ export const Navbar = () => {
                     key={item.href ?? item.label}
                     href={item.href}
                     className="block px-3 py-2 rounded-lg text-navy-900/80 hover:bg-gray-50 hover:text-navy-950 text-sm transition"
+                    onClick={dismissMegaMenu}
                   >
                     {item.label}
                   </a>

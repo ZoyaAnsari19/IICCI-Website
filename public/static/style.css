@@ -472,6 +472,15 @@ html.iicci-animate .reveal-scale:not(.in-view) {
   transform: translateY(0);
   pointer-events: auto;
 }
+/* Hide mega menus after navigation until pointer leaves the nav item */
+#main-nav.mega-dismissed .has-mega-menu:hover .mega-menu,
+#main-nav.mega-dismissed .has-mega-menu:focus-within .mega-menu,
+#main-nav.mega-dismissed .mega-menu:hover {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  pointer-events: none;
+}
 .mega-menu a,
 .mega-menu button {
   position: relative;
