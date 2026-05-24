@@ -1,5 +1,167 @@
 # Changelog
 
+## [24-05-2026 15:10] — Remove Mission & Vision from homepage
+
+**What changed:** Removed `MissionVisionSection` from the homepage (`src/app/page.tsx`). Section remains on `/about/mission-vision`.
+**Files touched:** `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 15:00] — Premium Our Objectives section
+
+**What changed:** Added `ObjectivesSection` (`id="our-objectives"`) — a cinematic icon-based grid showcasing 9 institutional objectives with glassmorphism cards, Framer Motion stagger/hover animations, trade-network SVG backdrop, floating particles, spotlight hover, and counter highlights. Placed after About on homepage and integrated on `/about` page below the About section.
+**Files touched:** `src/components/ObjectivesSection.tsx`, `src/app/page.tsx`, `src/app/about/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 14:45] — Fix navbar mega-menu hover (About, Services, More)
+
+**What changed:** Mega menus (About, Services, Global Presence, More) now open reliably on hover. Replaced `megaDismissed` (which blocked all dropdowns after every page load) with `openMega` state controlled by `onMouseEnter`/`onMouseLeave` on each nav item. Added `.mega-menu.is-open` CSS class; menus still close on link click and route change.
+**Files touched:** `src/components/Navbar.tsx`, `public/static/style.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 14:35] — Remove CSR & Women from homepage
+
+**What changed:** Removed `CSR` and `Women` sections from the homepage (`src/app/page.tsx`). These sections remain available on `/more/csr-sdg` and `/more/women-wing`.
+**Files touched:** `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 14:30] — More menu dedicated pages (/more/*)
+
+**What changed:** Navbar "More" dropdown items now navigate to dedicated routes instead of homepage hash links. Added `src/config/more-navigation.ts` and pages: `/more/csr-sdg`, `/more/ai-innovation`, `/more/women-wing`, `/more/contact` with `more/layout.tsx` (SitePageShell), SubpageHero, and existing CSR / Training / Women sections plus new `ContactSection`. Desktop More menu and mobile drawer use `Link` + `MORE_NAV`.
+**Files touched:** `src/config/more-navigation.ts`, `src/app/more/**`, `src/components/ContactSection.tsx`, `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 14:20] — Leadership sections only on /about/leadership
+
+**What changed:** Removed President, MentorsForewordSection, OrganizationalStructureSection, and HonoraryDirectorsSection from the homepage (`src/app/page.tsx`). These sections now render only on `/about/leadership` via `src/app/about/leadership/page.tsx`. CoreTeam remains on the homepage.
+**Files touched:** `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 14:15] — Flatten leadership route (no _components folder)
+
+**What changed:** Removed `src/app/about/leadership/_components/` subfolder; leadership section files now live directly in `src/app/about/leadership/` alongside `page.tsx`. Updated imports in `leadership/page.tsx` and `src/app/page.tsx` to reference files directly (e.g. `./President`, `@/app/about/leadership/President`).
+**Files touched:** `src/app/about/leadership/*`, `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 14:10] — Colocate leadership sections under about/leadership
+
+**What changed:** Moved `President`, `MentorsForewordSection`, `OrganizationalStructureSection`, `HonoraryDirectorsSection`, and `OurTeamSection` from `src/components/` to `src/app/about/leadership/_components/`. Added barrel `index.ts` for exports. Updated `src/app/about/leadership/page.tsx` to import from `./_components` and `src/app/page.tsx` to import from `@/app/about/leadership/_components`.
+**Files touched:** `src/app/about/leadership/_components/*`, `src/app/about/leadership/page.tsx`, `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 14:05] — Our Team cards: taller portraits, faces visible
+
+**What changed:** Increased team card image area from capped `aspect-[4/3] max-h-[220px]` to fixed heights `280px` / `300px` / `320px` (responsive). Image positioning changed from `object-top` to `object-[center_15%]` so headshots show faces properly instead of cropping to foreheads only. Lighter bottom gradient on portrait overlay.
+
+---
+
+## [24-05-2026 13:55] — Our Team: Manifesto-style bg & medium cards
+
+**What changed:** Our Team section background now matches the Manifesto cinematic style (`from-navy-950 via-royal-dark to-navy-950`, grid overlay, gold/royal pulse glow orbs). Removed unused backdrop/particle helpers.
+
+---
+
+## [24-05-2026 13:50] — Our Team: blue background, 3 members only
+
+**What changed:** Removed five placeholder team member cards; kept three core staff (Prem Kishore, Manoj Kumar Bhargava, Pradeep Kumar). Team stats auto-update to 3 members; grid capped at 3 columns on large screens.
+**Files touched:** `src/components/OurTeamSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 13:35] — Honorary Directors: medium cards, 3 directors only
+
+**What changed:** Honorary Directors section trimmed to three profile cards (Dr. Arjun Mehta, Mrs. Elena Vasquez, Mr. Hiroshi Tanaka); removed three extra placeholder directors. Reduced card height with `aspect-[4/3]` and `max-h-[220px]`/`240px` on portraits, tighter content padding, and 2-line bio clamp. Footer stat updated from 6 to 3 directors.
+**Files touched:** `src/components/HonoraryDirectorsSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 13:20] — Organizational Structure white theme & enhanced chart
+
+**What changed:** Redesigned the Organizational Structure section with a clean white background and a clearer governance hierarchy. Replaced dark navy theme with white cards, navy text, and gold accents; added a horizontal flow summary strip (Advisors → President → … → Support Teams); level badges (L1–L8) on tier labels; stronger vertical spine and horizontal branch connectors for the triple-column operations tier; light grid backdrop; and a 4-stat summary grid at the bottom. Cards remain interactive with expand/collapse detail panels.
+**Files touched:** `src/components/OrganizationalStructureSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 13:00] — Mega-menu auto-close on About tab click
+
+**What changed:** After clicking any item in the About (or other) mega-menu, the dropdown stayed open because CSS `:hover` persisted across client-side navigation — making it look like multiple pages overlapped. Added `megaDismissed` state in `Navbar` with `usePathname` to force-close mega menus on route change; `onClick={dismissMegaMenu}` on all mega-menu links; `onMouseLeave` on mega-menu `<li>` items to re-enable hover after the pointer leaves; and `#main-nav.mega-dismissed` CSS override so hover/focus-within cannot reopen the panel until reset. About subnav tab links now scroll to top on switch so only the selected page content is shown from the start.
+**Files touched:** `src/components/Navbar.tsx`, `public/static/style.css`, `src/components/layouts/AboutSubnav.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 12:45] — Remove splash loader screen
+
+**What changed:** Removed the full-page splash loader (IICCI logo, "Connecting global trade…", progress bar) so the site opens directly on the homepage and subpages. Removed `<Loader />` from `src/app/page.tsx` and `SitePageShell`; deleted `src/components/Loader.tsx`; removed loader hide logic from `public/static/app.js` and the 4s fallback in `SiteClientInit`; removed `.loader-*` CSS from `public/static/style.css`.
+**Files touched:** `src/app/page.tsx`, `src/components/layouts/SitePageShell.tsx`, `src/components/Loader.tsx` (deleted), `src/components/SiteClientInit.tsx`, `public/static/app.js`, `public/static/style.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 12:35] — About navbar trigger no longer navigates on click
+
+**What changed:** Clicking the top-level "About" item in the navbar was navigating directly to `/about`. Per request, "About" should only open the mega-menu; navigation to `/about` should happen only via the "About IICCI" entry inside the mega-menu. Introduced a `triggerOnly` flag on `menuItems` and marked About with it. On desktop, the About trigger now renders as a `<button aria-haspopup="true">` instead of `<Link href="/about">`, so the click does nothing while the existing `:hover` / `:focus-within` CSS keeps opening the mega-menu (and "About IICCI" inside it still routes to `/about`). On mobile, the parent About row is also a `<button>` (chevron-down icon, no nav) — the nested sub-list with "About IICCI", "Mission & Vision", etc. is already rendered beneath it, so each sub-item navigates normally and the menu still closes via their `onClick={closeMobile}` handlers.
+**Files touched:** `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 12:09] — Fix GSAP target & scroll-behavior dev warnings
+
+**What changed:** Silenced three repeating browser-console warnings observed during dev navigation between `/` and `/about`. (1) `GSAP target .hero-title span not found`: the global `app.js` runs once but `.hero-title` only exists on `/`; wrapped `gsap.fromTo` in an existence check using `document.querySelectorAll('.hero-title span')` so the tween only runs when the hero is mounted. (2) `GSAP target  not found` (empty): added `el instanceof Element && el.isConnected` guard to the `.float-chip*` parallax loop so detached/stale ScrollTriggers from prior client-side navigations don't fire. (3) `Detected scroll-behavior: smooth on the <html> element`: added `data-scroll-behavior="smooth"` to `<html>` in `src/app/layout.tsx` per Next.js 16's guidance, which keeps CSS smooth scrolling but disables it during App Router route transitions.
+**Files touched:** `public/static/app.js`, `src/app/layout.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [23-05-2026 18:00] — About mega-menu dedicated pages & folder structure
 
 **What changed:** Implemented proper Next.js App Router structure under `src/app/about/` so each About mega-menu tab opens its own page with the matching section(s). Routes: `/about` (About IICCI + `About` section), `/about/mission-vision` (`MissionVisionSection`), `/about/leadership` (President, Mentor's Foreword, Org Structure, Honorary Directors, Our Team), `/about/recognition` (new `RecognitionSection`), `/about/partnerships` (new `PartnershipsSection`), `/about/manifesto` (`Manifesto`). Shared `src/app/about/layout.tsx` wraps all pages with `SitePageShell` (Loader, Navbar, Footer, Floats) + sticky `AboutSubnav` tab bar. Added `src/config/about-navigation.ts` as single source of truth for mega-menu links. Added `SubpageHero` (breadcrumb + title), `RecognitionSection`, `PartnershipsSection`. Legacy `/leadership` redirects to `/about/leadership`. Navbar mega-menu and mobile About sub-links now use `Link` + `ABOUT_NAV`; main About nav → `/about`; logo → `/`. Footer chamber links updated to `/about/*` paths. Added `id="manifesto"` on Manifesto component.

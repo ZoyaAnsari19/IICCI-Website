@@ -1,9 +1,9 @@
 import { LeadershipHero } from "@/components/LeadershipHero";
-import { President } from "@/components/President";
-import { MentorsForewordSection } from "@/components/MentorsForewordSection";
-import { OrganizationalStructureSection } from "@/components/OrganizationalStructureSection";
-import { HonoraryDirectorsSection } from "@/components/HonoraryDirectorsSection";
-import { OurTeamSection } from "@/components/OurTeamSection";
+import { President } from "./President";
+import { MentorsForewordSection } from "./MentorsForewordSection";
+import { OrganizationalStructureSection } from "./OrganizationalStructureSection";
+import { HonoraryDirectorsSection } from "./HonoraryDirectorsSection";
+import { OurTeamSection } from "./OurTeamSection";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

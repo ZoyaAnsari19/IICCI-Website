@@ -715,3 +715,11 @@ export const Media = () => {
     </section>
   );
 };
+
+export default function MediaPage() {
+  return (
+    <main>
+      <Media />
+    </main>
+  );
+}

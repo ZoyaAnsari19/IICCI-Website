@@ -19,24 +19,6 @@ const itemVariants = {
   },
 };
 
-const pillars = [
-  {
-    icon: "fa-globe",
-    title: "Global Network",
-    body: "Building a strong worldwide network of members and overseas offices that enables seamless business facilitation, strategic partnerships, and rapid implementation of commercial ventures across diverse sectors and international markets.",
-  },
-  {
-    icon: "fa-handshake-angle",
-    title: "Bilateral Trade",
-    body: "Receiving strong support and membership interest from foreign nationals, trade bodies, and international business communities — motivating IICCI to establish offices in multiple countries and create stronger bilateral trade networks.",
-  },
-  {
-    icon: "fa-bolt",
-    title: "Rapid Facilitation",
-    body: "Facilitating and finalizing business opportunities quickly, professionally, and effectively — while promoting long-term economic cooperation between nations and sustainable international trade.",
-  },
-];
-
 const credentials = [
   "Govt. of India Recognized",
   "ISO 9001 Certified",
@@ -325,112 +307,6 @@ export const About = () => {
               </div>
             </div>
           </motion.article>
-        </motion.div>
-
-        <motion.div
-          className="grid md:grid-cols-3 gap-5 mb-14"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={containerVariants}
-        >
-          {pillars.map((p, idx) => (
-            <motion.div
-              key={p.title}
-              variants={itemVariants}
-              className="group relative glass-dark rounded-2xl p-7 border border-white/10 card-lift overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-gold/0 via-transparent to-transparent group-hover:from-gold/[0.06] transition-all duration-700" />
-              <div className="relative">
-                <div className="flex items-center justify-between mb-5">
-                  <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-navy-950 transition">
-                    <i className={`fas ${p.icon} text-base`} />
-                  </div>
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-white/30 font-bold">
-                    0{idx + 1}
-                  </span>
-                </div>
-                <h4 className="text-lg font-display font-bold text-white mb-3">
-                  {p.title}
-                </h4>
-                <p className="text-sm text-white/65 leading-relaxed">
-                  {p.body}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <motion.div
-          className="relative rounded-3xl overflow-hidden border border-gold/20 shadow-premium"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-navy-900/90 via-navy-950/80 to-navy-950" />
-          <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-gold/15 blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-royal/25 blur-3xl" />
-          <div className="absolute inset-0 bg-grid opacity-[0.08]" />
-
-          <div className="relative grid lg:grid-cols-12 gap-8 p-8 md:p-12 lg:p-14 items-center">
-            <div className="lg:col-span-7">
-              <div className="text-[10px] uppercase tracking-[0.35em] text-gold font-bold mb-4">
-                Looking Forward
-              </div>
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white leading-tight mb-5">
-                A globally respected institution shaping the future of{" "}
-                <span className="text-gradient-gold italic font-serif font-normal">
-                  international commerce.
-                </span>
-              </h3>
-              <p className="text-white/70 leading-relaxed max-w-2xl">
-                IICCI aims to become a globally respected institution
-                contributing significantly to international trade, investment,
-                industrial growth, and business collaboration — connecting
-                India with international markets and empowering businesses to
-                grow globally.
-              </p>
-            </div>
-
-            <div className="lg:col-span-5 grid grid-cols-2 gap-3">
-              {[
-                {
-                  icon: "fa-earth-asia",
-                  k: "International",
-                  v: "Trade",
-                },
-                {
-                  icon: "fa-chart-line",
-                  k: "Investment",
-                  v: "Growth",
-                },
-                {
-                  icon: "fa-industry",
-                  k: "Industrial",
-                  v: "Development",
-                },
-                {
-                  icon: "fa-people-arrows",
-                  k: "Business",
-                  v: "Collaboration",
-                },
-              ].map((p) => (
-                <div
-                  key={p.k}
-                  className="rounded-2xl glass border border-white/10 px-4 py-5 hover:border-gold/30 transition"
-                >
-                  <i
-                    className={`fas ${p.icon} text-gold text-base mb-3 block`}
-                  />
-                  <div className="text-sm font-display font-bold text-white leading-tight">
-                    {p.k}
-                  </div>
-                  <div className="text-xs text-white/60 mt-0.5">{p.v}</div>
-                </div>
-              ))}
-            </div>
-          </div>
         </motion.div>
       </div>
     </section>

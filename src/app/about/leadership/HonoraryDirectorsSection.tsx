@@ -43,33 +43,6 @@ const DIRECTORS: ReadonlyArray<HonoraryDirector> = [
     image: "/images/img3.png",
     linkedin: "#",
   },
-  {
-    id: "david-sinclair",
-    name: "Prof. David Sinclair",
-    designation: "Honorary Director",
-    expertise: "Trade Law & Regulatory Compliance",
-    bio: "Professor Sinclair brings deep expertise in international commercial law, anti-dumping frameworks, and compliance systems that protect member interests across complex regulatory environments.",
-    initials: "DS",
-    linkedin: "#",
-  },
-  {
-    id: "fatima-al-rashid",
-    name: "Ms. Fatima Al-Rashid",
-    designation: "Honorary Director",
-    expertise: "Middle East Trade Corridor",
-    bio: "Ms. Al-Rashid has pioneered Gulf–India trade partnerships in energy, infrastructure, and halal-certified supply chains, expanding IICCI's reach across the Middle East and North Africa.",
-    initials: "FA",
-    linkedin: "#",
-  },
-  {
-    id: "james-oconnell",
-    name: "Mr. James O'Connell",
-    designation: "Honorary Director",
-    expertise: "Investment & Foreign Direct Investment",
-    bio: "A former sovereign wealth advisor, Mr. O'Connell guides IICCI members on FDI structuring, capital access, and institutional investor relations across Europe and the Americas.",
-    initials: "JO",
-    linkedin: "#",
-  },
 ];
 
 const containerVariants: Variants = {
@@ -180,7 +153,7 @@ function FloatingParticles() {
 
 function DirectorPortrait({ director }: { director: HonoraryDirector }) {
   return (
-    <div className="relative aspect-[4/5] overflow-hidden bg-navy-900 shrink-0">
+    <div className="relative aspect-[4/3] max-h-[220px] sm:max-h-[240px] overflow-hidden bg-navy-900 shrink-0">
       <div className="absolute inset-0 z-[1] bg-gradient-to-t from-navy-950 via-navy-950/25 to-royal/10" />
       {director.image ? (
         <Image
@@ -219,7 +192,7 @@ function DirectorCard({
   return (
     <motion.article
       variants={cardVariants}
-      className="group relative h-full reveal-up"
+      className="group relative reveal-up"
       onMouseMove={onSpotlight}
     >
       <div
@@ -235,7 +208,7 @@ function DirectorCard({
       >
         <DirectorPortrait director={director} />
 
-        <div className="relative flex flex-1 flex-col p-5 sm:p-6 border-t border-white/8 bg-navy-950/80 backdrop-blur-md">
+        <div className="relative flex flex-col p-4 sm:p-5 border-t border-white/8 bg-navy-950/80 backdrop-blur-md">
           <div className="flex items-start justify-between gap-3 mb-2">
             <h3 className="font-display text-lg font-bold text-white leading-snug transition-colors duration-300 group-hover:text-gold">
               {director.name}
@@ -259,14 +232,14 @@ function DirectorCard({
             {director.expertise}
           </p>
 
-          <p className="mt-3 text-sm text-white/65 leading-relaxed line-clamp-3 flex-1">
+          <p className="mt-2 text-sm text-white/65 leading-relaxed line-clamp-2">
             {director.bio}
           </p>
 
           <button
             type="button"
             onClick={() => onOpen(director)}
-            className="mt-4 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-white/45 hover:text-gold font-semibold transition group/btn"
+            className="mt-3 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-white/45 hover:text-gold font-semibold transition group/btn"
           >
             <span className="h-px w-8 bg-gold/50 transition-all duration-500 group-hover/btn:w-12" />
             Read full profile
@@ -485,7 +458,7 @@ export const HonoraryDirectorsSection = () => {
           <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-white/10">
             <i className="fas fa-user-tie text-gold" aria-hidden />
             <span className="text-sm text-white/80">
-              <span className="font-semibold text-white">6</span> honorary
+              <span className="font-semibold text-white">3</span> honorary
               directors &amp; global advisors
             </span>
           </div>

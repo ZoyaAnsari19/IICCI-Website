@@ -1,22 +1,11 @@
-import { Loader } from "@/components/Loader";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
-import { About } from "@/components/About";
-import { MissionVisionSection } from "@/components/MissionVisionSection";
-import { President } from "@/components/President";
-import { MentorsForewordSection } from "@/components/MentorsForewordSection";
+import { ObjectivesSection } from "@/components/ObjectivesSection";
 import { CoreTeam } from "@/components/CoreTeam";
-import { OrganizationalStructureSection } from "@/components/OrganizationalStructureSection";
-import { HonoraryDirectorsSection } from "@/components/HonoraryDirectorsSection";
-import { Manifesto } from "@/components/Manifesto";
 import { GlobalPresence } from "@/components/GlobalPresence";
-import { Services } from "@/components/Services";
 import { WhyIndia } from "@/components/WhyIndia";
 import { ForeignDesk } from "@/components/ForeignDesk";
-import { CSR } from "@/components/CSR";
-import { Women } from "@/components/Women";
-import { Media } from "@/components/Media";
 import { Events } from "@/components/Events";
 import { Membership } from "@/components/Membership";
 import { Training } from "@/components/Training";
@@ -27,26 +16,15 @@ import { Floats } from "@/components/Floats";
 export default function Home() {
   return (
     <>
-      <Loader />
       <Navbar />
       <main>
         <Hero />
         <Stats />
-        <About />
-        <MissionVisionSection />
-        <President />
-        <MentorsForewordSection />
+        <ObjectivesSection />
         <CoreTeam />
-        <OrganizationalStructureSection />
-        <HonoraryDirectorsSection />
-        <Manifesto />
         <GlobalPresence />
-        <Services />
         <WhyIndia />
         <ForeignDesk />
-        <CSR />
-        <Women />
-        <Media />
         <Events />
         <Membership />
         <Training />

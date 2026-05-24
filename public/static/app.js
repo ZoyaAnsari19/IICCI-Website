@@ -4,19 +4,6 @@
 
   document.documentElement.classList.add('iicci-animate');
 
-  // ===== Loader =====
-  function hideLoader() {
-    setTimeout(() => {
-      const loader = document.getElementById('loader');
-      if (loader) loader.classList.add('hidden-loader');
-    }, 1500);
-  }
-  if (document.readyState === 'complete') {
-    hideLoader();
-  } else {
-    window.addEventListener('load', hideLoader, { once: true });
-  }
-
   // ===== Lenis Smooth Scroll =====
   let lenis;
   try {
@@ -353,22 +340,30 @@
   }
 
   // ===== GSAP hero text reveal =====
+  // Only animate when the hero is actually present on this route (e.g. `/`).
+  // Otherwise GSAP logs "target not found" warnings on subpages.
   if (window.gsap) {
-    gsap.fromTo('.hero-title span',
-      { y: 80, opacity: 0, filter: 'blur(10px)' },
-      {
-        y: 0, opacity: 1, filter: 'blur(0px)',
-        duration: 1.2,
-        stagger: 0.12,
-        ease: 'expo.out',
-        delay: 1.6,
-      }
-    );
+    const heroSpans = document.querySelectorAll('.hero-title span');
+    if (heroSpans.length) {
+      gsap.fromTo(heroSpans,
+        { y: 80, opacity: 0, filter: 'blur(10px)' },
+        {
+          y: 0, opacity: 1, filter: 'blur(0px)',
+          duration: 1.2,
+          stagger: 0.12,
+          ease: 'expo.out',
+          delay: 1.6,
+        }
+      );
+    }
   }
 
   // ===== Parallax floats =====
+  // Skip elements that are detached/empty (can happen after Next.js
+  // client-side navigation removes them) — avoids ScrollTrigger warnings.
   if (window.gsap && window.ScrollTrigger) {
     gsap.utils.toArray('.float-chip, .float-chip-slow, .float-chip-fast').forEach((el) => {
+      if (!(el instanceof Element) || !el.isConnected) return;
       gsap.to(el, {
         yPercent: -30,
         ease: 'none',

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useId, useState, type ReactNode } from "react";
+import { useCallback, useState, type ReactNode } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 
 type OrgNodeData = {
@@ -15,6 +15,7 @@ type OrgNodeData = {
 
 type OrgTier = {
   id: string;
+  level: number;
   label?: string;
   nodes: OrgNodeData[];
   layout?: "single" | "row" | "triple";
@@ -23,6 +24,7 @@ type OrgTier = {
 const ORG_TIERS: ReadonlyArray<OrgTier> = [
   {
     id: "tier-advisors",
+    level: 1,
     label: "Strategic Guidance",
     layout: "single",
     nodes: [
@@ -39,6 +41,7 @@ const ORG_TIERS: ReadonlyArray<OrgTier> = [
   },
   {
     id: "tier-president",
+    level: 2,
     layout: "single",
     nodes: [
       {
@@ -56,8 +59,9 @@ const ORG_TIERS: ReadonlyArray<OrgTier> = [
   },
   {
     id: "tier-vp",
+    level: 3,
     label: "Executive Leadership",
-    layout: "row",
+    layout: "single",
     nodes: [
       {
         id: "vp-domestic",
@@ -72,6 +76,7 @@ const ORG_TIERS: ReadonlyArray<OrgTier> = [
   },
   {
     id: "tier-sg",
+    level: 4,
     layout: "single",
     nodes: [
       {
@@ -87,6 +92,7 @@ const ORG_TIERS: ReadonlyArray<OrgTier> = [
   },
   {
     id: "tier-council",
+    level: 5,
     layout: "single",
     nodes: [
       {
@@ -102,6 +108,7 @@ const ORG_TIERS: ReadonlyArray<OrgTier> = [
   },
   {
     id: "tier-honorary",
+    level: 6,
     layout: "single",
     nodes: [
       {
@@ -117,6 +124,7 @@ const ORG_TIERS: ReadonlyArray<OrgTier> = [
   },
   {
     id: "tier-chapters",
+    level: 7,
     label: "Global & Sector Operations",
     layout: "triple",
     nodes: [
@@ -151,6 +159,7 @@ const ORG_TIERS: ReadonlyArray<OrgTier> = [
   },
   {
     id: "tier-support",
+    level: 8,
     layout: "single",
     nodes: [
       {
@@ -166,30 +175,41 @@ const ORG_TIERS: ReadonlyArray<OrgTier> = [
   },
 ];
 
+const FLOW_SUMMARY = [
+  "Advisors",
+  "President",
+  "Vice Presidents",
+  "Secretary General",
+  "Governing Council",
+  "Honorary Directors",
+  "Chapters & Cells",
+  "Support Teams",
+] as const;
+
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.04 },
+    transition: { staggerChildren: 0.07, delayChildren: 0.04 },
   },
 };
 
 const tierVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 20 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
 const nodeVariants: Variants = {
-  hidden: { opacity: 0, y: 20, scale: 0.97 },
+  hidden: { opacity: 0, y: 16, scale: 0.98 },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
@@ -197,116 +217,31 @@ function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-function WorldTradeBackdrop() {
-  const uid = useId().replace(/:/g, "");
-  return (
-    <svg
-      viewBox="0 0 1600 800"
-      className="absolute inset-0 w-full h-full opacity-[0.06] pointer-events-none"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden
-    >
-      <defs>
-        <radialGradient id={`org-map-glow-${uid}`} cx="50%" cy="50%" r="55%">
-          <stop offset="0%" stopColor="#d4af37" stopOpacity="0.45" />
-          <stop offset="55%" stopColor="#1e40af" stopOpacity="0.14" />
-          <stop offset="100%" stopColor="#081120" stopOpacity="0" />
-        </radialGradient>
-        <linearGradient id={`org-meridian-${uid}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="rgba(212,175,55,0)" />
-          <stop offset="50%" stopColor="rgba(212,175,55,0.32)" />
-          <stop offset="100%" stopColor="rgba(212,175,55,0)" />
-        </linearGradient>
-      </defs>
-      <rect width="1600" height="800" fill={`url(#org-map-glow-${uid})`} />
-      <g fill="none" stroke="rgba(212,175,55,0.18)" strokeWidth="0.8">
-        <ellipse cx="800" cy="400" rx="700" ry="290" />
-        <ellipse cx="800" cy="400" rx="540" ry="220" />
-        <ellipse cx="800" cy="400" rx="380" ry="150" />
-      </g>
-      <g stroke={`url(#org-meridian-${uid})`} strokeWidth="1" fill="none">
-        <line x1="400" y1="60" x2="400" y2="740" />
-        <line x1="800" y1="60" x2="800" y2="740" />
-        <line x1="1200" y1="60" x2="1200" y2="740" />
-      </g>
-      <g fill="rgba(212,175,55,0.3)">
-        {[
-          [400, 280],
-          [800, 240],
-          [1200, 300],
-          [600, 420],
-          [1000, 460],
-        ].map(([cx, cy], i) => (
-          <circle key={i} cx={cx} cy={cy} r="3" />
-        ))}
-      </g>
-      <g stroke="rgba(212,175,55,0.22)" strokeWidth="1" fill="none">
-        <path d="M 400 280 Q 600 180, 800 240" />
-        <path d="M 800 240 Q 1000 200, 1200 300" />
-        <path d="M 600 420 Q 800 360, 1000 460" />
-      </g>
-    </svg>
-  );
-}
-
-function FloatingParticles() {
-  const particles = [
-    { left: "8%", top: "18%", delay: 0, size: 4 },
-    { left: "22%", top: "72%", delay: 0.8, size: 3 },
-    { left: "45%", top: "12%", delay: 1.2, size: 5 },
-    { left: "68%", top: "28%", delay: 0.4, size: 3 },
-    { left: "82%", top: "65%", delay: 1.6, size: 4 },
-    { left: "92%", top: "38%", delay: 2, size: 2 },
-  ];
-
+function LightGridBackdrop() {
   return (
     <div
-      className="absolute inset-0 pointer-events-none overflow-hidden"
+      className="absolute inset-0 pointer-events-none opacity-[0.35]"
       aria-hidden
-    >
-      {particles.map((p, i) => (
-        <motion.span
-          key={i}
-          className="absolute rounded-full bg-gold/40 blur-[1px]"
-          style={{
-            left: p.left,
-            top: p.top,
-            width: p.size,
-            height: p.size,
-          }}
-          animate={{
-            y: [0, -12, 0],
-            opacity: [0.25, 0.65, 0.25],
-          }}
-          transition={{
-            duration: 5 + i * 0.4,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
+      style={{
+        backgroundImage: `
+          linear-gradient(to right, rgba(8,17,32,0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(8,17,32,0.04) 1px, transparent 1px)
+        `,
+        backgroundSize: "48px 48px",
+      }}
+    />
   );
 }
 
-function ConnectorStem({ height = 28 }: { height?: number }) {
+function ConnectorStem({ height = 32 }: { height?: number }) {
   return (
     <div
       className="relative flex justify-center w-full shrink-0"
       style={{ height }}
       aria-hidden
     >
-      <div className="w-px h-full bg-gradient-to-b from-gold/50 via-gold/25 to-gold/50" />
-      <motion.div
-        className="absolute left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-gold"
-        animate={{ top: ["0%", "100%", "0%"], opacity: [0.4, 1, 0.4] }}
-        transition={{
-          duration: 3.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
+      <div className="w-0.5 h-full rounded-full bg-gradient-to-b from-gold/70 via-navy-200 to-gold/70" />
+      <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full border-2 border-white bg-gold shadow-sm" />
     </div>
   );
 }
@@ -315,10 +250,30 @@ function MobileConnector() {
   return (
     <div className="flex justify-center py-1" aria-hidden>
       <div className="flex flex-col items-center gap-1">
-        <span className="w-1.5 h-1.5 rounded-full bg-gold/70" />
-        <span className="w-px h-6 bg-gradient-to-b from-gold/50 to-gold/20" />
-        <span className="w-1.5 h-1.5 rounded-full bg-gold/40" />
+        <span className="w-2 h-2 rounded-full bg-gold border-2 border-white shadow-sm" />
+        <span className="w-0.5 h-7 bg-gradient-to-b from-gold/80 to-navy-200" />
+        <span className="w-2 h-2 rounded-full bg-navy-200 border-2 border-white" />
       </div>
+    </div>
+  );
+}
+
+function TierLabel({
+  level,
+  label,
+}: {
+  level: number;
+  label: string;
+}) {
+  return (
+    <div className="mb-5 flex items-center gap-3 w-full max-w-5xl mx-auto px-2">
+      <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-navy-950 text-gold text-[11px] font-bold font-mono shadow-sm">
+        L{level}
+      </span>
+      <span className="text-[11px] uppercase tracking-[0.22em] text-navy-950 font-bold shrink-0">
+        {label}
+      </span>
+      <span className="flex-1 h-px bg-gradient-to-r from-gold/60 via-navy-200/80 to-transparent" />
     </div>
   );
 }
@@ -342,42 +297,35 @@ function OrgNodeCard({
       aria-expanded={isActive}
       aria-controls={isActive ? `org-detail-${node.id}` : undefined}
       className={cx(
-        "group relative w-full text-left rounded-2xl border backdrop-blur-xl transition-all duration-500",
+        "group relative w-full text-left rounded-2xl border bg-white transition-all duration-300",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-4",
+        "shadow-[0_4px_24px_rgba(8,17,32,0.06)]",
         node.featured
-          ? "p-6 md:p-7 border-gold/40 bg-gradient-to-br from-navy-900/90 via-navy-950/95 to-navy-950 shadow-gold max-w-md mx-auto"
+          ? "p-6 md:p-7 border-gold/50 ring-2 ring-gold/20 max-w-lg mx-auto"
           : compact
-            ? "p-4 border-white/10 bg-navy-950/50 shadow-premium"
-            : "p-5 md:p-6 border-white/10 bg-navy-950/55 shadow-premium max-w-sm mx-auto",
+            ? "p-4 border-gray-200"
+            : "p-5 md:p-6 border-gray-200 max-w-md mx-auto",
         isActive
-          ? "border-gold/50 shadow-gold ring-1 ring-gold/25"
-          : "hover:border-gold/35 hover:shadow-gold",
+          ? "border-gold shadow-[0_8px_32px_rgba(212,175,55,0.18)] ring-2 ring-gold/25"
+          : "hover:border-gold/40 hover:shadow-[0_8px_28px_rgba(8,17,32,0.1)]",
       )}
     >
       {node.pulse && (
         <motion.span
-          className="absolute -inset-1 rounded-2xl border border-gold/30 pointer-events-none"
-          animate={{
-            opacity: [0.35, 0.75, 0.35],
-            scale: [1, 1.02, 1],
-          }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -inset-1 rounded-2xl border-2 border-gold/30 pointer-events-none"
+          animate={{ opacity: [0.4, 0.85, 0.4] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           aria-hidden
         />
       )}
 
-      <div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(ellipse_at_50%_0%,rgba(212,175,55,0.14),transparent_55%)]"
-        aria-hidden
-      />
-
       <div className="relative flex gap-4">
         <div
           className={cx(
-            "shrink-0 rounded-xl flex items-center justify-center transition duration-500",
+            "shrink-0 rounded-xl flex items-center justify-center transition duration-300",
             node.featured
               ? "w-14 h-14 bg-gradient-to-br from-gold to-gold-600 text-navy-950 shadow-gold"
-              : "w-11 h-11 bg-gold/10 border border-gold/25 text-gold group-hover:bg-gold group-hover:text-navy-950",
+              : "w-11 h-11 bg-gold/10 border border-gold/30 text-gold-700 group-hover:bg-gold group-hover:text-navy-950",
           )}
         >
           <i className={cx("fas", node.icon, node.featured ? "text-xl" : "text-base")} />
@@ -387,7 +335,7 @@ function OrgNodeCard({
           <div className="flex items-start justify-between gap-2">
             <h3
               className={cx(
-                "font-display font-bold text-white leading-snug transition-colors group-hover:text-gold",
+                "font-display font-bold text-navy-950 leading-snug transition-colors group-hover:text-gold-700",
                 node.featured ? "text-lg md:text-xl" : "text-sm md:text-base",
               )}
             >
@@ -395,7 +343,7 @@ function OrgNodeCard({
             </h3>
             <i
               className={cx(
-                "fas fa-chevron-down text-[10px] text-gold/60 transition-transform duration-300 mt-1 shrink-0",
+                "fas fa-chevron-down text-[10px] text-gold/70 transition-transform duration-300 mt-1 shrink-0",
                 isActive && "rotate-180",
               )}
               aria-hidden
@@ -403,14 +351,14 @@ function OrgNodeCard({
           </div>
           <p
             className={cx(
-              "mt-1.5 text-white/60 leading-relaxed",
+              "mt-1.5 text-gray-600 leading-relaxed",
               compact ? "text-xs line-clamp-2" : "text-xs md:text-sm line-clamp-3",
             )}
           >
             {node.description}
           </p>
-          <span className="mt-2 inline-flex items-center gap-1.5 text-[9px] uppercase tracking-[0.22em] text-gold/70 font-semibold">
-            <span className="h-px w-5 bg-gold/40 group-hover:w-8 transition-all duration-500" />
+          <span className="mt-2.5 inline-flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] text-gold-700 font-bold">
+            <span className="h-px w-5 bg-gold/50 group-hover:w-8 transition-all duration-300" />
             {isActive ? "Hide detail" : "View detail"}
           </span>
         </div>
@@ -428,17 +376,42 @@ function OrgDetailPanel({ node }: { node: OrgNodeData }) {
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: "auto" }}
       exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       className="overflow-hidden"
     >
-      <div className="mt-3 rounded-xl glass-dark border border-gold/20 p-4 md:p-5 text-sm text-white/75 leading-relaxed">
+      <div className="mt-3 rounded-xl bg-slate-50 border border-gold/25 p-4 md:p-5 text-sm text-gray-700 leading-relaxed">
         <div className="flex items-center gap-2 mb-2">
-          <i className={cx("fas", node.icon, "text-gold text-sm")} />
-          <span className="text-[10px] uppercase tracking-[0.28em] text-gold font-bold">
+          <i className={cx("fas", node.icon, "text-gold-600 text-sm")} />
+          <span className="text-[10px] uppercase tracking-[0.24em] text-gold-700 font-bold">
             Governance Detail
           </span>
         </div>
         {node.detail}
+      </div>
+    </motion.div>
+  );
+}
+
+function FlowSummaryStrip() {
+  return (
+    <motion.div
+      variants={tierVariants}
+      className="mb-12 lg:mb-14 overflow-x-auto no-scrollbar"
+    >
+      <div className="flex items-center justify-center gap-1 sm:gap-2 min-w-max mx-auto px-2">
+        {FLOW_SUMMARY.map((step, i) => (
+          <div key={step} className="flex items-center gap-1 sm:gap-2">
+            <span className="px-2.5 sm:px-3 py-1.5 rounded-full bg-white border border-gray-200 text-[9px] sm:text-[10px] uppercase tracking-[0.12em] font-bold text-navy-900/80 whitespace-nowrap shadow-sm">
+              {step}
+            </span>
+            {i < FLOW_SUMMARY.length - 1 && (
+              <i
+                className="fas fa-chevron-right text-[8px] text-gold/70 shrink-0"
+                aria-hidden
+              />
+            )}
+          </div>
+        ))}
       </div>
     </motion.div>
   );
@@ -453,7 +426,11 @@ function DesktopOrgChart({
 }) {
   return (
     <div className="hidden lg:block relative">
-      <div className="absolute left-1/2 top-8 bottom-8 w-px -translate-x-1/2 bg-gradient-to-b from-gold/10 via-gold/25 to-gold/10 pointer-events-none" aria-hidden />
+      {/* Central spine */}
+      <div
+        className="absolute left-1/2 top-4 bottom-4 w-0.5 -translate-x-1/2 bg-gradient-to-b from-transparent via-navy-200 to-transparent pointer-events-none"
+        aria-hidden
+      />
 
       <motion.div
         className="relative flex flex-col items-center"
@@ -464,7 +441,6 @@ function DesktopOrgChart({
       >
         {ORG_TIERS.map((tier, tierIndex) => {
           const isTriple = tier.layout === "triple";
-          const isRow = tier.layout === "row";
 
           return (
             <motion.div
@@ -472,29 +448,26 @@ function DesktopOrgChart({
               variants={tierVariants}
               className="w-full flex flex-col items-center"
             >
-              {tierIndex > 0 && <ConnectorStem height={isTriple ? 36 : 32} />}
+              {tierIndex > 0 && <ConnectorStem height={isTriple ? 40 : 36} />}
 
               {tier.label && (
-                <div className="mb-4 flex items-center gap-3 w-full max-w-4xl px-4">
-                  <span className="text-[10px] uppercase tracking-[0.28em] text-gold font-bold shrink-0">
-                    {tier.label}
-                  </span>
-                  <span className="flex-1 h-px bg-gradient-to-r from-gold/40 to-transparent" />
-                </div>
+                <TierLabel level={tier.level} label={tier.label} />
               )}
 
               {isTriple ? (
-                <div className="relative w-full max-w-5xl">
+                <div className="relative w-full max-w-5xl px-4">
+                  {/* Horizontal branch */}
                   <div
-                    className="absolute top-0 left-[16.67%] right-[16.67%] h-px bg-gradient-to-r from-transparent via-gold/35 to-transparent pointer-events-none"
+                    className="absolute top-3 left-[12%] right-[12%] h-0.5 bg-gradient-to-r from-transparent via-gold/70 to-transparent pointer-events-none"
                     aria-hidden
                   />
-                  <div className="grid grid-cols-3 gap-5 pt-6">
+                  <div className="grid grid-cols-3 gap-6 pt-8">
                     {tier.nodes.map((node) => (
-                      <div key={node.id} className="flex flex-col">
-                        <div className="flex justify-center mb-3" aria-hidden>
-                          <span className="w-px h-5 bg-gradient-to-b from-gold/40 to-transparent" />
-                        </div>
+                      <div key={node.id} className="relative flex flex-col">
+                        <div
+                          className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-6 bg-gradient-to-b from-gold/80 to-navy-200 pointer-events-none"
+                          aria-hidden
+                        />
                         <OrgNodeCard
                           node={node}
                           isActive={activeId === node.id}
@@ -511,27 +484,35 @@ function DesktopOrgChart({
                   </div>
                 </div>
               ) : (
-                <div
-                  className={cx(
-                    "w-full flex justify-center px-4",
-                    isRow && "max-w-2xl",
-                  )}
-                >
-                  {tier.nodes.map((node) => (
-                    <div
-                      key={node.id}
-                      className={cx("w-full", isRow ? "max-w-lg" : "max-w-md")}
-                    >
-                      <OrgNodeCard
-                        node={node}
-                        isActive={activeId === node.id}
-                        onSelect={onSelect}
-                      />
-                      <AnimatePresence>
-                        {activeId === node.id && <OrgDetailPanel node={node} />}
-                      </AnimatePresence>
-                    </div>
-                  ))}
+                <div className="w-full flex justify-center px-4">
+                  <div
+                    className={cx(
+                      "w-full",
+                      tier.nodes[0]?.featured ? "max-w-lg" : "max-w-md",
+                    )}
+                  >
+                    {!tier.label && (
+                      <div className="flex justify-center mb-3" aria-hidden>
+                        <span className="px-2 py-0.5 rounded-md bg-navy-950/5 text-[10px] font-mono font-bold text-navy-900/50">
+                          L{tier.level}
+                        </span>
+                      </div>
+                    )}
+                    {tier.nodes.map((node) => (
+                      <div key={node.id}>
+                        <OrgNodeCard
+                          node={node}
+                          isActive={activeId === node.id}
+                          onSelect={onSelect}
+                        />
+                        <AnimatePresence>
+                          {activeId === node.id && (
+                            <OrgDetailPanel node={node} />
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </motion.div>
@@ -566,14 +547,18 @@ function MobileOrgChart({
 
         if (tier.label) {
           items.push(
-            <div
+            <TierLabel
               key={`label-${tier.id}`}
-              className="flex items-center gap-3 py-2"
-            >
-              <span className="text-[10px] uppercase tracking-[0.28em] text-gold font-bold">
-                {tier.label}
+              level={tier.level}
+              label={tier.label}
+            />,
+          );
+        } else {
+          items.push(
+            <div key={`level-${tier.id}`} className="flex justify-center py-1">
+              <span className="px-2 py-0.5 rounded-md bg-navy-950/5 text-[10px] font-mono font-bold text-navy-900/50">
+                Level {tier.level}
               </span>
-              <span className="flex-1 h-px bg-gradient-to-r from-gold/40 to-transparent" />
             </div>,
           );
         }
@@ -600,47 +585,6 @@ function MobileOrgChart({
   );
 }
 
-function NetworkFlowLines() {
-  const uid = useId().replace(/:/g, "");
-  return (
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none opacity-40 hidden lg:block"
-      viewBox="0 0 1200 1400"
-      preserveAspectRatio="xMidYMid meet"
-      aria-hidden
-    >
-      <defs>
-        <linearGradient id={`org-line-${uid}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="rgba(212,175,55,0.1)" />
-          <stop offset="50%" stopColor="rgba(212,175,55,0.55)" />
-          <stop offset="100%" stopColor="rgba(212,175,55,0.1)" />
-        </linearGradient>
-      </defs>
-      <motion.path
-        d="M 600 80 L 600 1320"
-        fill="none"
-        stroke={`url(#org-line-${uid})`}
-        strokeWidth="1.5"
-        strokeDasharray="6 8"
-        initial={{ pathLength: 0, opacity: 0 }}
-        whileInView={{ pathLength: 1, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
-      />
-      <motion.path
-        d="M 280 980 L 600 920 L 920 980"
-        fill="none"
-        stroke="rgba(212,175,55,0.35)"
-        strokeWidth="1"
-        initial={{ pathLength: 0 }}
-        whileInView={{ pathLength: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.4, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-      />
-    </svg>
-  );
-}
-
 export const OrganizationalStructureSection = () => {
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -656,35 +600,17 @@ export const OrganizationalStructureSection = () => {
     <section
       id="organizational-structure"
       aria-labelledby="org-structure-heading"
-      className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950"
+      className="relative section-padding overflow-hidden bg-white"
     >
-      <WorldTradeBackdrop />
-      <NetworkFlowLines />
-      <div className="absolute inset-0 bg-grid bg-grid-fade opacity-[0.08] pointer-events-none" />
+      <LightGridBackdrop />
 
-      <motion.div
-        className="absolute -top-32 -left-24 w-[520px] h-[520px] rounded-full bg-gold/[0.07] blur-[140px] pointer-events-none"
-        animate={{ x: [0, 22, 0], y: [0, -14, 0] }}
-        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-        aria-hidden
-      />
-      <motion.div
-        className="absolute -bottom-40 -right-24 w-[560px] h-[560px] rounded-full bg-royal/[0.18] blur-[140px] pointer-events-none"
-        animate={{ x: [0, -18, 0], y: [0, 16, 0] }}
-        transition={{
-          duration: 18,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1.5,
-        }}
-        aria-hidden
-      />
-
-      <FloatingParticles />
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold/60 to-transparent pointer-events-none" />
+      <div className="absolute -top-24 right-0 w-[400px] h-[400px] rounded-full bg-gold/[0.06] blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 -left-24 w-[360px] h-[360px] rounded-full bg-royal/[0.05] blur-[100px] pointer-events-none" />
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
         <motion.div
-          className="text-center max-w-3xl mx-auto mb-14 lg:mb-16"
+          className="text-center max-w-3xl mx-auto mb-10 lg:mb-12"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-80px" }}
@@ -692,14 +618,14 @@ export const OrganizationalStructureSection = () => {
         >
           <motion.div
             variants={tierVariants}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-6"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/25 mb-6"
           >
-            <i className="fas fa-sitemap text-gold text-xs" aria-hidden />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-white/80 font-semibold">
+            <i className="fas fa-sitemap text-gold-700 text-xs" aria-hidden />
+            <span className="text-[10px] uppercase tracking-[0.28em] text-navy-950/80 font-semibold">
               Governance Framework
             </span>
-            <span className="h-3 w-px bg-white/15" />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-gold/90 font-semibold">
+            <span className="h-3 w-px bg-navy-950/15" />
+            <span className="text-[10px] uppercase tracking-[0.28em] text-gold-700 font-bold">
               IICCI
             </span>
           </motion.div>
@@ -709,7 +635,7 @@ export const OrganizationalStructureSection = () => {
             variants={tierVariants}
             className="display-title font-display font-bold mb-5 leading-[1.02]"
           >
-            <span className="text-white">Organizational</span>{" "}
+            <span className="text-navy-950">Organizational</span>{" "}
             <span className="text-gradient-gold italic font-serif font-normal">
               Structure
             </span>
@@ -717,11 +643,20 @@ export const OrganizationalStructureSection = () => {
 
           <motion.p
             variants={tierVariants}
-            className="text-base md:text-lg text-white/70 leading-relaxed font-serif italic"
+            className="text-base md:text-lg text-gray-600 leading-relaxed"
           >
-            &ldquo;A Clear Governance Framework Built for Global Trade
-            Leadership.&rdquo;
+            A clear, tiered governance hierarchy — from strategic advisors to
+            global chapters and operational support teams.
           </motion.p>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          variants={containerVariants}
+        >
+          <FlowSummaryStrip />
         </motion.div>
 
         <DesktopOrgChart activeId={activeId} onSelect={handleSelect} />
@@ -736,21 +671,21 @@ export const OrganizationalStructureSection = () => {
               exit={{ opacity: 0, y: 8 }}
               className="hidden lg:block mt-10 max-w-3xl mx-auto"
             >
-              <div className="rounded-2xl glass border border-gold/25 p-6 md:p-8 shadow-premium">
+              <div className="rounded-2xl bg-slate-50 border border-gold/30 p-6 md:p-8 shadow-[0_8px_32px_rgba(8,17,32,0.08)]">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold">
+                  <div className="w-10 h-10 rounded-xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold-700">
                     <i className={cx("fas", activeNode.icon)} />
                   </div>
                   <div>
-                    <div className="text-[10px] uppercase tracking-[0.28em] text-gold font-bold">
+                    <div className="text-[10px] uppercase tracking-[0.24em] text-gold-700 font-bold">
                       Selected Role
                     </div>
-                    <div className="font-display font-bold text-white text-lg">
+                    <div className="font-display font-bold text-navy-950 text-lg">
                       {activeNode.title}
                     </div>
                   </div>
                 </div>
-                <p className="text-white/70 leading-relaxed text-sm md:text-base">
+                <p className="text-gray-600 leading-relaxed text-sm md:text-base">
                   {activeNode.detail}
                 </p>
               </div>
@@ -762,22 +697,28 @@ export const OrganizationalStructureSection = () => {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="mt-14 lg:mt-16 flex flex-wrap items-center justify-center gap-4"
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mt-14 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-4"
         >
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-white/10">
-            <i className="fas fa-diagram-project text-gold" aria-hidden />
-            <span className="text-sm text-white/80">
-              <span className="font-semibold text-white">10-tier</span> governance
-              hierarchy
-            </span>
-          </div>
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-white/10">
-            <i className="fas fa-network-wired text-gold" aria-hidden />
-            <span className="text-sm text-white/80">
-              National leadership &amp; global chapter network
-            </span>
-          </div>
+          {[
+            { icon: "fa-layer-group", label: "8 governance levels", sub: "Top to bottom hierarchy" },
+            { icon: "fa-diagram-project", label: "3-branch operations", sub: "Sector, state & international" },
+            { icon: "fa-network-wired", label: "50+ chapters", sub: "National & global network" },
+            { icon: "fa-people-group", label: "Support teams", sub: "Member & field operations" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-gray-200 shadow-sm"
+            >
+              <div className="w-10 h-10 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center text-gold-700 shrink-0">
+                <i className={cx("fas", stat.icon, "text-sm")} aria-hidden />
+              </div>
+              <div>
+                <div className="text-sm font-bold text-navy-950">{stat.label}</div>
+                <div className="text-xs text-gray-500 mt-0.5">{stat.sub}</div>
+              </div>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>
