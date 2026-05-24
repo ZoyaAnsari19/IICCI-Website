@@ -1,5 +1,25 @@
 # Changelog
 
+## [24-05-2026 14:15] — Flatten leadership route (no _components folder)
+
+**What changed:** Removed `src/app/about/leadership/_components/` subfolder; leadership section files now live directly in `src/app/about/leadership/` alongside `page.tsx`. Updated imports in `leadership/page.tsx` and `src/app/page.tsx` to reference files directly (e.g. `./President`, `@/app/about/leadership/President`).
+**Files touched:** `src/app/about/leadership/*`, `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [24-05-2026 14:10] — Colocate leadership sections under about/leadership
+
+**What changed:** Moved `President`, `MentorsForewordSection`, `OrganizationalStructureSection`, `HonoraryDirectorsSection`, and `OurTeamSection` from `src/components/` to `src/app/about/leadership/_components/`. Added barrel `index.ts` for exports. Updated `src/app/about/leadership/page.tsx` to import from `./_components` and `src/app/page.tsx` to import from `@/app/about/leadership/_components`.
+**Files touched:** `src/app/about/leadership/_components/*`, `src/app/about/leadership/page.tsx`, `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 14:05] — Our Team cards: taller portraits, faces visible
 
 **What changed:** Increased team card image area from capped `aspect-[4/3] max-h-[220px]` to fixed heights `280px` / `300px` / `320px` (responsive). Image positioning changed from `object-top` to `object-[center_15%]` so headshots show faces properly instead of cropping to foreheads only. Lighter bottom gradient on portrait overlay.
