@@ -5,12 +5,19 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { ABOUT_NAV } from "@/config/about-navigation";
 
-const menuItems = [
-  { label: "About", href: "/about", mega: "about" as const },
+type MenuItem = {
+  label: string;
+  href?: string;
+  mega?: "about" | "services" | "global";
+  triggerOnly?: boolean;
+};
+
+const menuItems: MenuItem[] = [
+  { label: "About", mega: "about", triggerOnly: true },
   { label: "Membership", href: "#membership" },
-  { label: "Services", href: "#services", mega: "services" as const },
+  { label: "Services", href: "#services", mega: "services" },
   { label: "Trade Verticals", href: "#verticals" },
-  { label: "Global Presence", href: "#global", mega: "global" as const },
+  { label: "Global Presence", href: "#global", mega: "global" },
   { label: "Events", href: "#events" },
   { label: "Media", href: "#media" },
   { label: "CSR & SDG", href: "#csr" },
@@ -137,12 +144,32 @@ export const Navbar = () => {
                 key={item.href ?? item.label}
                 className={`has-mega-menu relative ${item.mega ? "group" : ""}`}
               >
-                <a href={item.href} className={navLinkClass}>
-                  {item.label}
-                  {item.mega && (
-                    <i className="fas fa-chevron-down text-[9px] text-navy-900/50"></i>
-                  )}
-                </a>
+                {item.triggerOnly ? (
+                  <button
+                    type="button"
+                    className={navLinkClass}
+                    aria-haspopup="true"
+                  >
+                    {item.label}
+                    {item.mega && (
+                      <i className="fas fa-chevron-down text-[9px] text-navy-900/50"></i>
+                    )}
+                  </button>
+                ) : item.href?.startsWith("/") ? (
+                  <Link href={item.href} className={navLinkClass}>
+                    {item.label}
+                    {item.mega && (
+                      <i className="fas fa-chevron-down text-[9px] text-navy-900/50"></i>
+                    )}
+                  </Link>
+                ) : (
+                  <a href={item.href} className={navLinkClass}>
+                    {item.label}
+                    {item.mega && (
+                      <i className="fas fa-chevron-down text-[9px] text-navy-900/50"></i>
+                    )}
+                  </a>
+                )}
                 {item.mega === "about" && (
                   <div className="mega-menu absolute top-full left-0 mt-2 w-[640px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100">
                     <div className="grid grid-cols-2 gap-2">
@@ -407,13 +434,11 @@ export const Navbar = () => {
           </div>
 
           <ul className="space-y-0.5">
-            {menuItems.map((item, i) => (
-              <li key={item.href ?? item.label}>
-                <a
-                  href={item.href}
-                  className="flex items-center justify-between p-3 rounded-xl text-navy-900/80 hover:text-navy-950 hover:bg-gray-50 active:bg-gray-100 transition"
-                  onClick={closeMobile}
-                >
+            {menuItems.map((item, i) => {
+              const itemClass =
+                "flex items-center justify-between p-3 rounded-xl text-navy-900/80 hover:text-navy-950 hover:bg-gray-50 active:bg-gray-100 transition";
+              const itemInner = (
+                <>
                   <span className="flex items-center gap-3 min-w-0">
                     <span className="text-gold text-xs font-mono shrink-0">
                       {String(i + 1).padStart(2, "0")}
@@ -421,7 +446,38 @@ export const Navbar = () => {
                     <span className="text-base truncate">{item.label}</span>
                   </span>
                   <i className="fas fa-arrow-right text-xs text-gold shrink-0"></i>
-                </a>
+                </>
+              );
+              const mobileTriggerInner = (
+                <>
+                  <span className="flex items-center gap-3 min-w-0">
+                    <span className="text-gold text-xs font-mono shrink-0">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-base truncate">{item.label}</span>
+                  </span>
+                  <i className="fas fa-chevron-down text-xs text-gold shrink-0"></i>
+                </>
+              );
+              return (
+              <li key={item.href ?? item.label}>
+                {item.triggerOnly ? (
+                  <button
+                    type="button"
+                    className={`${itemClass} w-full text-left`}
+                    aria-haspopup="true"
+                  >
+                    {mobileTriggerInner}
+                  </button>
+                ) : item.href?.startsWith("/") ? (
+                  <Link href={item.href} className={itemClass} onClick={closeMobile}>
+                    {itemInner}
+                  </Link>
+                ) : (
+                  <a href={item.href} className={itemClass} onClick={closeMobile}>
+                    {itemInner}
+                  </a>
+                )}
                 {item.mega === "about" && (
                   <ul className="mt-1 mb-2 ml-4 pl-4 border-l border-gray-200 space-y-0.5">
                     {ABOUT_NAV.map((sub) => (
@@ -438,7 +494,8 @@ export const Navbar = () => {
                   </ul>
                 )}
               </li>
-            ))}
+              );
+            })}
           </ul>
 
           <div className="mt-6 pt-6 border-t border-gray-200 space-y-4">

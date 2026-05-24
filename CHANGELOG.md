@@ -1,5 +1,15 @@
 # Changelog
 
+## [24-05-2026 12:35] — About navbar trigger no longer navigates on click
+
+**What changed:** Clicking the top-level "About" item in the navbar was navigating directly to `/about`. Per request, "About" should only open the mega-menu; navigation to `/about` should happen only via the "About IICCI" entry inside the mega-menu. Introduced a `triggerOnly` flag on `menuItems` and marked About with it. On desktop, the About trigger now renders as a `<button aria-haspopup="true">` instead of `<Link href="/about">`, so the click does nothing while the existing `:hover` / `:focus-within` CSS keeps opening the mega-menu (and "About IICCI" inside it still routes to `/about`). On mobile, the parent About row is also a `<button>` (chevron-down icon, no nav) — the nested sub-list with "About IICCI", "Mission & Vision", etc. is already rendered beneath it, so each sub-item navigates normally and the menu still closes via their `onClick={closeMobile}` handlers.
+**Files touched:** `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 12:09] — Fix GSAP target & scroll-behavior dev warnings
 
 **What changed:** Silenced three repeating browser-console warnings observed during dev navigation between `/` and `/about`. (1) `GSAP target .hero-title span not found`: the global `app.js` runs once but `.hero-title` only exists on `/`; wrapped `gsap.fromTo` in an existence check using `document.querySelectorAll('.hero-title span')` so the tween only runs when the hero is mounted. (2) `GSAP target  not found` (empty): added `el instanceof Element && el.isConnected` guard to the `.float-chip*` parallax loop so detached/stale ScrollTriggers from prior client-side navigations don't fire. (3) `Detected scroll-behavior: smooth on the <html> element`: added `data-scroll-behavior="smooth"` to `<html>` in `src/app/layout.tsx` per Next.js 16's guidance, which keeps CSS smooth scrolling but disables it during App Router route transitions.
