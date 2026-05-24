@@ -6,6 +6,10 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ABOUT_NAV } from "@/config/about-navigation";
 import { MORE_NAV } from "@/config/more-navigation";
+import {
+  SERVICES_NAV,
+  SERVICE_QUICK_LINKS,
+} from "@/config/services-navigation";
 
 type MenuItem = {
   label: string;
@@ -17,8 +21,7 @@ type MenuItem = {
 const menuItems: MenuItem[] = [
   { label: "About", mega: "about", triggerOnly: true },
   { label: "Membership", href: "#membership" },
-  { label: "Services", href: "#services", mega: "services" },
-  { label: "Trade Verticals", href: "#industry-verticals" },
+  { label: "Services", mega: "services", triggerOnly: true },
   { label: "Global Presence", href: "#global", mega: "global" },
   { label: "Events", href: "#events" },
   { label: "Media", href: "#media" },
@@ -219,23 +222,41 @@ export const Navbar = () => {
                       openMega === "services" && "is-open",
                     )}
                   >
+                    <div className="grid grid-cols-2 gap-3 mb-4">
+                      {SERVICES_NAV.map((c) => (
+                        <Link
+                          key={c.href}
+                          href={c.href}
+                          className="flex items-start gap-3 p-4 rounded-xl border border-gray-100 bg-gradient-to-br from-gray-50/80 to-white hover:border-gold/30 hover:shadow-sm transition group/item"
+                          onClick={() => {
+                            closeMegaMenu();
+                            closeMobile();
+                          }}
+                        >
+                          <div className="w-11 h-11 rounded-xl bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition shrink-0">
+                            <i className={`fas ${c.icon} text-sm`}></i>
+                          </div>
+                          <div>
+                            <div className="mega-item-title text-navy-950 text-sm font-semibold">
+                              {c.title}
+                            </div>
+                            <div className="mega-item-desc text-gray-500 text-xs mt-0.5">
+                              {c.description}
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                     <div className="grid grid-cols-3 gap-2">
-                      {[
-                        { icon: "fa-globe", t: "Trade Facilitation" },
-                        { icon: "fa-ship", t: "Import Export" },
-                        { icon: "fa-certificate", t: "Global Certification" },
-                        { icon: "fa-briefcase", t: "Placement Program" },
-                        { icon: "fa-microchip", t: "AI & ML Services" },
-                        { icon: "fa-people-arrows", t: "Business Matchmaking" },
-                        { icon: "fa-handshake-angle", t: "Bilateral Trade" },
-                        { icon: "fa-chart-line", t: "Market Research" },
-                        { icon: "fa-link", t: "Joint Ventures" },
-                      ].map((c) => (
-                        <a
+                      {SERVICE_QUICK_LINKS.map((c) => (
+                        <Link
                           key={c.t}
-                          href="#services"
+                          href="/services"
                           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-50 transition group/item"
-                          onClick={closeMegaMenu}
+                          onClick={() => {
+                            closeMegaMenu();
+                            closeMobile();
+                          }}
                         >
                           <div className="w-9 h-9 rounded-lg bg-royal/10 flex items-center justify-center text-royal group-hover/item:bg-gold group-hover/item:text-white transition">
                             <i className={`fas ${c.icon} text-sm`}></i>
@@ -243,18 +264,23 @@ export const Navbar = () => {
                           <span className="mega-item-title text-navy-900 text-sm font-medium group-hover/item:text-navy-950">
                             {c.t}
                           </span>
-                        </a>
+                        </Link>
                       ))}
                     </div>
                     <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
-                      <span className="text-xs text-gray-500">15+ enterprise services for global trade</span>
-                      <a
-                        href="#services"
+                      <span className="text-xs text-gray-500">
+                        Enterprise trade services &amp; sector verticals
+                      </span>
+                      <Link
+                        href="/services"
                         className="text-gold-600 text-xs font-semibold flex items-center gap-2 hover:gap-3 transition-all"
-                        onClick={closeMegaMenu}
+                        onClick={() => {
+                          closeMegaMenu();
+                          closeMobile();
+                        }}
                       >
                         View all services <i className="fas fa-arrow-right text-[10px]"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 )}
@@ -525,6 +551,21 @@ export const Navbar = () => {
                 {item.mega === "about" && (
                   <ul className="mt-1 mb-2 ml-4 pl-4 border-l border-gray-200 space-y-0.5">
                     {ABOUT_NAV.map((sub) => (
+                      <li key={sub.href}>
+                        <Link
+                          href={sub.href}
+                          className="block py-2 px-3 rounded-lg text-sm text-navy-900/70 hover:text-gold hover:bg-gray-50 transition"
+                          onClick={closeMobile}
+                        >
+                          {sub.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {item.mega === "services" && (
+                  <ul className="mt-1 mb-2 ml-4 pl-4 border-l border-gray-200 space-y-0.5">
+                    {SERVICES_NAV.map((sub) => (
                       <li key={sub.href}>
                         <Link
                           href={sub.href}
