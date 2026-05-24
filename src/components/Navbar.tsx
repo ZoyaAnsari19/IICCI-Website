@@ -14,7 +14,7 @@ import {
 type MenuItem = {
   label: string;
   href?: string;
-  mega?: "about" | "services" | "global";
+  mega?: "about" | "services";
   triggerOnly?: boolean;
 };
 
@@ -22,7 +22,6 @@ const menuItems: MenuItem[] = [
   { label: "About", mega: "about", triggerOnly: true },
   { label: "Membership", href: "#membership" },
   { label: "Services", mega: "services", triggerOnly: true },
-  { label: "Global Presence", href: "#global", mega: "global" },
   { label: "Events", href: "#events" },
 ];
 
@@ -42,6 +41,17 @@ export const Navbar = () => {
   const closeMobile = useCallback(() => setMobileOpen(false), []);
   const openMobile = useCallback(() => setMobileOpen(true), []);
   const closeMegaMenu = useCallback(() => setOpenMega(null), []);
+
+  const scrollToHero = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      closeMobile();
+      if (pathname === "/") {
+        e.preventDefault();
+        document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    [pathname, closeMobile],
+  );
 
   useEffect(() => {
     if (prevPathRef.current !== pathname) {
@@ -133,7 +143,8 @@ export const Navbar = () => {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3 sm:gap-4">
           {/* Logo */}
           <Link
-            href="/"
+            href="/#home"
+            onClick={scrollToHero}
             className="flex items-center group shrink-0 min-w-0"
             aria-label="IICCI — Indian Importers Chambers of Commerce and Industry"
           >
@@ -283,67 +294,6 @@ export const Navbar = () => {
                     </div>
                   </div>
                 )}
-                {item.mega === "global" && (
-                  <div
-                    className={cx(
-                      "mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[680px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
-                      openMega === "global" && "is-open",
-                    )}
-                  >
-                    <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <div className="text-[10px] uppercase tracking-[0.2em] text-gold-600 font-semibold mb-3">
-                          Continents
-                        </div>
-                        <div className="space-y-2">
-                          {["Asia Pacific", "Europe & UK", "Middle East", "Africa", "Americas"].map(
-                            (c) => (
-                              <a
-                                key={c}
-                                href="#global"
-                                className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition group/i"
-                                onClick={closeMegaMenu}
-                              >
-                                <span className="text-navy-900/80 text-sm group-hover/i:text-navy-950">
-                                  {c}
-                                </span>
-                                <i className="fas fa-arrow-right text-[10px] text-gold opacity-0 group-hover/i:opacity-100 transition"></i>
-                              </a>
-                            ),
-                          )}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] uppercase tracking-[0.2em] text-gold-600 font-semibold mb-3">
-                          Featured Chapters
-                        </div>
-                        <div className="space-y-2">
-                          {[
-                            { code: "IN", n: "New Delhi HQ" },
-                            { code: "AE", n: "Dubai Chapter" },
-                            { code: "SG", n: "Singapore Chapter" },
-                            { code: "US", n: "New York Chapter" },
-                            { code: "GB", n: "London Chapter" },
-                          ].map((c) => (
-                            <a
-                              key={c.n}
-                              href="#global"
-                              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition group/ch"
-                              onClick={closeMegaMenu}
-                            >
-                              <span className="mega-chapter-code" aria-hidden>
-                                {c.code}
-                              </span>
-                              <span className="mega-item-title text-navy-900 text-sm group-hover/ch:text-navy-950">
-                                {c.n}
-                              </span>
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </li>
             ))}
             <li
@@ -476,10 +426,10 @@ export const Navbar = () => {
       >
         <div className="p-5 sm:p-6 pb-8">
           <div className="flex items-center justify-between mb-6 gap-3">
-            <a
-              href="#home"
+            <Link
+              href="/#home"
               className="flex items-center min-w-0 shrink"
-              onClick={closeMobile}
+              onClick={scrollToHero}
               aria-label="IICCI home"
             >
               <Image
@@ -490,7 +440,7 @@ export const Navbar = () => {
                 sizes="180px"
                 className="h-10 w-auto object-contain select-none"
               />
-            </a>
+            </Link>
             <button
               id="close-mobile"
               type="button"
