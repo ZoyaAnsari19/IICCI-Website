@@ -9,8 +9,6 @@ import { GlobalPresence } from "@/components/GlobalPresence";
 import { Services } from "@/components/Services";
 import { WhyIndia } from "@/components/WhyIndia";
 import { ForeignDesk } from "@/components/ForeignDesk";
-import { CSR } from "@/components/CSR";
-import { Women } from "@/components/Women";
 import { Media } from "@/components/Media";
 import { Events } from "@/components/Events";
 import { Membership } from "@/components/Membership";
@@ -34,8 +32,6 @@ export default function Home() {
         <Services />
         <WhyIndia />
         <ForeignDesk />
-        <CSR />
-        <Women />
         <Media />
         <Events />
         <Membership />

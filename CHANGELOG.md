@@ -1,5 +1,15 @@
 # Changelog
 
+## [24-05-2026 14:35] — Remove CSR & Women from homepage
+
+**What changed:** Removed `CSR` and `Women` sections from the homepage (`src/app/page.tsx`). These sections remain available on `/more/csr-sdg` and `/more/women-wing`.
+**Files touched:** `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 14:30] — More menu dedicated pages (/more/*)
 
 **What changed:** Navbar "More" dropdown items now navigate to dedicated routes instead of homepage hash links. Added `src/config/more-navigation.ts` and pages: `/more/csr-sdg`, `/more/ai-innovation`, `/more/women-wing`, `/more/contact` with `more/layout.tsx` (SitePageShell), SubpageHero, and existing CSR / Training / Women sections plus new `ContactSection`. Desktop More menu and mobile drawer use `Link` + `MORE_NAV`.
