@@ -3,11 +3,11 @@ import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
 import { About } from "@/components/About";
 import { ObjectivesSection } from "@/components/ObjectivesSection";
-import { MissionVisionSection } from "@/components/MissionVisionSection";
 import { CoreTeam } from "@/components/CoreTeam";
 import { Manifesto } from "@/components/Manifesto";
 import { GlobalPresence } from "@/components/GlobalPresence";
 import { Services } from "@/components/Services";
+import { IndustryVerticalsSection } from "@/components/IndustryVerticalsSection";
 import { WhyIndia } from "@/components/WhyIndia";
 import { ForeignDesk } from "@/components/ForeignDesk";
 import { Media } from "@/components/Media";
@@ -27,11 +27,11 @@ export default function Home() {
         <Stats />
         <About />
         <ObjectivesSection />
-        <MissionVisionSection />
         <CoreTeam />
         <Manifesto />
         <GlobalPresence />
         <Services />
+        <IndustryVerticalsSection />
         <WhyIndia />
         <ForeignDesk />
         <Media />

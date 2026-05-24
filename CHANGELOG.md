@@ -1,5 +1,15 @@
 # Changelog
 
+## [24-05-2026 15:10] — Remove Mission & Vision from homepage
+
+**What changed:** Removed `MissionVisionSection` from the homepage (`src/app/page.tsx`). Section remains on `/about/mission-vision`.
+**Files touched:** `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 15:00] — Premium Our Objectives section
 
 **What changed:** Added `ObjectivesSection` (`id="our-objectives"`) — a cinematic icon-based grid showcasing 9 institutional objectives with glassmorphism cards, Framer Motion stagger/hover animations, trade-network SVG backdrop, floating particles, spotlight hover, and counter highlights. Placed after About on homepage and integrated on `/about` page below the About section.

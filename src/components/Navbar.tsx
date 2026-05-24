@@ -18,7 +18,7 @@ const menuItems: MenuItem[] = [
   { label: "About", mega: "about", triggerOnly: true },
   { label: "Membership", href: "#membership" },
   { label: "Services", href: "#services", mega: "services" },
-  { label: "Trade Verticals", href: "#verticals" },
+  { label: "Trade Verticals", href: "#industry-verticals" },
   { label: "Global Presence", href: "#global", mega: "global" },
   { label: "Events", href: "#events" },
   { label: "Media", href: "#media" },

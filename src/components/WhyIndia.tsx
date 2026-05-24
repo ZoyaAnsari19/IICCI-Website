@@ -1,6 +1,6 @@
 export const WhyIndia = () => {
   return (
-    <section id="verticals" className="relative section-padding overflow-hidden bg-radial-navy">
+    <section id="why-india" className="relative section-padding overflow-hidden bg-radial-navy">
       <div className="absolute inset-0 bg-grid bg-grid-fade opacity-40 pointer-events-none" />
       <div className="aurora opacity-80" />
       <div className="absolute top-0 right-0 w-[560px] h-[560px] rounded-full bg-gold/10 blur-3xl pointer-events-none" />
