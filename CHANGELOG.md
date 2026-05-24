@@ -1,5 +1,15 @@
 # Changelog
 
+## [24-05-2026 13:35] — Honorary Directors: medium cards, 3 directors only
+
+**What changed:** Honorary Directors section trimmed to three profile cards (Dr. Arjun Mehta, Mrs. Elena Vasquez, Mr. Hiroshi Tanaka); removed three extra placeholder directors. Reduced card height with `aspect-[4/3]` and `max-h-[220px]`/`240px` on portraits, tighter content padding, and 2-line bio clamp. Footer stat updated from 6 to 3 directors.
+**Files touched:** `src/components/HonoraryDirectorsSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 13:20] — Organizational Structure white theme & enhanced chart
 
 **What changed:** Redesigned the Organizational Structure section with a clean white background and a clearer governance hierarchy. Replaced dark navy theme with white cards, navy text, and gold accents; added a horizontal flow summary strip (Advisors → President → … → Support Teams); level badges (L1–L8) on tier labels; stronger vertical spine and horizontal branch connectors for the triple-column operations tier; light grid backdrop; and a 4-stat summary grid at the bottom. Cards remain interactive with expand/collapse detail panels.
