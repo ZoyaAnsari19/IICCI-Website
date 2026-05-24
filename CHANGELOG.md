@@ -1,5 +1,15 @@
 # Changelog
 
+## [24-05-2026 12:09] — Fix GSAP target & scroll-behavior dev warnings
+
+**What changed:** Silenced three repeating browser-console warnings observed during dev navigation between `/` and `/about`. (1) `GSAP target .hero-title span not found`: the global `app.js` runs once but `.hero-title` only exists on `/`; wrapped `gsap.fromTo` in an existence check using `document.querySelectorAll('.hero-title span')` so the tween only runs when the hero is mounted. (2) `GSAP target  not found` (empty): added `el instanceof Element && el.isConnected` guard to the `.float-chip*` parallax loop so detached/stale ScrollTriggers from prior client-side navigations don't fire. (3) `Detected scroll-behavior: smooth on the <html> element`: added `data-scroll-behavior="smooth"` to `<html>` in `src/app/layout.tsx` per Next.js 16's guidance, which keeps CSS smooth scrolling but disables it during App Router route transitions.
+**Files touched:** `public/static/app.js`, `src/app/layout.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [23-05-2026 18:00] — About mega-menu dedicated pages & folder structure
 
 **What changed:** Implemented proper Next.js App Router structure under `src/app/about/` so each About mega-menu tab opens its own page with the matching section(s). Routes: `/about` (About IICCI + `About` section), `/about/mission-vision` (`MissionVisionSection`), `/about/leadership` (President, Mentor's Foreword, Org Structure, Honorary Directors, Our Team), `/about/recognition` (new `RecognitionSection`), `/about/partnerships` (new `PartnershipsSection`), `/about/manifesto` (`Manifesto`). Shared `src/app/about/layout.tsx` wraps all pages with `SitePageShell` (Loader, Navbar, Footer, Floats) + sticky `AboutSubnav` tab bar. Added `src/config/about-navigation.ts` as single source of truth for mega-menu links. Added `SubpageHero` (breadcrumb + title), `RecognitionSection`, `PartnershipsSection`. Legacy `/leadership` redirects to `/about/leadership`. Navbar mega-menu and mobile About sub-links now use `Link` + `ABOUT_NAV`; main About nav → `/about`; logo → `/`. Footer chamber links updated to `/about/*` paths. Added `id="manifesto"` on Manifesto component.
