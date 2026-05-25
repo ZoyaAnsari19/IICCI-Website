@@ -93,7 +93,7 @@ const SEED_ARTICLES: CurrentAffairsArticle[] = [
     dateISO: "2026-05-21",
     readMinutes: 4,
     image: {
-      src: "https://images.unsplash.com/photo-1554224155-6726b3ff608f?auto=format&fit=crop&w=1200&q=80",
+      src: "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=1200",
       alt: "Export documentation and compliance",
     },
     trending: true,
@@ -149,7 +149,7 @@ const SEED_ARTICLES: CurrentAffairsArticle[] = [
     dateISO: "2026-05-18",
     readMinutes: 5,
     image: {
-      src: "https://images.unsplash.com/photo-1611974789855-9c8a000fd0fe?auto=format&fit=crop&w=1200&q=80",
+      src: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=1200",
       alt: "Commodity market charts",
     },
     tags: ["Oil", "Freight", "Commodities"],
@@ -167,7 +167,7 @@ const SEED_ARTICLES: CurrentAffairsArticle[] = [
     dateISO: "2026-05-17",
     readMinutes: 4,
     image: {
-      src: "https://images.unsplash.com/photo-1587854692152-cf66098ce8a5?auto=format&fit=crop&w=1200&q=80",
+      src: "https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1200",
       alt: "Pharmaceutical manufacturing",
     },
     tags: ["Pharma", "EU", "Exports"],
@@ -185,7 +185,7 @@ const SEED_ARTICLES: CurrentAffairsArticle[] = [
     dateISO: "2026-05-16",
     readMinutes: 6,
     image: {
-      src: "https://images.unsplash.com/photo-1518186280399-ffad4f83f8b1?auto=format&fit=crop&w=1200&q=80",
+      src: "https://images.pexels.com/photos/256262/pexels-photo-256262.jpeg?auto=compress&cs=tinysrgb&w=1200",
       alt: "Electronics manufacturing incentive",
     },
     trending: true,
@@ -222,7 +222,7 @@ const SEED_ARTICLES: CurrentAffairsArticle[] = [
     dateISO: "2026-05-14",
     readMinutes: 5,
     image: {
-      src: "https://images.unsplash.com/photo-1477959852107-96704ebc3b42?auto=format&fit=crop&w=1200&q=80",
+      src: "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=1200",
       alt: "ASEAN trade corridor",
     },
     tags: ["ASEAN", "FTA", "RoO"],
@@ -240,7 +240,7 @@ const SEED_ARTICLES: CurrentAffairsArticle[] = [
     dateISO: "2026-05-13",
     readMinutes: 4,
     image: {
-      src: "https://images.unsplash.com/photo-1464226187294-7e3480ffe0e6?auto=format&fit=crop&w=1200&q=80",
+      src: "https://images.pexels.com/photos/2252580/pexels-photo-2252580.jpeg?auto=compress&cs=tinysrgb&w=1200",
       alt: "Agricultural exports",
     },
     tags: ["Agri", "Cold chain", "GCC"],
@@ -258,7 +258,7 @@ const SEED_ARTICLES: CurrentAffairsArticle[] = [
     dateISO: "2026-05-12",
     readMinutes: 5,
     image: {
-      src: "https://images.unsplash.com/photo-1504917593497-324fe7d966a8?auto=format&fit=crop&w=1200&q=80",
+      src: "https://images.pexels.com/photos/448361/pexels-photo-448361.jpeg?auto=compress&cs=tinysrgb&w=1200",
       alt: "Steel industrial imports",
     },
     tags: ["Steel", "Safeguard", "Duty"],
@@ -276,7 +276,7 @@ const SEED_ARTICLES: CurrentAffairsArticle[] = [
     dateISO: "2026-05-11",
     readMinutes: 4,
     image: {
-      src: "https://images.unsplash.com/photo-1593941707882-a5bba14938ca?auto=format&fit=crop&w=1200&q=80",
+      src: "https://images.pexels.com/photos/9799996/pexels-photo-9799996.jpeg?auto=compress&cs=tinysrgb&w=1200",
       alt: "Electric vehicle battery supply chain",
     },
     tags: ["EV", "Lithium", "Supply chain"],
@@ -633,7 +633,7 @@ export function CurrentAffairsSection({ preview = false }: { preview?: boolean }
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [sort, setSort] = useState<"newest" | "oldest">("newest");
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [visibleCount, setVisibleCount] = useState(2);
   const [data, setData] = useState<FetchCurrentAffairsResult | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -645,7 +645,7 @@ export function CurrentAffairsSection({ preview = false }: { preview?: boolean }
   }, [search]);
 
   useEffect(() => {
-    setVisibleCount(6);
+    setVisibleCount(2);
   }, [category, debouncedSearch, sort]);
 
   const load = useCallback(async () => {
@@ -666,6 +666,14 @@ export function CurrentAffairsSection({ preview = false }: { preview?: boolean }
   }, [load]);
 
   const canLoadMore = !preview && data ? data.articles.length < data.total : false;
+
+  const gridArticles = useMemo(
+    () =>
+      preview ? (data?.articles ?? []).slice(0, 3) : (data?.articles ?? []),
+    [preview, data?.articles],
+  );
+  const firstRowArticles = gridArticles.slice(0, 2);
+  const remainingArticles = gridArticles.slice(2);
 
   const pillarTags = [
     "Global trade intelligence",
@@ -833,16 +841,42 @@ export function CurrentAffairsSection({ preview = false }: { preview?: boolean }
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="grid gap-4 lg:gap-5 sm:grid-cols-2"
+                    className="space-y-4 lg:space-y-5"
                   >
-                    {(preview ? (data?.articles ?? []).slice(0, 3) : data?.articles ?? []).map(
-                      (article) => (
+                    <div className="grid gap-4 lg:gap-5 sm:grid-cols-2">
+                      {firstRowArticles.map((article) => (
                         <NewsCard
                           key={article.id}
                           article={article}
                           variant={preview ? "compact" : "grid"}
                         />
-                      ),
+                      ))}
+                    </div>
+
+                    {!preview && canLoadMore && (
+                      <div className="flex justify-center py-2">
+                        <button
+                          type="button"
+                          onClick={() => setVisibleCount((c) => c + 2)}
+                          disabled={loading}
+                          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition disabled:opacity-50"
+                        >
+                          Load more updates
+                          <i className="fas fa-plus text-[10px] text-gold" aria-hidden />
+                        </button>
+                      </div>
+                    )}
+
+                    {remainingArticles.length > 0 && (
+                      <div className="grid gap-4 lg:gap-5 sm:grid-cols-2">
+                        {remainingArticles.map((article) => (
+                          <NewsCard
+                            key={article.id}
+                            article={article}
+                            variant={preview ? "compact" : "grid"}
+                          />
+                        ))}
+                      </div>
                     )}
                   </motion.div>
                 </AnimatePresence>
@@ -850,20 +884,6 @@ export function CurrentAffairsSection({ preview = false }: { preview?: boolean }
                 {!preview && data && data.articles.length === 0 && (
                   <div className="py-16 text-center glass-dark rounded-3xl border border-white/10">
                     <p className="text-white/60">No updates match your filters.</p>
-                  </div>
-                )}
-
-                {!preview && canLoadMore && (
-                  <div className="flex justify-center pt-4">
-                    <button
-                      type="button"
-                      onClick={() => setVisibleCount((c) => c + 6)}
-                      disabled={loading}
-                      className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition disabled:opacity-50"
-                    >
-                      Load more updates
-                      <i className="fas fa-plus text-[10px] text-gold" aria-hidden />
-                    </button>
                   </div>
                 )}
               </>

@@ -1,5 +1,4 @@
 import { SitePageShell } from "@/components/layouts/SitePageShell";
-import { MediaSubnav } from "@/components/layouts/MediaSubnav";
 
 export default function MediaLayout({
   children,
@@ -8,7 +7,6 @@ export default function MediaLayout({
 }>) {
   return (
     <SitePageShell>
-      <MediaSubnav />
       <main>{children}</main>
     </SitePageShell>
   );

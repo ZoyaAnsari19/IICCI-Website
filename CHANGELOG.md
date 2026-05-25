@@ -1,5 +1,35 @@
 # Changelog
 
+## [25-05-2026 14:45] — Fix broken Current Affairs images (404)
+
+**What changed:** Replaced eight dead Unsplash URLs in Current Affairs seed data with working Pexels images so Next.js image optimization no longer returns upstream 404 errors.
+**Files touched:** `src/app/media/currentAffairs/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:30] — Current Affairs load more after 2 cards
+
+**What changed:** Current Affairs grid now shows 2 cards initially; "Load more updates" appears directly below them and loads 2 more articles per click.
+**Files touched:** `src/app/media/currentAffairs/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:23] — Remove media subnav tabination
+
+**What changed:** Removed the sticky Media Center / IICCI Story / Current Affairs tab bar (`MediaSubnav`) from the `/media` layout so media pages no longer render the section sub-navigation.
+**Files touched:** `src/app/media/layout.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 16:25] — Remove media sections from homepage
 
 **What changed:** Removed IICCI Story and Current Affairs preview embeds from the main homepage; both remain on Media Center and dedicated routes.
