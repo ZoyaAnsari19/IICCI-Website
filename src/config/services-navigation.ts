@@ -56,4 +56,11 @@ export const SERVICES_NAV: ReadonlyArray<ServicesNavItem> = [
     icon: "fa-briefcase",
     href: "/services/globalPlacement",
   },
+  {
+    slug: "bilateral-trade",
+    title: "Bilateral Trade Tutorial",
+    description: "Step-by-step cross-border trade learning",
+    icon: "fa-globe",
+    href: "/services/bilateralTrade",
+  },
 ] as const;

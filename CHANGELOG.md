@@ -1,5 +1,25 @@
 # Changelog
 
+## [25-05-2026 13:42] — Compact learning mode tabs
+
+**What changed:** Reduced Beginner/Professional toggle width (`w-fit`, tighter padding) and prevented flex stretch in header column (`items-start`).
+**Files touched:** `src/app/services/bilateralTrade/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 13:35] — Bilateral Trade Tutorial section
+
+**What changed:** Added premium interactive Bilateral Trade Tutorial (`id="bilateral-trade-tutorial"`) with 7-step stepper, beginner/professional modes, animated trade-route map, detail panel, progress navigation, and CTAs. Wired after Global Placement on `/services/globalProgram`; standalone at `/services/bilateralTrade`. Added Services mega menu card.
+**Files touched:** `src/app/services/bilateralTrade/page.tsx`, `src/app/services/globalProgram/page.tsx`, `src/config/services-navigation.ts`, `CHANGELOG.md`
+**API endpoints used:** None (CMS-ready `fetchBilateralTutorialData` stub)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 13:18] — Enhanced Candidate Journey flow
 
 **What changed:** Upgraded Candidate Journey section to match Skill-to-Career enhancements — shared `JourneyFlow` component with animated SVG connector, hover glow, step badges, mobile timeline, placement progress bar, and title-case labels for longer step names.

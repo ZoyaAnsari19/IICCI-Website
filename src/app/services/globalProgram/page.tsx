@@ -1,6 +1,7 @@
 "use client";
 
 import { GlobalPlacementSection } from "../globalPlacement/page";
+import { BilateralTradeTutorialSection } from "../bilateralTrade/page";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import {
@@ -899,6 +900,7 @@ export default function TrainingCertificationPage() {
     <main>
       <GlobalCertificationSection />
       <GlobalPlacementSection />
+      <BilateralTradeTutorialSection />
     </main>
   );
 }
