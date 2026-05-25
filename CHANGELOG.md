@@ -1,5 +1,15 @@
 # Changelog
 
+## [25-05-2026 12:15] — Premium Upcoming Projects opportunity desk
+
+**What changed:** Built full `UpcomingProjectsSection` in `src/app/services/upcomingProjects/page.tsx` — CMS-ready architecture with `UpcomingProject` types, `fetchUpcomingProjects()` adapter (swap for API/headless CMS), 15 seed opportunities, debounced search, sector/country/type filters, quick-type chips, paginated load-more, skeleton loading, featured spotlight card, animated stats, glassmorphism project cards (sector icon, country code, status badges, investment range, enquire CTA), enquiry modal, trade-route SVG backdrop, floating particles, and bottom CTAs. Exported section with optional `preview` prop for homepage embed. Added "Upcoming Projects" to `SERVICES_NAV` and expanded mega menu to 4-column primary cards.
+**Files touched:** `src/app/services/upcomingProjects/page.tsx`, `src/config/services-navigation.ts`, `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None (CMS-ready `fetchUpcomingProjects` stub; wire to `/api/projects` or CMS later)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 12:02] — Add Farmer Support card to Services mega menu
 
 **What changed:** Added a new "Farmer Support" entry to `SERVICES_NAV` (tractor icon, tagline "Empowering farmers with global agri-trade", links to `/services/farmerSupport`). Expanded the desktop Services mega menu width from `760px` to `880px` and switched the top card grid from `grid-cols-2` to `grid-cols-3` so "Our Services", "Industry Verticals" and "Farmer Support" all render as balanced primary cards. Mobile services submenu picks up the new entry automatically since it iterates `SERVICES_NAV`.

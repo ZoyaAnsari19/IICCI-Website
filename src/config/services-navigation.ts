@@ -28,6 +28,13 @@ export const SERVICES_NAV: ReadonlyArray<ServicesNavItem> = [
     icon: "fa-tractor",
     href: "/services/farmerSupport",
   },
+  {
+    slug: "upcoming-projects",
+    title: "Upcoming Projects",
+    description: "Live trade & investment opportunities",
+    icon: "fa-rocket",
+    href: "/services/upcomingProjects",
+  },
 ] as const;
 
 export const SERVICE_QUICK_LINKS = [
