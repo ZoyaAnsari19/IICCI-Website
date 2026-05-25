@@ -1,6 +1,9 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
+import { Services } from "@/app/services/page";
+import { IndustryVerticalsSection } from "@/app/services/industryVerticals/page";
+import { AIMachineLearningSection } from "@/app/services/machineLearning/page";
 import { ObjectivesSection } from "@/components/ObjectivesSection";
 import { CoreTeam } from "@/components/CoreTeam";
 import { GlobalPresence } from "@/components/GlobalPresence";
@@ -20,6 +23,9 @@ export default function Home() {
       <main>
         <Hero />
         <Stats />
+        <Services />
+        <IndustryVerticalsSection />
+        <AIMachineLearningSection preview />
         <ObjectivesSection />
         <CoreTeam />
         <GlobalPresence />

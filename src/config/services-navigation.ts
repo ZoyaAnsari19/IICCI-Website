@@ -63,4 +63,11 @@ export const SERVICES_NAV: ReadonlyArray<ServicesNavItem> = [
     icon: "fa-globe",
     href: "/services/bilateralTrade",
   },
+  {
+    slug: "ai-machine-learning",
+    title: "AI & Machine Learning",
+    description: "Smart technology powering global trade",
+    icon: "fa-microchip",
+    href: "/services/machineLearning",
+  },
 ] as const;

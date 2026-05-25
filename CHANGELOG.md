@@ -1,5 +1,15 @@
 # Changelog
 
+## [25-05-2026 14:05] — AI & Machine Learning section
+
+**What changed:** Added premium `AIMachineLearningSection` (`id="ai-machine-learning"`) with neural-network viz, AI assistant typing demo, predictive chart, 6 capability cards, workflow strip, and CTAs. Homepage preview after Services + Industry Verticals; full page at `/services/machineLearning`. Services mega menu card added.
+**Files touched:** `src/app/services/machineLearning/page.tsx`, `src/app/page.tsx`, `src/config/services-navigation.ts`, `CHANGELOG.md`
+**API endpoints used:** None (`fetchAICapabilities` stub)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 13:42] — Compact learning mode tabs
 
 **What changed:** Reduced Beginner/Professional toggle width (`w-fit`, tighter padding) and prevented flex stretch in header column (`items-start`).
