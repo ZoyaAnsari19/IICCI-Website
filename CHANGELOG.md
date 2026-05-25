@@ -1,5 +1,55 @@
 # Changelog
 
+## [25-05-2026 14:50] — Fix top navbar / scroll overlap
+
+**What changed:** Resolved gold clip/overlap at page top — scroll progress bar moved below navbar (no glow at 0%), navbar height CSS variable + ResizeObserver, opaque header background, hero ping contained, stronger hero-to-story separation.
+**Files touched:** `Navbar.tsx`, `Hero.tsx`, `Floats.tsx`, `page.tsx`, `iicci-story/page.tsx`, `globals.css`, `public/static/style.css`, `public/static/app.js`, `MediaSubnav.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:42] — Fix IICCI Story top overlap after Hero
+
+**What changed:** Fixed homepage overlap where Hero orbital/glow visuals bled into The IICCI Story section — hero bottom fade, globe overflow clip, story `z-10` + extra top padding (`stackAfterHero`), and reduced orbit z-index.
+**Files touched:** `src/components/Hero.tsx`, `src/app/media/iicci-story/page.tsx`, `src/app/page.tsx`, `src/app/globals.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:35] — Navbar Media hover dropdown
+
+**What changed:** Media nav item now opens a hover mega-menu (like About/Services) with Media Center and IICCI Story links; IICCI Story navigates to `/media/iicci-story`. Mobile menu includes Media sub-links.
+**Files touched:** `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:28] — Media IICCI Story tab
+
+**What changed:** Added Media sub-navigation with **IICCI Story** tab linking to `/media/iicci-story`; sticky `MediaSubnav` on all media routes; quick link on Media Center filter row.
+**Files touched:** `src/config/media-navigation.ts`, `src/components/layouts/MediaSubnav.tsx`, `src/app/media/layout.tsx`, `src/app/media/page.tsx`, `src/app/media/iicci-story/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:20] — IICCI Narrative Film section
+
+**What changed:** Added premium cinematic `NarrativeFilmSection` (`id="iicci-story"`) with glass video showcase, glowing play button, spotlight hover, lightbox modal (YouTube/MP4-ready), milestone stats, and CTAs. Homepage: placed after Hero, before About. Full page at `/media/iicci-story`.
+**Files touched:** `src/app/media/iicci-story/page.tsx`, `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None (`fetchNarrativeFilm` stub)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 14:05] — AI & Machine Learning section
 
 **What changed:** Added premium `AIMachineLearningSection` (`id="ai-machine-learning"`) with neural-network viz, AI assistant typing demo, predictive chart, 6 capability cards, workflow strip, and CTAs. Homepage preview after Services + Industry Verticals; full page at `/services/machineLearning`. Services mega menu card added.

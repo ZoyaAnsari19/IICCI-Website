@@ -2,26 +2,26 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ABOUT_NAV } from "@/config/about-navigation";
+import { MEDIA_NAV } from "@/config/media-navigation";
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-export function AboutSubnav() {
+export function MediaSubnav() {
   const pathname = usePathname();
 
   return (
     <nav
-      aria-label="About section navigation"
+      aria-label="Media section navigation"
       className="sticky top-[var(--navbar-height,88px)] z-40 border-b border-white/10 bg-navy-950/95 backdrop-blur-xl"
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex gap-1 overflow-x-auto no-scrollbar py-3">
-          {ABOUT_NAV.map((item) => {
+          {MEDIA_NAV.map((item) => {
             const isActive =
               pathname === item.href ||
-              (item.href !== "/about" && pathname.startsWith(item.href));
+              (item.href !== "/media" && pathname.startsWith(item.href));
 
             return (
               <Link
@@ -37,7 +37,7 @@ export function AboutSubnav() {
                 scroll
                 onClick={() => window.scrollTo(0, 0)}
               >
-                <i className={cx("fas", item.icon, "text-[10px]")} />
+                <i className={cx("fas", item.icon, "text-[10px]")} aria-hidden />
                 <span className="whitespace-nowrap">{item.title}</span>
               </Link>
             );

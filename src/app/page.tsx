@@ -1,5 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { About } from "@/components/About";
+import { NarrativeFilmSection } from "@/app/media/iicci-story/page";
 import { Stats } from "@/components/Stats";
 import { Services } from "@/app/services/page";
 import { IndustryVerticalsSection } from "@/app/services/industryVerticals/page";
@@ -20,8 +22,12 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main>
+      <main className="relative">
         <Hero />
+        <div className="relative z-10 bg-navy-950">
+          <NarrativeFilmSection preview stackAfterHero />
+        </div>
+        <About />
         <Stats />
         <Services />
         <IndustryVerticalsSection />

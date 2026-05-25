@@ -1,6 +1,10 @@
 export const Hero = () => {
   return (
-    <section id="home" className="relative min-h-screen overflow-hidden bg-radial-navy pt-32 pb-16">
+    <section
+      id="home"
+      className="relative z-0 isolate min-h-screen overflow-hidden bg-radial-navy pb-20 lg:pb-28"
+      style={{ paddingTop: "calc(var(--navbar-height, 5.5rem) + 1.5rem)" }}
+    >
       {/* Background grid */}
       <div className="absolute inset-0 bg-grid bg-grid-fade opacity-50"></div>
 
@@ -15,10 +19,10 @@ export const Hero = () => {
           {/* Left content */}
           <div className="lg:col-span-7 relative">
             {/* Eyebrow */}
-            <div className="reveal-up inline-flex items-center gap-3 px-4 py-2 rounded-full glass mb-8 group">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-gold"></span>
+            <div className="reveal-up inline-flex items-center gap-3 px-4 py-2 rounded-full glass mb-8 group overflow-hidden">
+              <span className="relative flex h-2 w-2 shrink-0 overflow-hidden rounded-full">
+                <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-gold opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-gold" />
               </span>
               <span className="text-[11px] tracking-[0.2em] uppercase text-white/80 font-medium">Established 1978 · 47 Years of Trade Excellence</span>
             </div>
@@ -77,8 +81,8 @@ export const Hero = () => {
           </div>
 
           {/* Right - Globe visualization */}
-          <div className="lg:col-span-5 relative h-[400px] md:h-[500px] lg:h-[640px]">
-            <div className="absolute inset-0 flex items-center justify-center">
+          <div className="lg:col-span-5 relative h-[400px] md:h-[500px] lg:h-[640px] overflow-hidden">
+            <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
               {/* Glow */}
               <div className="absolute w-[120%] h-[120%] rounded-full bg-royal/20 blur-3xl"></div>
               <div className="absolute w-[80%] h-[80%] rounded-full bg-gold/10 blur-3xl"></div>
@@ -285,6 +289,12 @@ export const Hero = () => {
           </div>
         </div>
       </div>
+
+      {/* Bottom fade — prevents hero glow/orbits bleeding into next section */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-32 lg:h-40 bg-gradient-to-b from-transparent via-navy-950/90 to-navy-950 z-20 pointer-events-none"
+        aria-hidden
+      />
     </section>
   )
 }

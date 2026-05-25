@@ -5,13 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ABOUT_NAV } from "@/config/about-navigation";
+import { MEDIA_NAV } from "@/config/media-navigation";
 import { MORE_NAV } from "@/config/more-navigation";
 import { SERVICES_NAV } from "@/config/services-navigation";
 
 type MenuItem = {
   label: string;
   href?: string;
-  mega?: "about" | "services";
+  mega?: "about" | "services" | "media";
   triggerOnly?: boolean;
 };
 
@@ -19,7 +20,7 @@ const menuItems: MenuItem[] = [
   { label: "About", mega: "about", triggerOnly: true },
   { label: "Membership", href: "#membership" },
   { label: "Services", mega: "services", triggerOnly: true },
-  { label: "Media", href: "/media" },
+  { label: "Media", mega: "media", triggerOnly: true },
   { label: "Events", href: "#events" },
 ];
 
@@ -88,10 +89,30 @@ export const Navbar = () => {
     return () => window.removeEventListener("resize", onResize);
   }, [closeMobile]);
 
+  useEffect(() => {
+    const setNavHeight = () => {
+      const nav = document.getElementById("navbar");
+      if (!nav) return;
+      document.documentElement.style.setProperty(
+        "--navbar-height",
+        `${nav.offsetHeight}px`,
+      );
+    };
+    setNavHeight();
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(setNavHeight) : null;
+    const nav = document.getElementById("navbar");
+    if (nav && ro) ro.observe(nav);
+    window.addEventListener("resize", setNavHeight);
+    return () => {
+      window.removeEventListener("resize", setNavHeight);
+      ro?.disconnect();
+    };
+  }, []);
+
   return (
     <header
       id="navbar"
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 shadow-[0_2px_20px_rgba(8,17,32,0.08)]"
+      className="fixed top-0 left-0 right-0 z-50 bg-white overflow-visible transition-all duration-500 shadow-[0_2px_20px_rgba(8,17,32,0.08)]"
     >
       {/* Top bar */}
       <div className="hidden lg:block bg-[#0a192f] border-b border-white/10">
@@ -269,6 +290,40 @@ export const Navbar = () => {
                       >
                         View all services <i className="fas fa-arrow-right text-[10px]"></i>
                       </Link>
+                    </div>
+                  </div>
+                )}
+                {item.mega === "media" && (
+                  <div
+                    className={cx(
+                      "mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[320px] bg-white rounded-2xl p-4 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
+                      openMega === "media" && "is-open",
+                    )}
+                  >
+                    <div className="space-y-1">
+                      {MEDIA_NAV.map((c) => (
+                        <Link
+                          key={c.href}
+                          href={c.href}
+                          className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition group/item"
+                          onClick={() => {
+                            closeMegaMenu();
+                            closeMobile();
+                          }}
+                        >
+                          <div className="w-10 h-10 rounded-lg bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition shrink-0">
+                            <i className={`fas ${c.icon} text-sm`} aria-hidden />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="mega-item-title text-navy-950 text-sm font-semibold">
+                              {c.title}
+                            </div>
+                            <div className="mega-item-desc text-gray-500 text-xs mt-0.5">
+                              {c.description}
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
                     </div>
                   </div>
                 )}
@@ -493,6 +548,21 @@ export const Navbar = () => {
                 {item.mega === "services" && (
                   <ul className="mt-1 mb-2 ml-4 pl-4 border-l border-gray-200 space-y-0.5">
                     {SERVICES_NAV.map((sub) => (
+                      <li key={sub.href}>
+                        <Link
+                          href={sub.href}
+                          className="block py-2 px-3 rounded-lg text-sm text-navy-900/70 hover:text-gold hover:bg-gray-50 transition"
+                          onClick={closeMobile}
+                        >
+                          {sub.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {item.mega === "media" && (
+                  <ul className="mt-1 mb-2 ml-4 pl-4 border-l border-gray-200 space-y-0.5">
+                    {MEDIA_NAV.map((sub) => (
                       <li key={sub.href}>
                         <Link
                           href={sub.href}

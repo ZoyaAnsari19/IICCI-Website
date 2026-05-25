@@ -60,7 +60,11 @@
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const sc = window.scrollY;
     const percent = (sc / docHeight) * 100;
-    if (scrollProgress) scrollProgress.style.width = percent + '%';
+    if (scrollProgress) {
+      scrollProgress.style.width = percent + '%';
+      if (percent > 1) scrollProgress.classList.add('is-visible');
+      else scrollProgress.classList.remove('is-visible');
+    }
 
     if (backToTop) {
       if (sc > 600) {

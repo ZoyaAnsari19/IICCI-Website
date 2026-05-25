@@ -193,14 +193,18 @@ body.nav-cursor-hidden .cursor-ring {
 /* ===== Scroll Progress ===== */
 .scroll-progress {
   position: fixed;
-  top: 0;
+  top: var(--navbar-height, 88px);
   left: 0;
-  height: 3px;
+  height: 2px;
   background: linear-gradient(90deg, #1e40af, #d4af37);
-  z-index: 9998;
+  z-index: 45;
   width: 0%;
   transition: width 0.1s ease-out;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+  box-shadow: none;
+  pointer-events: none;
+}
+.scroll-progress.is-visible {
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.45);
 }
 
 /* ===== Animated Underline ===== */

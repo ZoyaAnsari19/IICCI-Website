@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -633,7 +634,14 @@ export const Media = () => {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2 reveal-up">
+          <div className="flex flex-wrap gap-2 reveal-up items-center">
+            <Link
+              href="/media/iicci-story"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-gold/30 text-gold text-xs font-semibold hover:bg-gold/10 hover:border-gold/50 transition"
+            >
+              <i className="fas fa-film text-[10px]" aria-hidden />
+              IICCI Story
+            </Link>
             {FILTERS.map((f) => (
               <button
                 key={f}
@@ -717,9 +725,5 @@ export const Media = () => {
 };
 
 export default function MediaPage() {
-  return (
-    <main>
-      <Media />
-    </main>
-  );
+  return <Media />;
 }

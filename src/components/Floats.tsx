@@ -59,8 +59,10 @@ export const Floats = () => {
         {/* AI toggle button */}
         <button id="ai-floating-btn" className="group pointer-events-auto relative w-16 h-16 rounded-full bg-gradient-to-br from-gold to-gold-600 shadow-gold flex items-center justify-center text-navy-950 transition magnetic" aria-label="AI Assistant">
           <i className="fas fa-robot text-xl"></i>
-          <span className="absolute inset-0 rounded-full bg-gold animate-ping opacity-30"></span>
-          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center border-2 border-navy-950">1</span>
+          <span className="absolute inset-0 rounded-full bg-gold animate-ping opacity-30 pointer-events-none" />
+          <span className="absolute top-0 right-0 w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center border-2 border-navy-950 translate-x-1/4 -translate-y-1/4">
+            1
+          </span>
         </button>
       </div>
 
