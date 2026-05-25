@@ -1,5 +1,25 @@
 # Changelog
 
+## [25-05-2026 16:25] — Remove media sections from homepage
+
+**What changed:** Removed IICCI Story and Current Affairs preview embeds from the main homepage; both remain on Media Center and dedicated routes.
+**Files touched:** `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 16:15] — Current Affairs trade intelligence hub
+
+**What changed:** Premium CMS-ready Current Affairs section with featured spotlight, category filters, search, sort, load-more, trade ticker, trending sidebar, and Framer Motion animations. Embedded on Media Center (`/media`) and homepage preview (featured + 3 updates). Media nav + subnav include Current Affairs route.
+**Files touched:** `src/app/media/currentAffairs/page.tsx`, `src/app/media/page.tsx`, `src/app/page.tsx`, `src/config/media-navigation.ts`, `CHANGELOG.md`
+**API endpoints used:** None (stub `fetchCurrentAffairs` for future CMS)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 15:00] — IICCI Story white background
 
 **What changed:** Narrative film section background switched to white with light-theme typography, glass-light milestone cards, and light grid overlay; homepage wrapper updated to match.

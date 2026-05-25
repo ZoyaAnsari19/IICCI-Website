@@ -21,4 +21,11 @@ export const MEDIA_NAV: ReadonlyArray<MediaNavItem> = [
     icon: "fa-film",
     href: "/media/iicci-story",
   },
+  {
+    slug: "current-affairs",
+    title: "Current Affairs",
+    description: "Trade news & policy intelligence",
+    icon: "fa-newspaper",
+    href: "/media/currentAffairs",
+  },
 ] as const;

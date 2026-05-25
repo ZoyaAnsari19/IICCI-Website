@@ -1,5 +1,6 @@
 "use client";
 
+import { CurrentAffairsSection } from "./currentAffairs/page";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
@@ -642,6 +643,13 @@ export const Media = () => {
               <i className="fas fa-film text-[10px]" aria-hidden />
               IICCI Story
             </Link>
+            <Link
+              href="/media#current-affairs"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/15 text-white/80 text-xs font-semibold hover:border-gold/40 hover:text-gold transition"
+            >
+              <i className="fas fa-newspaper text-[10px]" aria-hidden />
+              Current Affairs
+            </Link>
             {FILTERS.map((f) => (
               <button
                 key={f}
@@ -725,5 +733,10 @@ export const Media = () => {
 };
 
 export default function MediaPage() {
-  return <Media />;
+  return (
+    <main>
+      <Media />
+      <CurrentAffairsSection />
+    </main>
+  );
 }
