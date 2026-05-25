@@ -1,16 +1,12 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
 import { Stats } from "@/components/Stats";
-import { Services } from "@/app/services/page";
-import { IndustryVerticalsSection } from "@/app/services/industryVerticals/page";
-import { AIMachineLearningSection } from "@/app/services/machineLearning/page";
+
 import { ObjectivesSection } from "@/components/ObjectivesSection";
 import { CoreTeam } from "@/components/CoreTeam";
 import { GlobalPresence } from "@/components/GlobalPresence";
 import { WhyIndia } from "@/components/WhyIndia";
 import { ForeignDesk } from "@/components/ForeignDesk";
-import { Events } from "@/app/media/events/page";
 import { Membership } from "@/components/Membership";
 import { Training } from "@/components/Training";
 import { Directory } from "@/components/Directory";
@@ -25,17 +21,14 @@ export default function Home() {
       <Navbar />
       <main className="relative">
         <Hero />
-        <About />
-        <Stats />
-        <Services />
-        <IndustryVerticalsSection />
-        <AIMachineLearningSection preview />
+        <div className="relative z-30">
+          <Stats />
+        </div>
         <ObjectivesSection />
         <CoreTeam />
         <GlobalPresence />
         <WhyIndia />
         <ForeignDesk />
-        <Events />
         <Membership />
         <Training />
         <Directory />

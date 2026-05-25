@@ -352,7 +352,7 @@ export const Navbar = () => {
               </button>
               <div
                 className={cx(
-                  "mega-menu absolute top-full right-0 mt-2 w-64 bg-white rounded-2xl p-3 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
+                  "mega-menu absolute top-full right-0 mt-2 w-72 bg-white rounded-2xl p-3 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
                   openMega === "more" && "is-open",
                 )}
               >
@@ -360,13 +360,19 @@ export const Navbar = () => {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="block px-3 py-2 rounded-lg text-navy-900/80 hover:bg-gray-50 hover:text-navy-950 text-sm transition"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-navy-900/80 hover:bg-gray-50 hover:text-navy-950 transition group/item"
                     onClick={() => {
                       closeMegaMenu();
                       closeMobile();
                     }}
                   >
-                    {item.title}
+                    <span className="w-8 h-8 rounded-lg bg-gold/15 flex items-center justify-center text-gold shrink-0 group-hover/item:bg-gold group-hover/item:text-white transition">
+                      <i className={cx("fas", item.icon, "text-xs")} aria-hidden />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium text-navy-950">{item.title}</span>
+                      <span className="block text-[11px] text-gray-500 mt-0.5">{item.description}</span>
+                    </span>
                   </Link>
                 ))}
               </div>
