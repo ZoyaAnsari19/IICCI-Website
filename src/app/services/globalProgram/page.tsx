@@ -1,5 +1,6 @@
 "use client";
 
+import { GlobalPlacementSection } from "../globalPlacement/page";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import {
@@ -893,10 +894,11 @@ export function GlobalCertificationSection({ preview = false }: { preview?: bool
   );
 }
 
-export default function GlobalProgramPage() {
+export default function TrainingCertificationPage() {
   return (
     <main>
       <GlobalCertificationSection />
+      <GlobalPlacementSection />
     </main>
   );
 }

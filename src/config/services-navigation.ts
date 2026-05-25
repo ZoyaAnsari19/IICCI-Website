@@ -49,4 +49,11 @@ export const SERVICES_NAV: ReadonlyArray<ServicesNavItem> = [
     icon: "fa-certificate",
     href: "/services/globalProgram",
   },
+  {
+    slug: "global-placement",
+    title: "Global Placement",
+    description: "Global career & hiring network",
+    icon: "fa-briefcase",
+    href: "/services/globalPlacement",
+  },
 ] as const;

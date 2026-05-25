@@ -1,5 +1,35 @@
 # Changelog
 
+## [25-05-2026 13:18] — Enhanced Candidate Journey flow
+
+**What changed:** Upgraded Candidate Journey section to match Skill-to-Career enhancements — shared `JourneyFlow` component with animated SVG connector, hover glow, step badges, mobile timeline, placement progress bar, and title-case labels for longer step names.
+**Files touched:** `src/app/services/globalPlacement/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 13:12] — Enhanced Skill-to-Career flow
+
+**What changed:** Upgraded Skill-to-Career Flow in Global Placement section — animated SVG path with traveling pulse, step badges, hover glow rings, per-step descriptions, desktop chevron connectors, mobile vertical timeline layout, journey progress bar, and ambient grid/glow backdrop.
+**Files touched:** `src/app/services/globalPlacement/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 13:05] — Global Placement Program section
+
+**What changed:** Built `GlobalPlacementSection` in `src/app/services/globalPlacement/page.tsx` — career placement ecosystem with 8 focus areas, live opportunity cards, skill-to-career flow, candidate journey roadmap, hiring partner grid, auto-rotating testimonial slider, animated stats, career network map backdrop, and CTAs. Wired `GlobalPlacementSection` after `GlobalCertificationSection` on `/services/globalProgram` (Training & Certification hub). Added Services nav entry for Global Placement.
+**Files touched:** `src/app/services/globalPlacement/page.tsx`, `src/app/services/globalProgram/page.tsx`, `src/config/services-navigation.ts`, `CHANGELOG.md`
+**API endpoints used:** None (stub ready for CMS/API)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 12:50] — Global Certification Program section
 
 **What changed:** Built `GlobalCertificationSection` in `src/app/services/globalProgram/page.tsx` — premium ed-tech learning ecosystem with 8 certification area cards (International Trade, Import–Export, Logistics, Business Development, Compliance, Global Markets, Entrepreneurship, Professional Skills), benefits grid, animated success stats, 4-step certification journey timeline, alumni spotlight, animated progress bars, certification preview modal, `fetchCertificationPrograms()` CMS stub, Framer Motion animations, and CTAs (Apply, Explore Training, Start Learning). Added "Global Certification" to Services mega menu (7 cards, 3 per row).
