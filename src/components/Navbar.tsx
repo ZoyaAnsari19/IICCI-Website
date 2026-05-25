@@ -51,6 +51,20 @@ export const Navbar = () => {
     [pathname, closeMobile],
   );
 
+  const downloadsHref =
+    pathname === "/resources" ? "#downloads-resources" : "/#downloads-resources";
+
+  const scrollToDownloads = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      closeMobile();
+      if (pathname === "/" || pathname === "/resources") {
+        e.preventDefault();
+        document.getElementById("downloads-resources")?.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    [pathname, closeMobile],
+  );
+
   useEffect(() => {
     if (prevPathRef.current !== pathname) {
       setOpenMega(null);
@@ -393,6 +407,15 @@ export const Navbar = () => {
               <span className="hidden lg:inline">AI Assistant</span>
             </button>
 
+            <Link
+              href={downloadsHref}
+              onClick={scrollToDownloads}
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 lg:px-5 lg:py-2.5 rounded-full border border-gold/40 bg-gold/10 text-gold-700 hover:bg-gold hover:text-white text-[10px] sm:text-xs font-bold tracking-wide transition"
+            >
+              <i className="fas fa-download text-[10px]" aria-hidden />
+              <span className="hidden md:inline">Download</span>
+            </Link>
+
             <a
               href="#membership"
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 lg:px-5 lg:py-2.5 rounded-full bg-navy-950 text-white text-[10px] sm:text-xs font-bold tracking-wide shadow-md hover:bg-navy-900 transition"
@@ -603,6 +626,14 @@ export const Navbar = () => {
           </div>
 
           <div className="mt-6 pt-6 border-t border-gray-200 space-y-4">
+            <Link
+              href={downloadsHref}
+              onClick={scrollToDownloads}
+              className="block w-full py-3.5 rounded-full border border-gold/40 bg-gold/10 text-gold-700 text-sm font-bold text-center hover:bg-gold hover:text-white transition"
+            >
+              <i className="fas fa-download mr-2 text-xs" aria-hidden />
+              Download Resources
+            </Link>
             <a
               href="#membership"
               className="block w-full py-3.5 rounded-full bg-navy-950 text-white text-sm font-bold text-center shadow-md hover:bg-navy-900 active:scale-[0.98] transition"

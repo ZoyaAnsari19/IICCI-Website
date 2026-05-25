@@ -14,6 +14,7 @@ import { Events } from "@/app/media/events/page";
 import { Membership } from "@/components/Membership";
 import { Training } from "@/components/Training";
 import { Directory } from "@/components/Directory";
+import { DownloadsResourcesSection } from "@/components/DownloadsResourcesSection";
 import { Footer } from "@/components/Footer";
 import { Floats } from "@/components/Floats";
 
@@ -37,6 +38,7 @@ export default function Home() {
         <Membership />
         <Training />
         <Directory />
+        <DownloadsResourcesSection preview />
       </main>
       <Footer />
       <Floats />
