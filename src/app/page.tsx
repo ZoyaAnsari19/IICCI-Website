@@ -15,6 +15,7 @@ import { Membership } from "@/components/Membership";
 import { Training } from "@/components/Training";
 import { Directory } from "@/components/Directory";
 import { DownloadsResourcesSection } from "@/components/DownloadsResourcesSection";
+import { TradeCircularsSection } from "@/components/TradeCircularsSection";
 import { Footer } from "@/components/Footer";
 import { Floats } from "@/components/Floats";
 
@@ -38,6 +39,7 @@ export default function Home() {
         <Membership />
         <Training />
         <Directory />
+        <TradeCircularsSection preview />
         <DownloadsResourcesSection preview />
       </main>
       <Footer />

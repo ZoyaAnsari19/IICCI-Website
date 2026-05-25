@@ -29,6 +29,13 @@ export const MEDIA_NAV: ReadonlyArray<MediaNavItem> = [
     href: "/media/currentAffairs",
   },
   {
+    slug: "trade-circulars",
+    title: "Trade Circulars",
+    description: "DGFT, customs & compliance alerts",
+    icon: "fa-bell",
+    href: "/media#trade-circulars",
+  },
+  {
     slug: "events",
     title: "Events",
     description: "Summits, conferences & trade gatherings",
