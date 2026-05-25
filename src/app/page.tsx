@@ -44,8 +44,8 @@ export default function Home() {
         <DownloadsResourcesSection preview />
         </main>
         <Footer />
+        <Floats />
       </ExchangeRatesProvider>
-      <Floats />
     </>
   );
 }

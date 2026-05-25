@@ -54,12 +54,30 @@ export const Navbar = () => {
   const downloadsHref =
     pathname === "/resources" ? "#downloads-resources" : "/#downloads-resources";
 
+  const exchangeRatesHref =
+    pathname === "/trade-tools"
+      ? "#live-exchange-rates"
+      : pathname === "/"
+        ? "#live-exchange-rates"
+        : "/trade-tools#live-exchange-rates";
+
   const scrollToDownloads = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       closeMobile();
       if (pathname === "/" || pathname === "/resources") {
         e.preventDefault();
         document.getElementById("downloads-resources")?.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    [pathname, closeMobile],
+  );
+
+  const scrollToExchangeRates = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      closeMobile();
+      if (pathname === "/" || pathname === "/trade-tools") {
+        e.preventDefault();
+        document.getElementById("live-exchange-rates")?.scrollIntoView({ behavior: "smooth" });
       }
     },
     [pathname, closeMobile],
@@ -381,28 +399,20 @@ export const Navbar = () => {
 
           {/* Right actions */}
           <div className="flex items-center gap-2 shrink-0">
-            <button
-              id="search-btn"
-              type="button"
-              className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full border border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300 hover:text-navy-950 text-xs transition"
-              aria-label="Search"
+            <Link
+              href={exchangeRatesHref}
+              onClick={scrollToExchangeRates}
+              className="hidden md:inline-flex items-center gap-2 px-3 py-2 lg:px-4 rounded-full border border-gold/40 bg-gold/10 text-gold-700 hover:bg-gold hover:text-white text-xs font-semibold transition"
+              aria-label="Live exchange rates"
+              title="Live Exchange Rates"
             >
-              <i className="fas fa-search text-xs"></i>
-              <span className="hidden lg:inline">Search</span>
-              <kbd className="hidden lg:inline-flex items-center px-1.5 py-0.5 text-[10px] bg-white border border-gray-200 rounded text-gray-500">
-                ⌘K
-              </kbd>
-            </button>
-
-            <div className="hidden md:flex items-center gap-1 px-2 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-xs">
-              <i className="fas fa-globe text-gold text-[10px]"></i>
-              <select className="bg-transparent text-navy-900/80 text-xs outline-none cursor-pointer">
-                <option className="bg-white text-navy-950">EN</option>
-                <option className="bg-white text-navy-950">हिं</option>
-                <option className="bg-white text-navy-950">عربي</option>
-                <option className="bg-white text-navy-950">中文</option>
-              </select>
-            </div>
+              <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-70" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <i className="fas fa-money-bill-trend text-xs" aria-hidden />
+              <span className="hidden lg:inline">Live FX</span>
+            </Link>
 
             <button
               id="ai-toggle"
@@ -632,6 +642,18 @@ export const Navbar = () => {
           </div>
 
           <div className="mt-6 pt-6 border-t border-gray-200 space-y-4">
+            <Link
+              href={exchangeRatesHref}
+              onClick={scrollToExchangeRates}
+              className="flex items-center justify-center gap-2 w-full py-3.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-navy-950 text-sm font-bold hover:border-gold/40 hover:bg-gold/10 transition"
+            >
+              <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-70" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <i className="fas fa-money-bill-trend text-gold text-xs" aria-hidden />
+              Live Exchange Rates
+            </Link>
             <Link
               href={downloadsHref}
               onClick={scrollToDownloads}
