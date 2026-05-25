@@ -226,11 +226,11 @@ export const Navbar = () => {
                 {item.mega === "services" && (
                   <div
                     className={cx(
-                      "mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[960px] max-w-[calc(100vw-2rem)] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
+                      "mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[720px] max-w-[calc(100vw-2rem)] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
                       openMega === "services" && "is-open",
                     )}
                   >
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                       {SERVICES_NAV.map((c) => (
                         <Link
                           key={c.href}

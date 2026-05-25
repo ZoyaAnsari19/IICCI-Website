@@ -35,4 +35,11 @@ export const SERVICES_NAV: ReadonlyArray<ServicesNavItem> = [
     icon: "fa-rocket",
     href: "/services/upcomingProjects",
   },
+  {
+    slug: "monthly-services",
+    title: "Monthly Performance",
+    description: "Transparent institutional analytics",
+    icon: "fa-chart-pie",
+    href: "/services/monthlyServices",
+  },
 ] as const;

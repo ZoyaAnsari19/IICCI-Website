@@ -1,5 +1,25 @@
 # Changelog
 
+## [25-05-2026 12:40] — Services mega menu 3 cards per row
+
+**What changed:** Services mega menu grid limited to 3 columns per row (`lg:grid-cols-3`); five service cards now wrap into two rows (3 + 2). Menu width adjusted to `720px` for balanced card layout.
+**Files touched:** `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 12:35] — Monthly Services & Performance Overview dashboard
+
+**What changed:** Built `MonthlyPerformanceSection` in `src/app/services/monthlyServices/page.tsx` — CMS-ready `fetchMonthlyPerformance()` adapter, 7 animated KPI cards with sparklines and trend badges, SVG monthly bar chart, global activity map, member activity timeline, summary counters, and members-only blurred revenue card (no public revenue data). Light enterprise dashboard theme aligned with homepage Stats section. Optional `preview` prop for homepage embed. Added "Monthly Performance" to Services mega menu (5-column grid).
+**Files touched:** `src/app/services/monthlyServices/page.tsx`, `src/config/services-navigation.ts`, `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None (stub ready for CMS/API)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 12:22] — Remove Services mega menu quick links
 
 **What changed:** Removed the 9-item quick-link grid (Trade Facilitation, Import Export, Global Certification, Placement Program, AI & ML Services, Business Matchmaking, Bilateral Trade, Market Research, Joint Ventures) from the Services mega menu. Deleted `SERVICE_QUICK_LINKS` from config; mega menu now shows only the four primary cards plus footer.
