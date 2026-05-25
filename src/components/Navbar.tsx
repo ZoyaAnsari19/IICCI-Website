@@ -21,7 +21,6 @@ const menuItems: MenuItem[] = [
   { label: "Membership", href: "#membership" },
   { label: "Services", mega: "services", triggerOnly: true },
   { label: "Media", href: "/media", mega: "media" },
-  { label: "Events", href: "#events" },
 ];
 
 const navLinkClass =

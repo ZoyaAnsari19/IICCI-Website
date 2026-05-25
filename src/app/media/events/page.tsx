@@ -13,7 +13,7 @@ export const Events = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="reveal-up">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950/5 border border-navy-950/10 mb-4">
-              <i className="fas fa-calendar-star text-gold text-xs"></i>
+              <i className="fas fa-calendar-days text-gold text-xs"></i>
               <span className="text-[10px] uppercase tracking-[0.25em] text-navy-950/70">Upcoming Events</span>
             </div>
             <h2 className="display-title font-display font-bold">
@@ -110,4 +110,12 @@ export const Events = () => {
       </div>
     </section>
   )
+}
+
+export default function EventsPage() {
+  return (
+    <main>
+      <Events />
+    </main>
+  );
 }

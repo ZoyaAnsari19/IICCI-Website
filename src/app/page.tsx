@@ -10,7 +10,7 @@ import { CoreTeam } from "@/components/CoreTeam";
 import { GlobalPresence } from "@/components/GlobalPresence";
 import { WhyIndia } from "@/components/WhyIndia";
 import { ForeignDesk } from "@/components/ForeignDesk";
-import { Events } from "@/components/Events";
+import { Events } from "@/app/media/events/page";
 import { Membership } from "@/components/Membership";
 import { Training } from "@/components/Training";
 import { Directory } from "@/components/Directory";

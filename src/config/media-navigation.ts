@@ -28,4 +28,11 @@ export const MEDIA_NAV: ReadonlyArray<MediaNavItem> = [
     icon: "fa-newspaper",
     href: "/media/currentAffairs",
   },
+  {
+    slug: "events",
+    title: "Events",
+    description: "Summits, conferences & trade gatherings",
+    icon: "fa-calendar-days",
+    href: "/media/events",
+  },
 ] as const;
