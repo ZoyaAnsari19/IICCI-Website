@@ -21,6 +21,13 @@ export const SERVICES_NAV: ReadonlyArray<ServicesNavItem> = [
     icon: "fa-layer-group",
     href: "/services/industryVerticals",
   },
+  {
+    slug: "farmer-support",
+    title: "Farmer Support",
+    description: "Empowering farmers with global agri-trade",
+    icon: "fa-tractor",
+    href: "/services/farmerSupport",
+  },
 ] as const;
 
 export const SERVICE_QUICK_LINKS = [

@@ -1,5 +1,35 @@
 # Changelog
 
+## [25-05-2026 12:02] — Add Farmer Support card to Services mega menu
+
+**What changed:** Added a new "Farmer Support" entry to `SERVICES_NAV` (tractor icon, tagline "Empowering farmers with global agri-trade", links to `/services/farmerSupport`). Expanded the desktop Services mega menu width from `760px` to `880px` and switched the top card grid from `grid-cols-2` to `grid-cols-3` so "Our Services", "Industry Verticals" and "Farmer Support" all render as balanced primary cards. Mobile services submenu picks up the new entry automatically since it iterates `SERVICES_NAV`.
+**Files touched:** `src/config/services-navigation.ts`, `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 11:55] — Inline Farmer Support section into page route
+
+**What changed:** Moved the entire `FarmerSupportServicesSection` component code (data, motion variants, helpers, `AnimatedCounter`, `AgriTradeBackdrop`, `FloatingParticles`, `AgriExportMap`, and the main section) directly into `src/app/services/farmerSupport/page.tsx` as a client component. Deleted the separate `src/components/FarmerSupportServicesSection.tsx` file. The page now follows the same self-contained pattern used by `industryVerticals/page.tsx`.
+**Files touched:** `src/app/services/farmerSupport/page.tsx`, `src/components/FarmerSupportServicesSection.tsx` (deleted), `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 11:45] — Premium Farmer Support Services section
+
+**What changed:** Built `FarmerSupportServicesSection` (`id="farmer-support-services"`) — a cinematic agri-trade ecosystem showcase featuring a responsive accordion + side-tab layout across 5 categories (Trade & Market, Capacity Building, Finance, Export, Tech & Sustainability), animated counter stats (Farmers Empowered, Export Destinations, FPO Network, Crop Verticals), a stylized India-to-world agri-export SVG map with animated trade-arc routes and pulsing destinations, glassmorphism panels with gold/emerald/royal gradient accents, floating particles, ambient glow orbs, and dual CTAs ("Explore Agri Trade Support", "Connect With IICCI Agriculture Desk"). Built with Framer Motion stagger/fade-up/AnimatePresence transitions. Mounted on the dedicated `/services/farmerSupport` route with proper metadata.
+**Files touched:** `src/components/FarmerSupportServicesSection.tsx`, `src/app/services/farmerSupport/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 15:10] — Remove Mission & Vision from homepage
 
 **What changed:** Removed `MissionVisionSection` from the homepage (`src/app/page.tsx`). Section remains on `/about/mission-vision`.

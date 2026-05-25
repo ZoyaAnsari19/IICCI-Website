@@ -229,11 +229,11 @@ export const Navbar = () => {
                 {item.mega === "services" && (
                   <div
                     className={cx(
-                      "mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[760px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
+                      "mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[880px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
                       openMega === "services" && "is-open",
                     )}
                   >
-                    <div className="grid grid-cols-2 gap-3 mb-4">
+                    <div className="grid grid-cols-3 gap-3 mb-4">
                       {SERVICES_NAV.map((c) => (
                         <Link
                           key={c.href}
@@ -247,7 +247,7 @@ export const Navbar = () => {
                           <div className="w-11 h-11 rounded-xl bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition shrink-0">
                             <i className={`fas ${c.icon} text-sm`}></i>
                           </div>
-                          <div>
+                          <div className="min-w-0">
                             <div className="mega-item-title text-navy-950 text-sm font-semibold">
                               {c.title}
                             </div>
