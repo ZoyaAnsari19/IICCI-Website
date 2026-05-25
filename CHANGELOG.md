@@ -1,5 +1,255 @@
 # Changelog
 
+## [25-05-2026 14:45] — Fix broken Current Affairs images (404)
+
+**What changed:** Replaced eight dead Unsplash URLs in Current Affairs seed data with working Pexels images so Next.js image optimization no longer returns upstream 404 errors.
+**Files touched:** `src/app/media/currentAffairs/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:30] — Current Affairs load more after 2 cards
+
+**What changed:** Current Affairs grid now shows 2 cards initially; "Load more updates" appears directly below them and loads 2 more articles per click.
+**Files touched:** `src/app/media/currentAffairs/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:23] — Remove media subnav tabination
+
+**What changed:** Removed the sticky Media Center / IICCI Story / Current Affairs tab bar (`MediaSubnav`) from the `/media` layout so media pages no longer render the section sub-navigation.
+**Files touched:** `src/app/media/layout.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 16:25] — Remove media sections from homepage
+
+**What changed:** Removed IICCI Story and Current Affairs preview embeds from the main homepage; both remain on Media Center and dedicated routes.
+**Files touched:** `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 16:15] — Current Affairs trade intelligence hub
+
+**What changed:** Premium CMS-ready Current Affairs section with featured spotlight, category filters, search, sort, load-more, trade ticker, trending sidebar, and Framer Motion animations. Embedded on Media Center (`/media`) and homepage preview (featured + 3 updates). Media nav + subnav include Current Affairs route.
+**Files touched:** `src/app/media/currentAffairs/page.tsx`, `src/app/media/page.tsx`, `src/app/page.tsx`, `src/config/media-navigation.ts`, `CHANGELOG.md`
+**API endpoints used:** None (stub `fetchCurrentAffairs` for future CMS)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 15:00] — IICCI Story white background
+
+**What changed:** Narrative film section background switched to white with light-theme typography, glass-light milestone cards, and light grid overlay; homepage wrapper updated to match.
+**Files touched:** `src/app/media/iicci-story/page.tsx`, `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:50] — Fix top navbar / scroll overlap
+
+**What changed:** Resolved gold clip/overlap at page top — scroll progress bar moved below navbar (no glow at 0%), navbar height CSS variable + ResizeObserver, opaque header background, hero ping contained, stronger hero-to-story separation.
+**Files touched:** `Navbar.tsx`, `Hero.tsx`, `Floats.tsx`, `page.tsx`, `iicci-story/page.tsx`, `globals.css`, `public/static/style.css`, `public/static/app.js`, `MediaSubnav.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:42] — Fix IICCI Story top overlap after Hero
+
+**What changed:** Fixed homepage overlap where Hero orbital/glow visuals bled into The IICCI Story section — hero bottom fade, globe overflow clip, story `z-10` + extra top padding (`stackAfterHero`), and reduced orbit z-index.
+**Files touched:** `src/components/Hero.tsx`, `src/app/media/iicci-story/page.tsx`, `src/app/page.tsx`, `src/app/globals.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:35] — Navbar Media hover dropdown
+
+**What changed:** Media nav item now opens a hover mega-menu (like About/Services) with Media Center and IICCI Story links; IICCI Story navigates to `/media/iicci-story`. Mobile menu includes Media sub-links.
+**Files touched:** `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:28] — Media IICCI Story tab
+
+**What changed:** Added Media sub-navigation with **IICCI Story** tab linking to `/media/iicci-story`; sticky `MediaSubnav` on all media routes; quick link on Media Center filter row.
+**Files touched:** `src/config/media-navigation.ts`, `src/components/layouts/MediaSubnav.tsx`, `src/app/media/layout.tsx`, `src/app/media/page.tsx`, `src/app/media/iicci-story/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:20] — IICCI Narrative Film section
+
+**What changed:** Added premium cinematic `NarrativeFilmSection` (`id="iicci-story"`) with glass video showcase, glowing play button, spotlight hover, lightbox modal (YouTube/MP4-ready), milestone stats, and CTAs. Homepage: placed after Hero, before About. Full page at `/media/iicci-story`.
+**Files touched:** `src/app/media/iicci-story/page.tsx`, `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None (`fetchNarrativeFilm` stub)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 14:05] — AI & Machine Learning section
+
+**What changed:** Added premium `AIMachineLearningSection` (`id="ai-machine-learning"`) with neural-network viz, AI assistant typing demo, predictive chart, 6 capability cards, workflow strip, and CTAs. Homepage preview after Services + Industry Verticals; full page at `/services/machineLearning`. Services mega menu card added.
+**Files touched:** `src/app/services/machineLearning/page.tsx`, `src/app/page.tsx`, `src/config/services-navigation.ts`, `CHANGELOG.md`
+**API endpoints used:** None (`fetchAICapabilities` stub)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 13:42] — Compact learning mode tabs
+
+**What changed:** Reduced Beginner/Professional toggle width (`w-fit`, tighter padding) and prevented flex stretch in header column (`items-start`).
+**Files touched:** `src/app/services/bilateralTrade/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 13:35] — Bilateral Trade Tutorial section
+
+**What changed:** Added premium interactive Bilateral Trade Tutorial (`id="bilateral-trade-tutorial"`) with 7-step stepper, beginner/professional modes, animated trade-route map, detail panel, progress navigation, and CTAs. Wired after Global Placement on `/services/globalProgram`; standalone at `/services/bilateralTrade`. Added Services mega menu card.
+**Files touched:** `src/app/services/bilateralTrade/page.tsx`, `src/app/services/globalProgram/page.tsx`, `src/config/services-navigation.ts`, `CHANGELOG.md`
+**API endpoints used:** None (CMS-ready `fetchBilateralTutorialData` stub)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 13:18] — Enhanced Candidate Journey flow
+
+**What changed:** Upgraded Candidate Journey section to match Skill-to-Career enhancements — shared `JourneyFlow` component with animated SVG connector, hover glow, step badges, mobile timeline, placement progress bar, and title-case labels for longer step names.
+**Files touched:** `src/app/services/globalPlacement/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 13:12] — Enhanced Skill-to-Career flow
+
+**What changed:** Upgraded Skill-to-Career Flow in Global Placement section — animated SVG path with traveling pulse, step badges, hover glow rings, per-step descriptions, desktop chevron connectors, mobile vertical timeline layout, journey progress bar, and ambient grid/glow backdrop.
+**Files touched:** `src/app/services/globalPlacement/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 13:05] — Global Placement Program section
+
+**What changed:** Built `GlobalPlacementSection` in `src/app/services/globalPlacement/page.tsx` — career placement ecosystem with 8 focus areas, live opportunity cards, skill-to-career flow, candidate journey roadmap, hiring partner grid, auto-rotating testimonial slider, animated stats, career network map backdrop, and CTAs. Wired `GlobalPlacementSection` after `GlobalCertificationSection` on `/services/globalProgram` (Training & Certification hub). Added Services nav entry for Global Placement.
+**Files touched:** `src/app/services/globalPlacement/page.tsx`, `src/app/services/globalProgram/page.tsx`, `src/config/services-navigation.ts`, `CHANGELOG.md`
+**API endpoints used:** None (stub ready for CMS/API)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 12:50] — Global Certification Program section
+
+**What changed:** Built `GlobalCertificationSection` in `src/app/services/globalProgram/page.tsx` — premium ed-tech learning ecosystem with 8 certification area cards (International Trade, Import–Export, Logistics, Business Development, Compliance, Global Markets, Entrepreneurship, Professional Skills), benefits grid, animated success stats, 4-step certification journey timeline, alumni spotlight, animated progress bars, certification preview modal, `fetchCertificationPrograms()` CMS stub, Framer Motion animations, and CTAs (Apply, Explore Training, Start Learning). Added "Global Certification" to Services mega menu (7 cards, 3 per row).
+**Files touched:** `src/app/services/globalProgram/page.tsx`, `src/config/services-navigation.ts`, `CHANGELOG.md`
+**API endpoints used:** None (stub ready for CMS/API)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 12:40] — Services mega menu 3 cards per row
+
+**What changed:** Services mega menu grid limited to 3 columns per row (`lg:grid-cols-3`); five service cards now wrap into two rows (3 + 2). Menu width adjusted to `720px` for balanced card layout.
+**Files touched:** `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 12:35] — Monthly Services & Performance Overview dashboard
+
+**What changed:** Built `MonthlyPerformanceSection` in `src/app/services/monthlyServices/page.tsx` — CMS-ready `fetchMonthlyPerformance()` adapter, 7 animated KPI cards with sparklines and trend badges, SVG monthly bar chart, global activity map, member activity timeline, summary counters, and members-only blurred revenue card (no public revenue data). Light enterprise dashboard theme aligned with homepage Stats section. Optional `preview` prop for homepage embed. Added "Monthly Performance" to Services mega menu (5-column grid).
+**Files touched:** `src/app/services/monthlyServices/page.tsx`, `src/config/services-navigation.ts`, `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None (stub ready for CMS/API)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 12:22] — Remove Services mega menu quick links
+
+**What changed:** Removed the 9-item quick-link grid (Trade Facilitation, Import Export, Global Certification, Placement Program, AI & ML Services, Business Matchmaking, Bilateral Trade, Market Research, Joint Ventures) from the Services mega menu. Deleted `SERVICE_QUICK_LINKS` from config; mega menu now shows only the four primary cards plus footer.
+**Files touched:** `src/config/services-navigation.ts`, `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 12:15] — Premium Upcoming Projects opportunity desk
+
+**What changed:** Built full `UpcomingProjectsSection` in `src/app/services/upcomingProjects/page.tsx` — CMS-ready architecture with `UpcomingProject` types, `fetchUpcomingProjects()` adapter (swap for API/headless CMS), 15 seed opportunities, debounced search, sector/country/type filters, quick-type chips, paginated load-more, skeleton loading, featured spotlight card, animated stats, glassmorphism project cards (sector icon, country code, status badges, investment range, enquire CTA), enquiry modal, trade-route SVG backdrop, floating particles, and bottom CTAs. Exported section with optional `preview` prop for homepage embed. Added "Upcoming Projects" to `SERVICES_NAV` and expanded mega menu to 4-column primary cards.
+**Files touched:** `src/app/services/upcomingProjects/page.tsx`, `src/config/services-navigation.ts`, `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None (CMS-ready `fetchUpcomingProjects` stub; wire to `/api/projects` or CMS later)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 12:02] — Add Farmer Support card to Services mega menu
+
+**What changed:** Added a new "Farmer Support" entry to `SERVICES_NAV` (tractor icon, tagline "Empowering farmers with global agri-trade", links to `/services/farmerSupport`). Expanded the desktop Services mega menu width from `760px` to `880px` and switched the top card grid from `grid-cols-2` to `grid-cols-3` so "Our Services", "Industry Verticals" and "Farmer Support" all render as balanced primary cards. Mobile services submenu picks up the new entry automatically since it iterates `SERVICES_NAV`.
+**Files touched:** `src/config/services-navigation.ts`, `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 11:55] — Inline Farmer Support section into page route
+
+**What changed:** Moved the entire `FarmerSupportServicesSection` component code (data, motion variants, helpers, `AnimatedCounter`, `AgriTradeBackdrop`, `FloatingParticles`, `AgriExportMap`, and the main section) directly into `src/app/services/farmerSupport/page.tsx` as a client component. Deleted the separate `src/components/FarmerSupportServicesSection.tsx` file. The page now follows the same self-contained pattern used by `industryVerticals/page.tsx`.
+**Files touched:** `src/app/services/farmerSupport/page.tsx`, `src/components/FarmerSupportServicesSection.tsx` (deleted), `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [25-05-2026 11:45] — Premium Farmer Support Services section
+
+**What changed:** Built `FarmerSupportServicesSection` (`id="farmer-support-services"`) — a cinematic agri-trade ecosystem showcase featuring a responsive accordion + side-tab layout across 5 categories (Trade & Market, Capacity Building, Finance, Export, Tech & Sustainability), animated counter stats (Farmers Empowered, Export Destinations, FPO Network, Crop Verticals), a stylized India-to-world agri-export SVG map with animated trade-arc routes and pulsing destinations, glassmorphism panels with gold/emerald/royal gradient accents, floating particles, ambient glow orbs, and dual CTAs ("Explore Agri Trade Support", "Connect With IICCI Agriculture Desk"). Built with Framer Motion stagger/fade-up/AnimatePresence transitions. Mounted on the dedicated `/services/farmerSupport` route with proper metadata.
+**Files touched:** `src/components/FarmerSupportServicesSection.tsx`, `src/app/services/farmerSupport/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [24-05-2026 15:10] — Remove Mission & Vision from homepage
 
 **What changed:** Removed `MissionVisionSection` from the homepage (`src/app/page.tsx`). Section remains on `/about/mission-vision`.

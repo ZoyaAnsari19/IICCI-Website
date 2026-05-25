@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { TradeCircularsSection } from "@/components/TradeCircularsSection";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -633,7 +634,7 @@ export const Media = () => {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2 reveal-up">
+          <div className="flex flex-wrap gap-2 reveal-up items-center">
             {FILTERS.map((f) => (
               <button
                 key={f}
@@ -720,6 +721,7 @@ export default function MediaPage() {
   return (
     <main>
       <Media />
+      <TradeCircularsSection />
     </main>
   );
 }

@@ -1,13 +1,9 @@
 import { SitePageShell } from "@/components/layouts/SitePageShell";
 
-export default function MediaLayout({
+export default function ResourcesLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <SitePageShell>
-      <main>{children}</main>
-    </SitePageShell>
-  );
+  return <SitePageShell>{children}</SitePageShell>;
 }

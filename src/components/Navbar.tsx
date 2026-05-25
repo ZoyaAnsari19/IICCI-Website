@@ -5,16 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ABOUT_NAV } from "@/config/about-navigation";
+import { MEDIA_NAV } from "@/config/media-navigation";
 import { MORE_NAV } from "@/config/more-navigation";
-import {
-  SERVICES_NAV,
-  SERVICE_QUICK_LINKS,
-} from "@/config/services-navigation";
+import { SERVICES_NAV } from "@/config/services-navigation";
 
 type MenuItem = {
   label: string;
   href?: string;
-  mega?: "about" | "services";
+  mega?: "about" | "services" | "media";
   triggerOnly?: boolean;
 };
 
@@ -22,8 +20,7 @@ const menuItems: MenuItem[] = [
   { label: "About", mega: "about", triggerOnly: true },
   { label: "Membership", href: "#membership" },
   { label: "Services", mega: "services", triggerOnly: true },
-  { label: "Media", href: "/media" },
-  { label: "Events", href: "#events" },
+  { label: "Media", href: "/media", mega: "media" },
 ];
 
 const navLinkClass =
@@ -49,6 +46,38 @@ export const Navbar = () => {
       if (pathname === "/") {
         e.preventDefault();
         document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    [pathname, closeMobile],
+  );
+
+  const downloadsHref =
+    pathname === "/resources" ? "#downloads-resources" : "/#downloads-resources";
+
+  const exchangeRatesHref =
+    pathname === "/trade-tools"
+      ? "#live-exchange-rates"
+      : pathname === "/"
+        ? "#live-exchange-rates"
+        : "/trade-tools#live-exchange-rates";
+
+  const scrollToDownloads = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      closeMobile();
+      if (pathname === "/" || pathname === "/resources") {
+        e.preventDefault();
+        document.getElementById("downloads-resources")?.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    [pathname, closeMobile],
+  );
+
+  const scrollToExchangeRates = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      closeMobile();
+      if (pathname === "/" || pathname === "/trade-tools") {
+        e.preventDefault();
+        document.getElementById("live-exchange-rates")?.scrollIntoView({ behavior: "smooth" });
       }
     },
     [pathname, closeMobile],
@@ -91,10 +120,30 @@ export const Navbar = () => {
     return () => window.removeEventListener("resize", onResize);
   }, [closeMobile]);
 
+  useEffect(() => {
+    const setNavHeight = () => {
+      const nav = document.getElementById("navbar");
+      if (!nav) return;
+      document.documentElement.style.setProperty(
+        "--navbar-height",
+        `${nav.offsetHeight}px`,
+      );
+    };
+    setNavHeight();
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(setNavHeight) : null;
+    const nav = document.getElementById("navbar");
+    if (nav && ro) ro.observe(nav);
+    window.addEventListener("resize", setNavHeight);
+    return () => {
+      window.removeEventListener("resize", setNavHeight);
+      ro?.disconnect();
+    };
+  }, []);
+
   return (
     <header
       id="navbar"
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 shadow-[0_2px_20px_rgba(8,17,32,0.08)]"
+      className="fixed top-0 left-0 right-0 z-50 bg-white overflow-visible transition-all duration-500 shadow-[0_2px_20px_rgba(8,17,32,0.08)]"
     >
       {/* Top bar */}
       <div className="hidden lg:block bg-[#0a192f] border-b border-white/10">
@@ -229,11 +278,11 @@ export const Navbar = () => {
                 {item.mega === "services" && (
                   <div
                     className={cx(
-                      "mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[760px] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
+                      "mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[720px] max-w-[calc(100vw-2rem)] bg-white rounded-2xl p-6 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
                       openMega === "services" && "is-open",
                     )}
                   >
-                    <div className="grid grid-cols-2 gap-3 mb-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                       {SERVICES_NAV.map((c) => (
                         <Link
                           key={c.href}
@@ -247,7 +296,7 @@ export const Navbar = () => {
                           <div className="w-11 h-11 rounded-xl bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition shrink-0">
                             <i className={`fas ${c.icon} text-sm`}></i>
                           </div>
-                          <div>
+                          <div className="min-w-0">
                             <div className="mega-item-title text-navy-950 text-sm font-semibold">
                               {c.title}
                             </div>
@@ -255,26 +304,6 @@ export const Navbar = () => {
                               {c.description}
                             </div>
                           </div>
-                        </Link>
-                      ))}
-                    </div>
-                    <div className="grid grid-cols-3 gap-2">
-                      {SERVICE_QUICK_LINKS.map((c) => (
-                        <Link
-                          key={c.t}
-                          href="/services"
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-50 transition group/item"
-                          onClick={() => {
-                            closeMegaMenu();
-                            closeMobile();
-                          }}
-                        >
-                          <div className="w-9 h-9 rounded-lg bg-royal/10 flex items-center justify-center text-royal group-hover/item:bg-gold group-hover/item:text-white transition">
-                            <i className={`fas ${c.icon} text-sm`}></i>
-                          </div>
-                          <span className="mega-item-title text-navy-900 text-sm font-medium group-hover/item:text-navy-950">
-                            {c.t}
-                          </span>
                         </Link>
                       ))}
                     </div>
@@ -295,6 +324,40 @@ export const Navbar = () => {
                     </div>
                   </div>
                 )}
+                {item.mega === "media" && (
+                  <div
+                    className={cx(
+                      "mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[320px] bg-white rounded-2xl p-4 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
+                      openMega === "media" && "is-open",
+                    )}
+                  >
+                    <div className="space-y-1">
+                      {MEDIA_NAV.map((c) => (
+                        <Link
+                          key={c.href}
+                          href={c.href}
+                          className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition group/item"
+                          onClick={() => {
+                            closeMegaMenu();
+                            closeMobile();
+                          }}
+                        >
+                          <div className="w-10 h-10 rounded-lg bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition shrink-0">
+                            <i className={`fas ${c.icon} text-sm`} aria-hidden />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="mega-item-title text-navy-950 text-sm font-semibold">
+                              {c.title}
+                            </div>
+                            <div className="mega-item-desc text-gray-500 text-xs mt-0.5">
+                              {c.description}
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </li>
             ))}
             <li
@@ -307,7 +370,7 @@ export const Navbar = () => {
               </button>
               <div
                 className={cx(
-                  "mega-menu absolute top-full right-0 mt-2 w-64 bg-white rounded-2xl p-3 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
+                  "mega-menu absolute top-full right-0 mt-2 w-72 bg-white rounded-2xl p-3 shadow-[0_12px_48px_rgba(8,17,32,0.12)] border border-gray-100",
                   openMega === "more" && "is-open",
                 )}
               >
@@ -315,13 +378,19 @@ export const Navbar = () => {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="block px-3 py-2 rounded-lg text-navy-900/80 hover:bg-gray-50 hover:text-navy-950 text-sm transition"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-navy-900/80 hover:bg-gray-50 hover:text-navy-950 transition group/item"
                     onClick={() => {
                       closeMegaMenu();
                       closeMobile();
                     }}
                   >
-                    {item.title}
+                    <span className="w-8 h-8 rounded-lg bg-gold/15 flex items-center justify-center text-gold shrink-0 group-hover/item:bg-gold group-hover/item:text-white transition">
+                      <i className={cx("fas", item.icon, "text-xs")} aria-hidden />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium text-navy-950">{item.title}</span>
+                      <span className="block text-[11px] text-gray-500 mt-0.5">{item.description}</span>
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -330,28 +399,20 @@ export const Navbar = () => {
 
           {/* Right actions */}
           <div className="flex items-center gap-2 shrink-0">
-            <button
-              id="search-btn"
-              type="button"
-              className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full border border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300 hover:text-navy-950 text-xs transition"
-              aria-label="Search"
+            <Link
+              href={exchangeRatesHref}
+              onClick={scrollToExchangeRates}
+              className="hidden md:inline-flex items-center gap-2 px-3 py-2 lg:px-4 rounded-full border border-gold/40 bg-gold/10 text-gold-700 hover:bg-gold hover:text-white text-xs font-semibold transition"
+              aria-label="Live exchange rates"
+              title="Live Exchange Rates"
             >
-              <i className="fas fa-search text-xs"></i>
-              <span className="hidden lg:inline">Search</span>
-              <kbd className="hidden lg:inline-flex items-center px-1.5 py-0.5 text-[10px] bg-white border border-gray-200 rounded text-gray-500">
-                ⌘K
-              </kbd>
-            </button>
-
-            <div className="hidden md:flex items-center gap-1 px-2 py-1.5 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-xs">
-              <i className="fas fa-globe text-gold text-[10px]"></i>
-              <select className="bg-transparent text-navy-900/80 text-xs outline-none cursor-pointer">
-                <option className="bg-white text-navy-950">EN</option>
-                <option className="bg-white text-navy-950">हिं</option>
-                <option className="bg-white text-navy-950">عربي</option>
-                <option className="bg-white text-navy-950">中文</option>
-              </select>
-            </div>
+              <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-70" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <i className="fas fa-money-bill-trend text-xs" aria-hidden />
+              <span className="hidden lg:inline">Live FX</span>
+            </Link>
 
             <button
               id="ai-toggle"
@@ -361,6 +422,15 @@ export const Navbar = () => {
               <i className="fas fa-robot text-xs"></i>
               <span className="hidden lg:inline">AI Assistant</span>
             </button>
+
+            <Link
+              href={downloadsHref}
+              onClick={scrollToDownloads}
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 lg:px-5 lg:py-2.5 rounded-full border border-gold/40 bg-gold/10 text-gold-700 hover:bg-gold hover:text-white text-[10px] sm:text-xs font-bold tracking-wide transition"
+            >
+              <i className="fas fa-download text-[10px]" aria-hidden />
+              <span className="hidden md:inline">Download</span>
+            </Link>
 
             <a
               href="#membership"
@@ -528,6 +598,21 @@ export const Navbar = () => {
                     ))}
                   </ul>
                 )}
+                {item.mega === "media" && (
+                  <ul className="mt-1 mb-2 ml-4 pl-4 border-l border-gray-200 space-y-0.5">
+                    {MEDIA_NAV.map((sub) => (
+                      <li key={sub.href}>
+                        <Link
+                          href={sub.href}
+                          className="block py-2 px-3 rounded-lg text-sm text-navy-900/70 hover:text-gold hover:bg-gray-50 transition"
+                          onClick={closeMobile}
+                        >
+                          {sub.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
               );
             })}
@@ -557,6 +642,26 @@ export const Navbar = () => {
           </div>
 
           <div className="mt-6 pt-6 border-t border-gray-200 space-y-4">
+            <Link
+              href={exchangeRatesHref}
+              onClick={scrollToExchangeRates}
+              className="flex items-center justify-center gap-2 w-full py-3.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-navy-950 text-sm font-bold hover:border-gold/40 hover:bg-gold/10 transition"
+            >
+              <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-70" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <i className="fas fa-money-bill-trend text-gold text-xs" aria-hidden />
+              Live Exchange Rates
+            </Link>
+            <Link
+              href={downloadsHref}
+              onClick={scrollToDownloads}
+              className="block w-full py-3.5 rounded-full border border-gold/40 bg-gold/10 text-gold-700 text-sm font-bold text-center hover:bg-gold hover:text-white transition"
+            >
+              <i className="fas fa-download mr-2 text-xs" aria-hidden />
+              Download Resources
+            </Link>
             <a
               href="#membership"
               className="block w-full py-3.5 rounded-full bg-navy-950 text-white text-sm font-bold text-center shadow-md hover:bg-navy-900 active:scale-[0.98] transition"

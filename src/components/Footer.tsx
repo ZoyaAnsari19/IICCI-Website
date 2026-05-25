@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image";
+import Link from "next/link";
 
 export const Footer = () => {
   return (
@@ -142,8 +143,19 @@ export const Footer = () => {
             <div>
               <div className="text-[10px] uppercase tracking-[0.2em] text-gold font-bold mb-4">Resources</div>
               <ul className="space-y-2.5 text-sm">
-                {['Trade Reports', 'Market Intelligence', 'Policy Updates', 'Media Center', 'Events', 'Download Center'].map((l) => (
-                  <li key={l}><a href="#" className="text-white/60 hover:text-white transition link-underline">{l}</a></li>
+                {[
+                  { l: 'Trade Reports', href: '/resources' },
+                  { l: 'Market Intelligence', href: '/media/currentAffairs' },
+                  { l: 'Policy Updates', href: '/media/currentAffairs' },
+                  { l: 'Media Center', href: '/media' },
+                  { l: 'Events', href: '/media/events' },
+                  { l: 'Resources Center', href: '/resources' },
+                ].map((item) => (
+                  <li key={item.l}>
+                    <Link href={item.href} className="text-white/60 hover:text-white transition link-underline">
+                      {item.l}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>

@@ -1,0 +1,760 @@
+"use client";
+
+import Link from "next/link";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  type Variants,
+} from "framer-motion";
+import {
+  CIRCULAR_CATEGORIES,
+  fetchTradeCirculars,
+  PRIORITY_META,
+  TICKER_CIRCULARS,
+  type CircularCategory,
+  type CircularPriority,
+  type FetchCircularsResult,
+  type TradeCircular,
+} from "@/config/trade-circulars";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.06, delayChildren: 0.04 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+function cx(...parts: Array<string | false | null | undefined>) {
+  return parts.filter(Boolean).join(" ");
+}
+
+function FloatingParticles() {
+  return (
+    <motion.div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <motion.span
+          key={i}
+          className="absolute w-1 h-1 rounded-full bg-gold/35"
+          style={{ left: `${10 + i * 18}%`, top: `${14 + (i % 3) * 26}%` }}
+          animate={{ y: [0, -12, 0], opacity: [0.15, 0.55, 0.15] }}
+          transition={{ duration: 5 + i * 0.4, repeat: Infinity, delay: i * 0.3 }}
+        />
+      ))}
+    </motion.div>
+  );
+}
+
+function CircularBackdrop({ uid }: { uid: string }) {
+  return (
+    <svg
+      viewBox="0 0 1600 900"
+      className="absolute inset-0 w-full h-full opacity-[0.08] pointer-events-none"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden
+    >
+      <defs>
+        <radialGradient id={`tc-glow-${uid}`} cx="50%" cy="40%" r="70%">
+          <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.35" />
+          <stop offset="45%" stopColor="#d4af37" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="#081120" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width="1600" height="900" fill={`url(#tc-glow-${uid})`} />
+    </svg>
+  );
+}
+
+function LiveTicker() {
+  return (
+    <div className="relative border-y border-white/10 bg-navy-900/80 overflow-hidden mb-8 lg:mb-10">
+      <div className="flex items-center gap-3 px-4 py-2.5">
+        <span className="shrink-0 flex items-center gap-2 px-2.5 py-1 rounded-md bg-gold/15 border border-gold/30">
+          <motion.span
+            className="w-1.5 h-1.5 rounded-full bg-red-400"
+            animate={{ opacity: [1, 0.35, 1] }}
+            transition={{ duration: 1.2, repeat: Infinity }}
+          />
+          <span className="text-[9px] uppercase tracking-[0.2em] text-gold font-bold">
+            Live Alerts
+          </span>
+        </span>
+        <div className="flex-1 overflow-hidden">
+          <motion.div
+            className="flex gap-10 whitespace-nowrap"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
+          >
+            {[...TICKER_CIRCULARS, ...TICKER_CIRCULARS].map((t, i) => (
+              <span
+                key={`${t}-${i}`}
+                className="text-[11px] text-white/65 uppercase tracking-[0.12em]"
+              >
+                {t}
+              </span>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PriorityBadge({ priority }: { priority: CircularPriority }) {
+  const meta = PRIORITY_META[priority];
+  return (
+    <span
+      className={cx(
+        "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border text-[9px] uppercase tracking-[0.14em] font-bold",
+        meta.className,
+      )}
+    >
+      {meta.pulse && (
+        <motion.span
+          className="w-1.5 h-1.5 rounded-full bg-red-400"
+          animate={{ scale: [1, 1.35, 1], opacity: [1, 0.5, 1] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        />
+      )}
+      {meta.label}
+    </span>
+  );
+}
+
+function NotificationCard({
+  circular,
+  onView,
+}: {
+  circular: TradeCircular;
+  onView: (c: TradeCircular) => void;
+}) {
+  return (
+    <motion.article
+      layout
+      variants={itemVariants}
+      whileHover={{ y: -4 }}
+      className={cx(
+        "group relative glass-dark rounded-2xl border overflow-hidden transition duration-400",
+        circular.priority === "urgent"
+          ? "border-red-400/25 hover:border-red-400/45"
+          : "border-white/10 hover:border-gold/35",
+      )}
+    >
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(80%_50%_at_0%_0%,rgba(212,175,55,0.1),transparent_55%)]" />
+      <div className="p-5 sm:p-6 flex flex-col h-full">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <PriorityBadge priority={circular.priority} />
+            {circular.pinned && (
+              <span className="px-2 py-0.5 rounded-md bg-royal/20 border border-royal-light/30 text-[9px] uppercase tracking-wider text-royal-light font-semibold">
+                <i className="fas fa-thumbtack text-[8px] mr-1" aria-hidden />
+                Pinned
+              </span>
+            )}
+          </div>
+          <span className="text-[10px] uppercase tracking-[0.14em] text-white/40">
+            {circular.publishDate}
+          </span>
+        </div>
+        <span className="text-[10px] uppercase tracking-[0.16em] text-gold/80 font-semibold mb-2">
+          {circular.categoryLabel}
+        </span>
+        <h3 className="font-display font-bold text-white text-base leading-snug mb-2 group-hover:text-gold transition line-clamp-2">
+          {circular.title}
+        </h3>
+        <p className="text-white/55 text-xs leading-relaxed line-clamp-3 flex-1 mb-4">
+          {circular.summary}
+        </p>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {circular.tags.slice(0, 3).map((t) => (
+            <span
+              key={t}
+              className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[10px] text-white/50"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+        <div className="flex gap-2 pt-4 border-t border-white/10">
+          <button
+            type="button"
+            onClick={() => onView(circular)}
+            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/12 text-white/80 text-xs font-semibold hover:border-gold/40 hover:text-gold transition"
+          >
+            <i className="fas fa-eye text-[10px]" aria-hidden />
+            View
+          </button>
+          <a
+            href={circular.pdfUrl}
+            download
+            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-gold text-navy-950 text-xs font-bold shadow-gold hover:scale-[1.02] transition"
+          >
+            <i className="fas fa-file-pdf text-[10px]" aria-hidden />
+            Download
+          </a>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+function FeaturedAlert({
+  circular,
+  onView,
+}: {
+  circular: TradeCircular;
+  onView: (c: TradeCircular) => void;
+}) {
+  return (
+    <motion.article
+      variants={itemVariants}
+      className={cx(
+        "relative glass-dark rounded-3xl border overflow-hidden",
+        circular.priority === "urgent" ? "border-red-400/30" : "border-gold/25",
+      )}
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-900/60 to-transparent pointer-events-none" />
+      <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
+      <div className="relative grid lg:grid-cols-12 gap-6 p-6 lg:p-8 items-center">
+        <div className="lg:col-span-8">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold text-navy-950 text-[10px] uppercase tracking-[0.18em] font-bold">
+              <motion.span
+                animate={{ opacity: [1, 0.4, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <i className="fas fa-bell text-[9px]" aria-hidden />
+              </motion.span>
+              Latest Alert
+            </span>
+            <PriorityBadge priority={circular.priority} />
+          </div>
+          <h3 className="font-display text-xl lg:text-2xl font-bold text-white mb-3 leading-snug">
+            {circular.title}
+          </h3>
+          <p className="text-white/60 text-sm leading-relaxed mb-4 max-w-2xl">
+            {circular.summary}
+          </p>
+          <div className="flex flex-wrap gap-3 text-[10px] uppercase tracking-[0.14em] text-white/45">
+            <span>{circular.categoryLabel}</span>
+            <span>·</span>
+            <span>{circular.publishDate}</span>
+          </div>
+        </div>
+        <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-2">
+          <button
+            type="button"
+            onClick={() => onView(circular)}
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
+          >
+            View Circular
+            <i className="fas fa-arrow-right text-[10px]" aria-hidden />
+          </button>
+          <a
+            href={circular.pdfUrl}
+            download
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold shadow-gold hover:scale-[1.02] transition"
+          >
+            Download Notifications
+            <i className="fas fa-download text-[10px]" aria-hidden />
+          </a>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+function CircularDetailModal({
+  circular,
+  onClose,
+}: {
+  circular: TradeCircular | null;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    if (!circular) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [circular, onClose]);
+
+  useEffect(() => {
+    if (!circular) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [circular]);
+
+  return (
+    <AnimatePresence>
+      {circular ? (
+        <motion.div
+          className="fixed inset-0 z-[80] flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.button
+            type="button"
+            className="absolute inset-0 bg-navy-950/85 backdrop-blur-md"
+            aria-label="Close"
+            onClick={onClose}
+          />
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            className="relative w-full max-w-xl glass-dark rounded-3xl border border-white/12 shadow-premium overflow-hidden"
+            initial={{ y: 20, opacity: 0, scale: 0.97 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: 20, opacity: 0, scale: 0.97 }}
+          >
+            <div className="p-6 border-b border-white/10">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <PriorityBadge priority={circular.priority} />
+                  <h3 className="font-display font-bold text-white text-lg mt-3 leading-snug">
+                    {circular.title}
+                  </h3>
+                  <p className="text-[10px] uppercase tracking-[0.14em] text-white/45 mt-2">
+                    {circular.categoryLabel} · {circular.publishDate}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="w-10 h-10 rounded-full border border-white/12 text-white/70 hover:text-white grid place-items-center shrink-0"
+                  aria-label="Close"
+                >
+                  <i className="fas fa-xmark" />
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              <p className="text-white/65 text-sm leading-relaxed mb-5">{circular.summary}</p>
+              <div className="flex gap-2">
+                <a
+                  href={circular.pdfUrl}
+                  download
+                  className="flex-1 inline-flex items-center justify-center gap-2 py-3 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold"
+                >
+                  Download PDF
+                  <i className="fas fa-download text-[10px]" aria-hidden />
+                </a>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="px-5 py-3 rounded-full border border-white/15 text-white text-sm font-semibold"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
+  );
+}
+
+function UrgentAlertsSidebar({ items }: { items: TradeCircular[] }) {
+  return (
+    <motion.aside
+      variants={itemVariants}
+      className="glass-dark rounded-3xl border border-red-400/20 p-5 lg:p-6 lg:sticky lg:top-[calc(var(--navbar-height,88px)+5rem)]"
+    >
+      <h3 className="font-display font-bold text-white text-sm uppercase tracking-[0.14em] mb-4 flex items-center gap-2">
+        <motion.span
+          animate={{ opacity: [1, 0.5, 1] }}
+          transition={{ duration: 1.8, repeat: Infinity }}
+        >
+          <i className="fas fa-bolt text-red-400 text-sm" aria-hidden />
+        </motion.span>
+        Urgent Alerts
+      </h3>
+      <ul className="space-y-3">
+        {items.map((c) => (
+          <li key={c.id}>
+            <a
+              href={c.pdfUrl}
+              download
+              className="group block rounded-xl p-2 -mx-2 hover:bg-white/[0.04] transition"
+            >
+              <PriorityBadge priority={c.priority} />
+              <p className="text-sm font-semibold text-white/85 group-hover:text-gold transition line-clamp-2 mt-2">
+                {c.title}
+              </p>
+              <p className="text-[10px] text-white/40 mt-1">{c.publishDate}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </motion.aside>
+  );
+}
+
+export function TradeCircularsSection({ preview = false }: { preview?: boolean }) {
+  const uid = useId().replace(/:/g, "");
+  const [category, setCategory] = useState<CircularCategory | "all">("all");
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [sort, setSort] = useState<"newest" | "priority">("newest");
+  const [visibleCount, setVisibleCount] = useState(preview ? 3 : 6);
+  const [data, setData] = useState<FetchCircularsResult | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [viewItem, setViewItem] = useState<TradeCircular | null>(null);
+  const [email, setEmail] = useState("");
+
+  const pageSize = preview ? 3 : visibleCount;
+
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search), 280);
+    return () => clearTimeout(t);
+  }, [search]);
+
+  useEffect(() => {
+    setVisibleCount(preview ? 3 : 6);
+  }, [category, debouncedSearch, sort, preview]);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    const result = await fetchTradeCirculars({
+      category,
+      search: debouncedSearch,
+      page: 1,
+      pageSize,
+      sort,
+    });
+    setData(result);
+    setLoading(false);
+  }, [category, debouncedSearch, pageSize, sort]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  const canLoadMore = !preview && data ? data.circulars.length < data.total : false;
+
+  const fullPageHref = "/media#trade-circulars";
+
+  return (
+    <section
+      id="trade-circulars"
+      aria-labelledby="trade-circulars-heading"
+      className={cx(
+        "relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950",
+        preview ? "py-16 lg:py-20" : "section-padding",
+        !preview && "border-t border-white/10",
+      )}
+    >
+      <CircularBackdrop uid={uid} />
+      <div className="absolute inset-0 bg-grid opacity-[0.06] pointer-events-none" />
+      <FloatingParticles />
+
+      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8 z-10">
+        {!preview && <LiveTicker />}
+
+        <motion.div
+          className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-8 lg:mb-10"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={containerVariants}
+        >
+          <div className="max-w-2xl">
+            <motion.div
+              variants={itemVariants}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-5"
+            >
+              <i className="fas fa-bell text-gold text-xs" aria-hidden />
+              <span className="text-[10px] uppercase tracking-[0.3em] text-white/85 font-semibold">
+                Trade Intelligence
+              </span>
+            </motion.div>
+            <motion.h2
+              id="trade-circulars-heading"
+              variants={itemVariants}
+              className="display-title font-display font-bold leading-[1.04]"
+            >
+              <span className="text-white">Trade Circulars &</span>{" "}
+              <span className="text-gradient-gold italic font-serif font-normal">
+                Notifications.
+              </span>
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-white/60 text-sm md:text-base mt-3">
+              Official Updates for Importers &amp; Exporters
+            </motion.p>
+          </div>
+          {!preview && (
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-2">
+              {[
+                "Regulatory awareness",
+                "Trade compliance",
+                "Business intelligence",
+              ].map((p) => (
+                <span
+                  key={p}
+                  className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-[10px] uppercase tracking-[0.12em] text-white/50"
+                >
+                  {p}
+                </span>
+              ))}
+            </motion.div>
+          )}
+        </motion.div>
+
+        <motion.div
+          variants={itemVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="flex flex-col lg:flex-row gap-3 mb-6"
+        >
+          <label className="relative flex-1">
+            <span className="sr-only">Search circulars</span>
+            <i
+              className="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm"
+              aria-hidden
+            />
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search DGFT, customs, tariffs, compliance…"
+              className="w-full pl-11 pr-4 py-3 rounded-2xl glass-dark border border-white/10 text-white text-sm placeholder:text-white/40 focus:border-gold/40 focus:outline-none transition"
+            />
+          </label>
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as "newest" | "priority")}
+            className="px-4 py-3 rounded-2xl glass-dark border border-white/10 text-white text-sm focus:border-gold/40 focus:outline-none bg-navy-900 min-w-[160px]"
+            aria-label="Sort circulars"
+          >
+            <option value="newest">Newest first</option>
+            <option value="priority">Priority first</option>
+          </select>
+        </motion.div>
+
+        <div className={cx("grid gap-6 lg:gap-8", !preview && "lg:grid-cols-12")}>
+          {!preview && (
+            <motion.aside
+              className="lg:col-span-3 space-y-2"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              variants={containerVariants}
+            >
+              <button
+                type="button"
+                onClick={() => setCategory("all")}
+                className={cx(
+                  "w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition",
+                  category === "all"
+                    ? "bg-gold text-navy-950"
+                    : "glass border border-white/10 text-white/70 hover:border-gold/30",
+                )}
+              >
+                All Circulars
+              </button>
+              {CIRCULAR_CATEGORIES.map((c) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => setCategory(c.id)}
+                  className={cx(
+                    "w-full text-left px-4 py-3 rounded-xl text-sm transition flex items-center gap-3",
+                    category === c.id
+                      ? "bg-gold/15 border border-gold/35 text-gold"
+                      : "glass border border-white/10 text-white/65 hover:border-gold/25 hover:text-white",
+                  )}
+                >
+                  <i className={cx("fas", c.icon, "text-xs w-4 text-center shrink-0")} aria-hidden />
+                  <span className="line-clamp-2">{c.label}</span>
+                </button>
+              ))}
+            </motion.aside>
+          )}
+
+          <div className={cx(!preview ? "lg:col-span-6 space-y-6" : "space-y-6")}>
+            {preview && (
+              <motion.div
+                variants={itemVariants}
+                className="flex gap-2 overflow-x-auto no-scrollbar pb-1"
+              >
+                <button
+                  type="button"
+                  onClick={() => setCategory("all")}
+                  className={cx(
+                    "shrink-0 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition",
+                    category === "all"
+                      ? "bg-gold text-navy-950"
+                      : "glass border border-white/10 text-white/60 hover:border-gold/30",
+                  )}
+                >
+                  All
+                </button>
+                {CIRCULAR_CATEGORIES.slice(0, 4).map((c) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => setCategory(c.id)}
+                    className={cx(
+                      "shrink-0 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition whitespace-nowrap",
+                      category === c.id
+                        ? "bg-gold text-navy-950"
+                        : "glass border border-white/10 text-white/60 hover:border-gold/30",
+                    )}
+                  >
+                    {c.label.split(" ")[0]}
+                  </button>
+                ))}
+              </motion.div>
+            )}
+
+            {loading ? (
+              <div className="py-16 text-center text-white/50 text-sm">
+                Loading trade notifications…
+              </div>
+            ) : (
+              <motion.div
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                variants={containerVariants}
+                className="space-y-6"
+              >
+                {data?.featured && (
+                  <FeaturedAlert circular={data.featured} onView={setViewItem} />
+                )}
+
+                {data && data.pinned.length > 0 && !preview && (
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {data.pinned.map((c) => (
+                      <NotificationCard key={c.id} circular={c} onView={setViewItem} />
+                    ))}
+                  </div>
+                )}
+
+                <AnimatePresence mode="popLayout">
+                  <motion.div
+                    key={`${category}-${debouncedSearch}-${pageSize}-${sort}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="grid sm:grid-cols-2 gap-4 lg:gap-5"
+                  >
+                    {data?.circulars.map((c) => (
+                      <NotificationCard key={c.id} circular={c} onView={setViewItem} />
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
+
+                {data && data.circulars.length === 0 && (
+                  <div className="py-16 text-center glass-dark rounded-3xl border border-white/10">
+                    <p className="text-white/60">No circulars match your filters.</p>
+                  </div>
+                )}
+
+                {canLoadMore && (
+                  <div className="flex justify-center">
+                    <button
+                      type="button"
+                      onClick={() => setVisibleCount((c) => c + 4)}
+                      className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
+                    >
+                      Load more circulars
+                      <i className="fas fa-plus text-[10px] text-gold" aria-hidden />
+                    </button>
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </div>
+
+          {!preview && data && (
+            <div className="lg:col-span-3">
+              <UrgentAlertsSidebar items={data.urgent} />
+            </div>
+          )}
+        </div>
+
+        {!preview && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-10 glass-dark rounded-2xl border border-white/10 p-6 flex flex-col md:flex-row gap-4 items-center justify-between"
+          >
+            <div>
+              <h3 className="font-display font-bold text-white text-sm mb-1">
+                Subscribe to trade alerts
+              </h3>
+              <p className="text-white/50 text-xs">
+                Get DGFT, customs, and compliance notifications in your inbox.
+              </p>
+            </div>
+            <form
+              className="flex flex-col sm:flex-row gap-2 w-full md:w-auto md:min-w-[360px]"
+              onSubmit={(e) => {
+                e.preventDefault();
+                setEmail("");
+              }}
+            >
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Work email"
+                required
+                className="flex-1 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/40 focus:border-gold/40 outline-none"
+              />
+              <button
+                type="submit"
+                className="px-5 py-2.5 rounded-full bg-gradient-gold text-navy-950 text-xs font-bold whitespace-nowrap"
+              >
+                Subscribe
+              </button>
+            </form>
+          </motion.div>
+        )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-10 lg:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3"
+        >
+          <Link
+            href={preview ? fullPageHref : "#trade-circulars"}
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold shadow-gold hover:scale-[1.02] transition"
+          >
+            {preview ? "View All Circulars" : "Explore Trade Updates"}
+            <i className="fas fa-arrow-right text-xs" aria-hidden />
+          </Link>
+          <Link
+            href="/resources#trade-circulars"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
+          >
+            Resources Center
+            <i className="fas fa-folder-open text-xs text-gold" aria-hidden />
+          </Link>
+        </motion.div>
+      </div>
+
+      <CircularDetailModal circular={viewItem} onClose={() => setViewItem(null)} />
+    </section>
+  );
+}
