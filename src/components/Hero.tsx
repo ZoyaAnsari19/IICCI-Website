@@ -81,14 +81,10 @@ export const Hero = () => {
           </div>
 
           {/* Right - Globe visualization */}
-          <div className="lg:col-span-5 relative h-[400px] md:h-[500px] lg:h-[640px] overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-              {/* Glow */}
-              <div className="absolute w-[120%] h-[120%] rounded-full bg-royal/20 blur-3xl"></div>
-              <div className="absolute w-[80%] h-[80%] rounded-full bg-gold/10 blur-3xl"></div>
-
+          <div className="lg:col-span-5 relative min-h-[400px] md:min-h-[500px] lg:min-h-[640px]">
+            <div className="absolute inset-0 flex items-center justify-center">
               {/* SVG Globe */}
-              <div className="relative w-full h-full max-w-[600px] max-h-[600px]">
+              <div className="relative w-full max-w-[600px] aspect-square">
                 <svg viewBox="0 0 600 600" className="w-full h-full">
                   <defs>
                     <radialGradient id="globe-grad" cx="40%" cy="40%">
