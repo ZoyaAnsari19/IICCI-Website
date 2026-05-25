@@ -36,15 +36,3 @@ export const SERVICES_NAV: ReadonlyArray<ServicesNavItem> = [
     href: "/services/upcomingProjects",
   },
 ] as const;
-
-export const SERVICE_QUICK_LINKS = [
-  { icon: "fa-globe", t: "Trade Facilitation" },
-  { icon: "fa-ship", t: "Import Export" },
-  { icon: "fa-certificate", t: "Global Certification" },
-  { icon: "fa-briefcase", t: "Placement Program" },
-  { icon: "fa-microchip", t: "AI & ML Services" },
-  { icon: "fa-people-arrows", t: "Business Matchmaking" },
-  { icon: "fa-handshake-angle", t: "Bilateral Trade" },
-  { icon: "fa-chart-line", t: "Market Research" },
-  { icon: "fa-link", t: "Joint Ventures" },
-] as const;

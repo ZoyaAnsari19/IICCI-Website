@@ -6,10 +6,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ABOUT_NAV } from "@/config/about-navigation";
 import { MORE_NAV } from "@/config/more-navigation";
-import {
-  SERVICES_NAV,
-  SERVICE_QUICK_LINKS,
-} from "@/config/services-navigation";
+import { SERVICES_NAV } from "@/config/services-navigation";
 
 type MenuItem = {
   label: string;
@@ -233,7 +230,7 @@ export const Navbar = () => {
                       openMega === "services" && "is-open",
                     )}
                   >
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       {SERVICES_NAV.map((c) => (
                         <Link
                           key={c.href}
@@ -255,26 +252,6 @@ export const Navbar = () => {
                               {c.description}
                             </div>
                           </div>
-                        </Link>
-                      ))}
-                    </div>
-                    <div className="grid grid-cols-3 gap-2">
-                      {SERVICE_QUICK_LINKS.map((c) => (
-                        <Link
-                          key={c.t}
-                          href="/services"
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-50 transition group/item"
-                          onClick={() => {
-                            closeMegaMenu();
-                            closeMobile();
-                          }}
-                        >
-                          <div className="w-9 h-9 rounded-lg bg-royal/10 flex items-center justify-center text-royal group-hover/item:bg-gold group-hover/item:text-white transition">
-                            <i className={`fas ${c.icon} text-sm`}></i>
-                          </div>
-                          <span className="mega-item-title text-navy-900 text-sm font-medium group-hover/item:text-navy-950">
-                            {c.t}
-                          </span>
                         </Link>
                       ))}
                     </div>

@@ -1,5 +1,15 @@
 # Changelog
 
+## [25-05-2026 12:22] — Remove Services mega menu quick links
+
+**What changed:** Removed the 9-item quick-link grid (Trade Facilitation, Import Export, Global Certification, Placement Program, AI & ML Services, Business Matchmaking, Bilateral Trade, Market Research, Joint Ventures) from the Services mega menu. Deleted `SERVICE_QUICK_LINKS` from config; mega menu now shows only the four primary cards plus footer.
+**Files touched:** `src/config/services-navigation.ts`, `src/components/Navbar.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 12:15] — Premium Upcoming Projects opportunity desk
 
 **What changed:** Built full `UpcomingProjectsSection` in `src/app/services/upcomingProjects/page.tsx` — CMS-ready architecture with `UpcomingProject` types, `fetchUpcomingProjects()` adapter (swap for API/headless CMS), 15 seed opportunities, debounced search, sector/country/type filters, quick-type chips, paginated load-more, skeleton loading, featured spotlight card, animated stats, glassmorphism project cards (sector icon, country code, status badges, investment range, enquire CTA), enquiry modal, trade-route SVG backdrop, floating particles, and bottom CTAs. Exported section with optional `preview` prop for homepage embed. Added "Upcoming Projects" to `SERVICES_NAV` and expanded mega menu to 4-column primary cards.
