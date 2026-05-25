@@ -24,7 +24,7 @@ export default function Home() {
       <Navbar />
       <main className="relative">
         <Hero />
-        <div className="relative z-10 bg-navy-950">
+        <div className="relative z-10 bg-white">
           <NarrativeFilmSection preview stackAfterHero />
         </div>
         <About />

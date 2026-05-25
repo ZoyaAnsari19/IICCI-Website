@@ -1,5 +1,15 @@
 # Changelog
 
+## [25-05-2026 15:00] — IICCI Story white background
+
+**What changed:** Narrative film section background switched to white with light-theme typography, glass-light milestone cards, and light grid overlay; homepage wrapper updated to match.
+**Files touched:** `src/app/media/iicci-story/page.tsx`, `src/app/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 14:50] — Fix top navbar / scroll overlap
 
 **What changed:** Resolved gold clip/overlap at page top — scroll progress bar moved below navbar (no glow at 0%), navbar height CSS variable + ResizeObserver, opaque header background, hero ping contained, stronger hero-to-story separation.

@@ -91,7 +91,7 @@ function StoryWorldBackdrop({ uid }: { uid: string }) {
   return (
     <svg
       viewBox="0 0 1600 900"
-      className="absolute inset-0 w-full h-full opacity-[0.09] pointer-events-none"
+      className="absolute inset-0 w-full h-full opacity-[0.14] pointer-events-none"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden
     >
@@ -133,7 +133,7 @@ function FloatingParticles() {
       {[0, 1, 2, 3, 4, 5].map((i) => (
         <motion.span
           key={i}
-          className="absolute w-1 h-1 rounded-full bg-gold/40"
+          className="absolute w-1 h-1 rounded-full bg-gold/50"
           style={{ left: `${8 + i * 15}%`, top: `${20 + (i % 3) * 22}%` }}
           animate={{ y: [0, -14, 0], opacity: [0.15, 0.6, 0.15] }}
           transition={{ duration: 5 + i * 0.5, repeat: Infinity, delay: i * 0.4 }}
@@ -442,8 +442,8 @@ export function NarrativeFilmSection({
       id="iicci-story"
       aria-labelledby="iicci-story-heading"
       className={cx(
-        "relative z-10 overflow-hidden bg-navy-950 bg-gradient-to-b from-navy-950 via-[#0c1528] to-navy-950",
-        stackAfterHero && "scroll-mt-24 -mt-px",
+        "relative z-10 overflow-hidden bg-white",
+        stackAfterHero && "scroll-mt-24 border-t border-navy-950/10",
         preview
           ? stackAfterHero
             ? "pt-16 sm:pt-20 lg:pt-24 pb-14 lg:pb-16"
@@ -452,10 +452,10 @@ export function NarrativeFilmSection({
       )}
     >
       <StoryWorldBackdrop uid={uid} />
-      <div className="absolute inset-0 bg-grid opacity-[0.06] pointer-events-none" />
+      <div className="absolute inset-0 bg-grid-light bg-grid-fade opacity-40 pointer-events-none" />
       <FloatingParticles />
       <motion.div
-        className="absolute top-1/4 -right-40 w-[500px] h-[500px] rounded-full bg-royal/10 blur-[140px] pointer-events-none"
+        className="absolute top-1/4 -right-40 w-[500px] h-[500px] rounded-full bg-gold/[0.08] blur-[140px] pointer-events-none"
         animate={{ opacity: [0.35, 0.65, 0.35] }}
         transition={{ duration: 10, repeat: Infinity }}
         aria-hidden
@@ -472,10 +472,10 @@ export function NarrativeFilmSection({
           <div className="lg:col-span-5">
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-5"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950/5 border border-navy-950/10 mb-5"
             >
               <i className="fas fa-film text-gold text-xs" aria-hidden />
-              <span className="text-[10px] uppercase tracking-[0.3em] text-white/85 font-semibold">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-navy-950/70 font-semibold">
                 Institutional Film
               </span>
             </motion.div>
@@ -484,18 +484,18 @@ export function NarrativeFilmSection({
               variants={itemVariants}
               className="display-title font-display font-bold leading-[1.05] mb-4"
             >
-              <span className="text-white">The IICCI</span>{" "}
+              <span className="text-navy-950">The IICCI</span>{" "}
               <span className="text-gradient-gold italic font-serif font-normal">
                 Story.
               </span>
             </motion.h2>
             <motion.p
               variants={itemVariants}
-              className="text-gold/90 text-sm md:text-base font-serif italic mb-3"
+              className="text-navy-950/80 text-sm md:text-base font-serif italic mb-3"
             >
               Discover Our Vision in Motion
             </motion.p>
-            <motion.p variants={itemVariants} className="text-white/60 text-sm leading-relaxed mb-6">
+            <motion.p variants={itemVariants} className="text-navy-950/65 text-sm leading-relaxed mb-6">
               From a forum of importers in 1985 to a global trade chamber today — watch the IICCI
               story.
             </motion.p>
@@ -503,7 +503,7 @@ export function NarrativeFilmSection({
             {!preview && (
               <motion.ul variants={itemVariants} className="space-y-2 mb-8">
                 {HIGHLIGHTS.map((h) => (
-                  <li key={h} className="flex items-center gap-2 text-sm text-white/70">
+                  <li key={h} className="flex items-center gap-2 text-sm text-navy-950/70">
                     <i className="fas fa-check text-gold text-xs" aria-hidden />
                     {h}
                   </li>
@@ -522,7 +522,7 @@ export function NarrativeFilmSection({
               </button>
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-navy-950/15 text-navy-950 text-sm font-semibold hover:border-gold/40 transition"
               >
                 Discover IICCI
                 <i className="fas fa-arrow-right text-[10px] text-gold" aria-hidden />
@@ -552,11 +552,11 @@ export function NarrativeFilmSection({
               key={m.label}
               variants={itemVariants}
               whileHover={{ y: -3 }}
-              className="glass-dark rounded-2xl border border-white/10 px-4 py-5 text-center hover:border-gold/30 transition"
+              className="glass-light rounded-2xl border border-navy-950/10 px-4 py-5 text-center hover:border-gold/35 shadow-sm hover:shadow-md transition"
             >
               <i className={cx("fas", m.icon, "text-gold text-sm mb-2")} aria-hidden />
-              <div className="font-display text-2xl font-bold text-white">{m.value}</div>
-              <div className="text-[9px] uppercase tracking-[0.16em] text-white/45 mt-1 leading-snug">
+              <div className="font-display text-2xl font-bold text-navy-950">{m.value}</div>
+              <div className="text-[9px] uppercase tracking-[0.16em] text-navy-950/50 mt-1 leading-snug">
                 {m.label}
               </div>
             </motion.div>
@@ -572,7 +572,7 @@ export function NarrativeFilmSection({
           >
             <Link
               href="/media"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-navy-950/15 text-navy-950 text-sm font-semibold hover:border-gold/40 transition"
             >
               Explore Our Global Vision
               <i className="fas fa-globe text-xs text-gold" aria-hidden />
