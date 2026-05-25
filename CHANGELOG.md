@@ -1,5 +1,15 @@
 # Changelog
 
+## [25-05-2026 12:50] — Global Certification Program section
+
+**What changed:** Built `GlobalCertificationSection` in `src/app/services/globalProgram/page.tsx` — premium ed-tech learning ecosystem with 8 certification area cards (International Trade, Import–Export, Logistics, Business Development, Compliance, Global Markets, Entrepreneurship, Professional Skills), benefits grid, animated success stats, 4-step certification journey timeline, alumni spotlight, animated progress bars, certification preview modal, `fetchCertificationPrograms()` CMS stub, Framer Motion animations, and CTAs (Apply, Explore Training, Start Learning). Added "Global Certification" to Services mega menu (7 cards, 3 per row).
+**Files touched:** `src/app/services/globalProgram/page.tsx`, `src/config/services-navigation.ts`, `CHANGELOG.md`
+**API endpoints used:** None (stub ready for CMS/API)
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 12:40] — Services mega menu 3 cards per row
 
 **What changed:** Services mega menu grid limited to 3 columns per row (`lg:grid-cols-3`); five service cards now wrap into two rows (3 + 2). Menu width adjusted to `720px` for balanced card layout.

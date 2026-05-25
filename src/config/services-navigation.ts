@@ -42,4 +42,11 @@ export const SERVICES_NAV: ReadonlyArray<ServicesNavItem> = [
     icon: "fa-chart-pie",
     href: "/services/monthlyServices",
   },
+  {
+    slug: "global-certification",
+    title: "Global Certification",
+    description: "International trade credentials",
+    icon: "fa-certificate",
+    href: "/services/globalProgram",
+  },
 ] as const;
