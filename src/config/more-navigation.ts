@@ -29,6 +29,13 @@ export const MORE_NAV: ReadonlyArray<MoreNavItem> = [
     href: "/more/women-wing",
   },
   {
+    slug: "trade-tools",
+    title: "Trade Tools",
+    description: "Live FX rates & import facts",
+    icon: "fa-chart-line",
+    href: "/trade-tools",
+  },
+  {
     slug: "resources",
     title: "Resources Center",
     description: "Downloads, guides & official documents",

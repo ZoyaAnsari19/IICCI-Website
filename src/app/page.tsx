@@ -12,14 +12,21 @@ import { Training } from "@/components/Training";
 import { Directory } from "@/components/Directory";
 import { DownloadsResourcesSection } from "@/components/DownloadsResourcesSection";
 import { TradeCircularsSection } from "@/components/TradeCircularsSection";
+import {
+  ExchangeRatesProvider,
+  LiveExchangeRatesSection,
+  LiveExchangeRatesTicker,
+} from "@/components/LiveExchangeRatesSection";
 import { Footer } from "@/components/Footer";
 import { Floats } from "@/components/Floats";
 
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <main className="relative">
+      <ExchangeRatesProvider>
+        <Navbar />
+        <LiveExchangeRatesTicker />
+        <main className="relative">
         <Hero />
         <div className="relative z-30">
           <Stats />
@@ -32,10 +39,12 @@ export default function Home() {
         <Membership />
         <Training />
         <Directory />
+        <LiveExchangeRatesSection preview />
         <TradeCircularsSection preview />
         <DownloadsResourcesSection preview />
-      </main>
-      <Footer />
+        </main>
+        <Footer />
+      </ExchangeRatesProvider>
       <Floats />
     </>
   );
