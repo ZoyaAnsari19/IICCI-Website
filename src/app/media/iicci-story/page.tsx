@@ -143,10 +143,10 @@ function FloatingParticles() {
   );
 }
 
-function CinematicPlayButton({ large }: { large?: boolean }) {
+function CinematicPlayButton({ large, className }: { large?: boolean; className?: string }) {
   const size = large ? "w-20 h-20 sm:w-24 sm:h-24" : "w-16 h-16";
   return (
-    <div className={cx("relative grid place-items-center", size)}>
+    <div className={cx("relative grid place-items-center", size, className)}>
       <motion.span
         className="absolute inset-0 rounded-full bg-gold/20"
         animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
@@ -346,7 +346,7 @@ function CinematicVideoShowcase({
         aria-hidden
       />
 
-      <div className="relative aspect-[21/9] sm:aspect-[2.4/1] min-h-[220px] sm:min-h-[280px] lg:min-h-[340px]">
+      <div className="relative aspect-[16/10] sm:aspect-[21/9] lg:aspect-[2.4/1] min-h-[180px] sm:min-h-[280px] lg:min-h-[340px]">
         <motion.div
           className="absolute inset-0"
           animate={reduced ? {} : { scale: [1.02, 1.06, 1.02] }}
@@ -373,7 +373,7 @@ function CinematicVideoShowcase({
         />
 
         {/* Intro overlay label */}
-        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-[3] flex items-center gap-2 px-3 py-1.5 rounded-full glass border border-white/15">
+        <div className="absolute top-3 left-3 sm:top-6 sm:left-6 z-[3] flex items-center gap-2 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full glass border border-white/15">
           <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
           <span className="text-[10px] uppercase tracking-[0.22em] text-white/80 font-semibold">
             Narrative Film
@@ -383,16 +383,16 @@ function CinematicVideoShowcase({
 
         {/* Center play */}
         <div className="absolute inset-0 z-[3] flex items-center justify-center">
-          <CinematicPlayButton large />
+          <CinematicPlayButton large className="scale-90 sm:scale-100" />
         </div>
 
         {/* Bottom bar */}
-        <div className="absolute bottom-0 left-0 right-0 z-[3] p-5 sm:p-6 flex flex-wrap items-end justify-between gap-4">
+        <div className="absolute bottom-0 left-0 right-0 z-[3] p-4 sm:p-6 flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-end justify-between gap-2 sm:gap-4">
           <div>
             <div className="text-[10px] uppercase tracking-[0.24em] text-gold font-semibold mb-1">
               Watch the Story
             </div>
-            <div className="font-display text-lg sm:text-xl font-bold text-white">
+            <div className="font-display text-base sm:text-xl font-bold text-white">
               {film.title.split("—")[0].trim()}
             </div>
           </div>
