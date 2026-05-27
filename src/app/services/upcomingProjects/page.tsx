@@ -926,7 +926,7 @@ export function UpcomingProjectsSection({ preview = false }: { preview?: boolean
       aria-labelledby="upcoming-projects-heading"
       className={cx(
         "relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950",
-        preview ? "py-16 lg:py-20" : "section-padding",
+        preview ? "py-16 lg:py-20" : "page-nav-offset",
       )}
     >
       <OpportunityMapBackdrop uid={uid} />

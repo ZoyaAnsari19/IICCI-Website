@@ -1,6 +1,9 @@
 export const Manifesto = () => {
   return (
-    <section id="manifesto" className="relative section-padding overflow-hidden">
+    <section
+      id="manifesto"
+      className="relative overflow-hidden pt-[calc(var(--navbar-height,88px)+3.5rem)] pb-28 lg:pt-[calc(var(--navbar-height,88px)+4.5rem)] lg:pb-32"
+    >
       {/* Cinematic background */}
       <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-royal-dark to-navy-950"></div>
       <div className="absolute inset-0 bg-grid opacity-20"></div>

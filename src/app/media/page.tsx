@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { TradeCircularsSection } from "@/components/TradeCircularsSection";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -609,7 +608,7 @@ export const Media = () => {
   const canLoadMore = shownList.length < filtered.list.length;
 
   return (
-    <section id="media" className="relative section-padding overflow-hidden">
+    <section id="media" className="relative page-nav-offset overflow-hidden">
       <div className="absolute inset-0 bg-radial-navy" />
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
@@ -721,7 +720,6 @@ export default function MediaPage() {
   return (
     <main>
       <Media />
-      <TradeCircularsSection />
     </main>
   );
 }

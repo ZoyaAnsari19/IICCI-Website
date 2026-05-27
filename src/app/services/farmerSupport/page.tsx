@@ -574,7 +574,7 @@ export function FarmerSupportServicesSection() {
     <section
       id="farmer-support-services"
       aria-labelledby="farmer-support-heading"
-      className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950"
+      className="relative page-nav-offset overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950"
     >
       <AgriTradeBackdrop uid={uid} />
       <motion.div

@@ -11,7 +11,6 @@ import {
   CIRCULAR_CATEGORIES,
   fetchTradeCirculars,
   PRIORITY_META,
-  TICKER_CIRCULARS,
   type CircularCategory,
   type CircularPriority,
   type FetchCircularsResult,
@@ -37,6 +36,59 @@ const itemVariants: Variants = {
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
+}
+
+const MOBILE_CIRCULARS_PREVIEW = 2;
+
+function categoryShortLabel(label: string) {
+  if (label.startsWith("DGFT")) return "DGFT";
+  if (label.startsWith("Customs")) return "Customs";
+  if (label.startsWith("Trade Policy")) return "Trade";
+  if (label.startsWith("Compliance")) return "Compliance";
+  if (label.startsWith("Tariff")) return "Tariff";
+  if (label.startsWith("Government")) return "Govt";
+  if (label.startsWith("International")) return "Global";
+  return label.split(" ")[0];
+}
+
+function CategoryFilterPills({
+  category,
+  onChange,
+}: {
+  category: CircularCategory | "all";
+  onChange: (value: CircularCategory | "all") => void;
+}) {
+  return (
+    <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-1 px-1">
+      <button
+        type="button"
+        onClick={() => onChange("all")}
+        className={cx(
+          "shrink-0 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition",
+          category === "all"
+            ? "bg-gold text-navy-950"
+            : "glass border border-white/10 text-white/60 hover:border-gold/30",
+        )}
+      >
+        All
+      </button>
+      {CIRCULAR_CATEGORIES.map((c) => (
+        <button
+          key={c.id}
+          type="button"
+          onClick={() => onChange(c.id)}
+          className={cx(
+            "shrink-0 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition whitespace-nowrap",
+            category === c.id
+              ? "bg-gold text-navy-950"
+              : "glass border border-white/10 text-white/60 hover:border-gold/30",
+          )}
+        >
+          {categoryShortLabel(c.label)}
+        </button>
+      ))}
+    </div>
+  );
 }
 
 function FloatingParticles() {
@@ -75,41 +127,6 @@ function CircularBackdrop({ uid }: { uid: string }) {
   );
 }
 
-function LiveTicker() {
-  return (
-    <div className="relative border-y border-white/10 bg-navy-900/80 overflow-hidden mb-8 lg:mb-10">
-      <div className="flex items-center gap-3 px-4 py-2.5">
-        <span className="shrink-0 flex items-center gap-2 px-2.5 py-1 rounded-md bg-gold/15 border border-gold/30">
-          <motion.span
-            className="w-1.5 h-1.5 rounded-full bg-red-400"
-            animate={{ opacity: [1, 0.35, 1] }}
-            transition={{ duration: 1.2, repeat: Infinity }}
-          />
-          <span className="text-[9px] uppercase tracking-[0.2em] text-gold font-bold">
-            Live Alerts
-          </span>
-        </span>
-        <div className="flex-1 overflow-hidden">
-          <motion.div
-            className="flex gap-10 whitespace-nowrap"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
-          >
-            {[...TICKER_CIRCULARS, ...TICKER_CIRCULARS].map((t, i) => (
-              <span
-                key={`${t}-${i}`}
-                className="text-[11px] text-white/65 uppercase tracking-[0.12em]"
-              >
-                {t}
-              </span>
-            ))}
-          </motion.div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function PriorityBadge({ priority }: { priority: CircularPriority }) {
   const meta = PRIORITY_META[priority];
   return (
@@ -144,16 +161,16 @@ function NotificationCard({
       variants={itemVariants}
       whileHover={{ y: -4 }}
       className={cx(
-        "group relative glass-dark rounded-2xl border overflow-hidden transition duration-400",
+        "group relative w-full min-w-0 glass-dark rounded-2xl border overflow-hidden transition duration-400",
         circular.priority === "urgent"
           ? "border-red-400/25 hover:border-red-400/45"
           : "border-white/10 hover:border-gold/35",
       )}
     >
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(80%_50%_at_0%_0%,rgba(212,175,55,0.1),transparent_55%)]" />
-      <div className="p-5 sm:p-6 flex flex-col h-full">
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-          <div className="flex flex-wrap items-center gap-2">
+      <div className="relative p-4 sm:p-6 flex flex-col h-full min-w-0">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between mb-3">
+          <div className="flex flex-wrap items-center gap-2 min-w-0">
             <PriorityBadge priority={circular.priority} />
             {circular.pinned && (
               <span className="px-2 py-0.5 rounded-md bg-royal/20 border border-royal-light/30 text-[9px] uppercase tracking-wider text-royal-light font-semibold">
@@ -162,34 +179,34 @@ function NotificationCard({
               </span>
             )}
           </div>
-          <span className="text-[10px] uppercase tracking-[0.14em] text-white/40">
+          <span className="text-[10px] uppercase tracking-[0.14em] text-white/40 shrink-0">
             {circular.publishDate}
           </span>
         </div>
-        <span className="text-[10px] uppercase tracking-[0.16em] text-gold/80 font-semibold mb-2">
+        <span className="text-[10px] uppercase tracking-[0.16em] text-gold/80 font-semibold mb-2 line-clamp-1">
           {circular.categoryLabel}
         </span>
-        <h3 className="font-display font-bold text-white text-base leading-snug mb-2 group-hover:text-gold transition line-clamp-2">
+        <h3 className="font-display font-bold text-white text-sm sm:text-base leading-snug mb-2 group-hover:text-gold transition line-clamp-2 break-words">
           {circular.title}
         </h3>
-        <p className="text-white/55 text-xs leading-relaxed line-clamp-3 flex-1 mb-4">
+        <p className="text-white/55 text-xs leading-relaxed line-clamp-3 flex-1 mb-3 sm:mb-4 break-words">
           {circular.summary}
         </p>
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
           {circular.tags.slice(0, 3).map((t) => (
             <span
               key={t}
-              className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[10px] text-white/50"
+              className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[10px] text-white/50 max-w-full truncate"
             >
               {t}
             </span>
           ))}
         </div>
-        <div className="flex gap-2 pt-4 border-t border-white/10">
+        <div className="mt-auto flex flex-col sm:flex-row gap-2 pt-3 sm:pt-4 border-t border-white/10">
           <button
             type="button"
             onClick={() => onView(circular)}
-            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/12 text-white/80 text-xs font-semibold hover:border-gold/40 hover:text-gold transition"
+            className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl border border-white/12 text-white/80 text-xs font-semibold hover:border-gold/40 hover:text-gold transition"
           >
             <i className="fas fa-eye text-[10px]" aria-hidden />
             View
@@ -197,76 +214,10 @@ function NotificationCard({
           <a
             href={circular.pdfUrl}
             download
-            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-gold text-navy-950 text-xs font-bold shadow-gold hover:scale-[1.02] transition"
+            className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl bg-gradient-gold text-navy-950 text-xs font-bold shadow-gold hover:scale-[1.02] active:scale-[0.98] transition"
           >
             <i className="fas fa-file-pdf text-[10px]" aria-hidden />
             Download
-          </a>
-        </div>
-      </div>
-    </motion.article>
-  );
-}
-
-function FeaturedAlert({
-  circular,
-  onView,
-}: {
-  circular: TradeCircular;
-  onView: (c: TradeCircular) => void;
-}) {
-  return (
-    <motion.article
-      variants={itemVariants}
-      className={cx(
-        "relative glass-dark rounded-3xl border overflow-hidden",
-        circular.priority === "urgent" ? "border-red-400/30" : "border-gold/25",
-      )}
-    >
-      <div className="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-900/60 to-transparent pointer-events-none" />
-      <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
-      <div className="relative grid lg:grid-cols-12 gap-6 p-6 lg:p-8 items-center">
-        <div className="lg:col-span-8">
-          <div className="flex flex-wrap items-center gap-2 mb-3">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold text-navy-950 text-[10px] uppercase tracking-[0.18em] font-bold">
-              <motion.span
-                animate={{ opacity: [1, 0.4, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <i className="fas fa-bell text-[9px]" aria-hidden />
-              </motion.span>
-              Latest Alert
-            </span>
-            <PriorityBadge priority={circular.priority} />
-          </div>
-          <h3 className="font-display text-xl lg:text-2xl font-bold text-white mb-3 leading-snug">
-            {circular.title}
-          </h3>
-          <p className="text-white/60 text-sm leading-relaxed mb-4 max-w-2xl">
-            {circular.summary}
-          </p>
-          <div className="flex flex-wrap gap-3 text-[10px] uppercase tracking-[0.14em] text-white/45">
-            <span>{circular.categoryLabel}</span>
-            <span>·</span>
-            <span>{circular.publishDate}</span>
-          </div>
-        </div>
-        <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-2">
-          <button
-            type="button"
-            onClick={() => onView(circular)}
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
-          >
-            View Circular
-            <i className="fas fa-arrow-right text-[10px]" aria-hidden />
-          </button>
-          <a
-            href={circular.pdfUrl}
-            download
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold shadow-gold hover:scale-[1.02] transition"
-          >
-            Download Notifications
-            <i className="fas fa-download text-[10px]" aria-hidden />
           </a>
         </div>
       </div>
@@ -370,55 +321,20 @@ function CircularDetailModal({
   );
 }
 
-function UrgentAlertsSidebar({ items }: { items: TradeCircular[] }) {
-  return (
-    <motion.aside
-      variants={itemVariants}
-      className="glass-dark rounded-3xl border border-red-400/20 p-5 lg:p-6 lg:sticky lg:top-[calc(var(--navbar-height,88px)+5rem)]"
-    >
-      <h3 className="font-display font-bold text-white text-sm uppercase tracking-[0.14em] mb-4 flex items-center gap-2">
-        <motion.span
-          animate={{ opacity: [1, 0.5, 1] }}
-          transition={{ duration: 1.8, repeat: Infinity }}
-        >
-          <i className="fas fa-bolt text-red-400 text-sm" aria-hidden />
-        </motion.span>
-        Urgent Alerts
-      </h3>
-      <ul className="space-y-3">
-        {items.map((c) => (
-          <li key={c.id}>
-            <a
-              href={c.pdfUrl}
-              download
-              className="group block rounded-xl p-2 -mx-2 hover:bg-white/[0.04] transition"
-            >
-              <PriorityBadge priority={c.priority} />
-              <p className="text-sm font-semibold text-white/85 group-hover:text-gold transition line-clamp-2 mt-2">
-                {c.title}
-              </p>
-              <p className="text-[10px] text-white/40 mt-1">{c.publishDate}</p>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </motion.aside>
-  );
-}
-
-export function TradeCircularsSection({ preview = false }: { preview?: boolean }) {
+function TradeCircularPageContent() {
   const uid = useId().replace(/:/g, "");
   const [category, setCategory] = useState<CircularCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [sort, setSort] = useState<"newest" | "priority">("newest");
-  const [visibleCount, setVisibleCount] = useState(preview ? 3 : 6);
+  const [visibleCount, setVisibleCount] = useState(6);
   const [data, setData] = useState<FetchCircularsResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [viewItem, setViewItem] = useState<TradeCircular | null>(null);
   const [email, setEmail] = useState("");
+  const [showAllMobileCirculars, setShowAllMobileCirculars] = useState(false);
 
-  const pageSize = preview ? 3 : visibleCount;
+  const pageSize = visibleCount;
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedSearch(search), 280);
@@ -426,8 +342,9 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
   }, [search]);
 
   useEffect(() => {
-    setVisibleCount(preview ? 3 : 6);
-  }, [category, debouncedSearch, sort, preview]);
+    setVisibleCount(6);
+    setShowAllMobileCirculars(false);
+  }, [category, debouncedSearch, sort]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -446,27 +363,34 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
     load();
   }, [load]);
 
-  const canLoadMore = !preview && data ? data.circulars.length < data.total : false;
+  const canLoadMore = data ? data.circulars.length < data.total : false;
 
-  const fullPageHref = "/media#trade-circulars";
+  const displayCards = useMemo(() => {
+    if (!data) return [];
+    const seen = new Set<string>();
+    const list: TradeCircular[] = [];
+    const add = (c: TradeCircular) => {
+      if (seen.has(c.id)) return;
+      seen.add(c.id);
+      list.push(c);
+    };
+    if (data.featured) add(data.featured);
+    data.pinned.forEach(add);
+    data.circulars.forEach(add);
+    return list;
+  }, [data]);
 
   return (
     <section
       id="trade-circulars"
       aria-labelledby="trade-circulars-heading"
-      className={cx(
-        "relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950",
-        preview ? "py-16 lg:py-20" : "section-padding",
-        !preview && "border-t border-white/10",
-      )}
+      className="relative page-nav-offset overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 border-t border-white/10"
     >
       <CircularBackdrop uid={uid} />
       <div className="absolute inset-0 bg-grid opacity-[0.06] pointer-events-none" />
       <FloatingParticles />
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8 z-10">
-        {!preview && <LiveTicker />}
-
+      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 z-10">
         <motion.div
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-8 lg:mb-10"
           initial="hidden"
@@ -498,22 +422,20 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
               Official Updates for Importers &amp; Exporters
             </motion.p>
           </div>
-          {!preview && (
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-2">
-              {[
-                "Regulatory awareness",
-                "Trade compliance",
-                "Business intelligence",
-              ].map((p) => (
-                <span
-                  key={p}
-                  className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-[10px] uppercase tracking-[0.12em] text-white/50"
-                >
-                  {p}
-                </span>
-              ))}
-            </motion.div>
-          )}
+          <motion.div variants={itemVariants} className="flex flex-wrap gap-2">
+            {[
+              "Regulatory awareness",
+              "Trade compliance",
+              "Business intelligence",
+            ].map((p) => (
+              <span
+                key={p}
+                className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-[10px] uppercase tracking-[0.12em] text-white/50"
+              >
+                {p}
+              </span>
+            ))}
+          </motion.div>
         </motion.div>
 
         <motion.div
@@ -521,9 +443,9 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="flex flex-col lg:flex-row gap-3 mb-6"
+          className="flex flex-col sm:flex-row gap-3 mb-4 lg:mb-6"
         >
-          <label className="relative flex-1">
+          <label className="relative flex-1 min-w-0">
             <span className="sr-only">Search circulars</span>
             <i
               className="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm"
@@ -540,7 +462,7 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as "newest" | "priority")}
-            className="px-4 py-3 rounded-2xl glass-dark border border-white/10 text-white text-sm focus:border-gold/40 focus:outline-none bg-navy-900 min-w-[160px]"
+            className="w-full sm:w-auto sm:min-w-[160px] px-4 py-3 rounded-2xl glass-dark border border-white/10 text-white text-sm focus:border-gold/40 focus:outline-none bg-navy-900"
             aria-label="Sort circulars"
           >
             <option value="newest">Newest first</option>
@@ -548,10 +470,19 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
           </select>
         </motion.div>
 
-        <div className={cx("grid gap-6 lg:gap-8", !preview && "lg:grid-cols-12")}>
-          {!preview && (
-            <motion.aside
-              className="lg:col-span-3 space-y-2"
+        <motion.div
+          variants={itemVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="lg:hidden mb-5"
+        >
+          <CategoryFilterPills category={category} onChange={setCategory} />
+        </motion.div>
+
+        <div className="grid gap-6 lg:gap-8 lg:grid-cols-12">
+          <motion.aside
+              className="hidden lg:block lg:col-span-3 space-y-2"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
@@ -586,44 +517,8 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
                 </button>
               ))}
             </motion.aside>
-          )}
 
-          <div className={cx(!preview ? "lg:col-span-6 space-y-6" : "space-y-6")}>
-            {preview && (
-              <motion.div
-                variants={itemVariants}
-                className="flex gap-2 overflow-x-auto no-scrollbar pb-1"
-              >
-                <button
-                  type="button"
-                  onClick={() => setCategory("all")}
-                  className={cx(
-                    "shrink-0 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition",
-                    category === "all"
-                      ? "bg-gold text-navy-950"
-                      : "glass border border-white/10 text-white/60 hover:border-gold/30",
-                  )}
-                >
-                  All
-                </button>
-                {CIRCULAR_CATEGORIES.slice(0, 4).map((c) => (
-                  <button
-                    key={c.id}
-                    type="button"
-                    onClick={() => setCategory(c.id)}
-                    className={cx(
-                      "shrink-0 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition whitespace-nowrap",
-                      category === c.id
-                        ? "bg-gold text-navy-950"
-                        : "glass border border-white/10 text-white/60 hover:border-gold/30",
-                    )}
-                  >
-                    {c.label.split(" ")[0]}
-                  </button>
-                ))}
-              </motion.div>
-            )}
-
+          <div className="lg:col-span-9 min-w-0">
             {loading ? (
               <div className="py-16 text-center text-white/50 text-sm">
                 Loading trade notifications…
@@ -636,43 +531,61 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
                 variants={containerVariants}
                 className="space-y-6"
               >
-                {data?.featured && (
-                  <FeaturedAlert circular={data.featured} onView={setViewItem} />
-                )}
-
-                {data && data.pinned.length > 0 && !preview && (
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {data.pinned.map((c) => (
-                      <NotificationCard key={c.id} circular={c} onView={setViewItem} />
-                    ))}
-                  </div>
-                )}
-
                 <AnimatePresence mode="popLayout">
                   <motion.div
-                    key={`${category}-${debouncedSearch}-${pageSize}-${sort}`}
+                    key={`${category}-${debouncedSearch}-${pageSize}-${sort}-${showAllMobileCirculars}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="grid sm:grid-cols-2 gap-4 lg:gap-5"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 min-w-0"
                   >
-                    {data?.circulars.map((c) => (
-                      <NotificationCard key={c.id} circular={c} onView={setViewItem} />
+                    {displayCards.map((c, index) => (
+                      <div
+                        key={c.id}
+                        className={cx(
+                          "min-w-0",
+                          index >= MOBILE_CIRCULARS_PREVIEW &&
+                            !showAllMobileCirculars &&
+                            "max-md:hidden",
+                        )}
+                      >
+                        <NotificationCard circular={c} onView={setViewItem} />
+                      </div>
                     ))}
                   </motion.div>
                 </AnimatePresence>
 
-                {data && data.circulars.length === 0 && (
+                {data && displayCards.length === 0 && (
                   <div className="py-16 text-center glass-dark rounded-3xl border border-white/10">
                     <p className="text-white/60">No circulars match your filters.</p>
                   </div>
                 )}
 
+                {displayCards.length > MOBILE_CIRCULARS_PREVIEW && (
+                    <div className="flex justify-center md:hidden">
+                      <button
+                        type="button"
+                        onClick={() => setShowAllMobileCirculars((prev) => !prev)}
+                        aria-expanded={showAllMobileCirculars}
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-gold/40 bg-gold/10 text-gold text-sm font-semibold hover:bg-gold hover:text-navy-950 transition"
+                      >
+                        {showAllMobileCirculars ? "View Less" : "View More"}
+                        <i
+                          className={cx(
+                            "fas fa-chevron-down text-xs transition-transform duration-300",
+                            showAllMobileCirculars && "rotate-180",
+                          )}
+                          aria-hidden
+                        />
+                      </button>
+                    </div>
+                  )}
+
                 {canLoadMore && (
-                  <div className="flex justify-center">
+                  <div className={cx("flex justify-center", !showAllMobileCirculars && "max-md:hidden")}>
                     <button
                       type="button"
-                      onClick={() => setVisibleCount((c) => c + 4)}
+                      onClick={() => setVisibleCount((c) => c + 6)}
                       className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
                     >
                       Load more circulars
@@ -683,21 +596,14 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
               </motion.div>
             )}
           </div>
-
-          {!preview && data && (
-            <div className="lg:col-span-3">
-              <UrgentAlertsSidebar items={data.urgent} />
-            </div>
-          )}
         </div>
 
-        {!preview && (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-10 glass-dark rounded-2xl border border-white/10 p-6 flex flex-col md:flex-row gap-4 items-center justify-between"
-          >
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-10 glass-dark rounded-2xl border border-white/10 p-6 flex flex-col md:flex-row gap-4 items-center justify-between"
+        >
             <div>
               <h3 className="font-display font-bold text-white text-sm mb-1">
                 Subscribe to trade alerts
@@ -728,8 +634,7 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
                 Subscribe
               </button>
             </form>
-          </motion.div>
-        )}
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 14 }}
@@ -738,14 +643,14 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
           className="mt-10 lg:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3"
         >
           <Link
-            href={preview ? fullPageHref : "#trade-circulars"}
+            href="/media"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold shadow-gold hover:scale-[1.02] transition"
           >
-            {preview ? "View All Circulars" : "Explore Trade Updates"}
+            Back to Media Center
             <i className="fas fa-arrow-right text-xs" aria-hidden />
           </Link>
           <Link
-            href="/resources#trade-circulars"
+            href="/resources"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
           >
             Resources Center
@@ -756,5 +661,13 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
 
       <CircularDetailModal circular={viewItem} onClose={() => setViewItem(null)} />
     </section>
+  );
+}
+
+export default function TradeCircularPage() {
+  return (
+    <main>
+      <TradeCircularPageContent />
+    </main>
   );
 }

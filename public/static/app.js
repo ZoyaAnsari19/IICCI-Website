@@ -37,6 +37,7 @@
         }
       });
     });
+    window.__iicciLenis = lenis;
   } catch (err) {
     console.warn('Lenis init failed', err);
   }
@@ -91,65 +92,113 @@
     else window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // ===== Reveal Animations =====
-  const revealEls = document.querySelectorAll('.reveal-up, .reveal-fade, .reveal-scale');
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          // Slight stagger
-          setTimeout(() => entry.target.classList.add('in-view'), (i % 6) * 70);
-          io.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-  );
-  revealEls.forEach((el) => {
-    io.observe(el);
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
-      el.classList.add('in-view');
-    }
-  });
+  // ===== Reveal Animations (re-run on Next.js client navigations) =====
+  const REVEAL_SELECTOR = '.reveal-up, .reveal-fade, .reveal-scale';
 
-  setTimeout(() => {
-    document
-      .querySelectorAll('.reveal-up:not(.in-view), .reveal-fade:not(.in-view), .reveal-scale:not(.in-view)')
-      .forEach((el) => el.classList.add('in-view'));
-  }, 2500);
+  function initRevealAnimations() {
+    if (!window.__iicciRevealIO) {
+      window.__iicciRevealIO = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => entry.target.classList.add('in-view'), (i % 6) * 70);
+              window.__iicciRevealIO.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      );
+    }
+
+    const io = window.__iicciRevealIO;
+    document.querySelectorAll(REVEAL_SELECTOR).forEach((el) => {
+      if (el.classList.contains('in-view')) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+        el.classList.add('in-view');
+        return;
+      }
+      io.observe(el);
+    });
+  }
+
+  function scheduleRevealFallback(delay) {
+    if (window.__iicciRevealFallbackTimer) {
+      clearTimeout(window.__iicciRevealFallbackTimer);
+    }
+    window.__iicciRevealFallbackTimer = setTimeout(() => {
+      document
+        .querySelectorAll(
+          '.reveal-up:not(.in-view), .reveal-fade:not(.in-view), .reveal-scale:not(.in-view)'
+        )
+        .forEach((el) => el.classList.add('in-view'));
+    }, delay);
+  }
 
   // ===== Counter Animation =====
-  const counters = document.querySelectorAll('.counter');
-  const counterIO = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = parseInt(el.getAttribute('data-target') || '0', 10);
-          const duration = 2000;
-          const startTime = performance.now();
-          const startVal = 0;
-          const formatter = new Intl.NumberFormat('en-US');
+  function initCounters() {
+    if (!window.__iicciCounterIO) {
+      window.__iicciCounterIO = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const el = entry.target;
+              if (el.dataset.counterDone === '1') return;
+              el.dataset.counterDone = '1';
 
-          function tick(now) {
-            const elapsed = now - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            // ease out
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const value = Math.floor(startVal + (target - startVal) * eased);
-            el.textContent = formatter.format(value);
-            if (progress < 1) requestAnimationFrame(tick);
-            else el.textContent = formatter.format(target);
-          }
-          requestAnimationFrame(tick);
-          counterIO.unobserve(el);
-        }
-      });
-    },
-    { threshold: 0.5 }
-  );
-  counters.forEach((c) => counterIO.observe(c));
+              const target = parseInt(el.getAttribute('data-target') || '0', 10);
+              const duration = 2000;
+              const startTime = performance.now();
+              const startVal = 0;
+              const formatter = new Intl.NumberFormat('en-US');
+
+              function tick(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const value = Math.floor(startVal + (target - startVal) * eased);
+                el.textContent = formatter.format(value);
+                if (progress < 1) requestAnimationFrame(tick);
+                else el.textContent = formatter.format(target);
+              }
+              requestAnimationFrame(tick);
+              window.__iicciCounterIO.unobserve(el);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+    }
+
+    document.querySelectorAll('.counter:not([data-counter-done])').forEach((c) => {
+      window.__iicciCounterIO.observe(c);
+    });
+  }
+
+  /** Re-initialize scroll reveals after Next.js App Router client navigations */
+  function onRouteChange() {
+    if (window.__iicciLenis) {
+      window.__iicciLenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+
+    initRevealAnimations();
+    scheduleRevealFallback(500);
+    initCounters();
+
+    if (window.ScrollTrigger) {
+      window.ScrollTrigger.refresh(true);
+    }
+
+    updateScroll();
+  }
+
+  window.__iicciOnRouteChange = onRouteChange;
+
+  initRevealAnimations();
+  scheduleRevealFallback(2500);
+  initCounters();
 
   // ===== Particles =====
   const particlesContainer = document.getElementById('particles');

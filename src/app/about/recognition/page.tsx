@@ -1,4 +1,3 @@
-import { SubpageHero } from "@/components/layouts/SubpageHero";
 import { RecognitionSection } from "@/components/RecognitionSection";
 import type { Metadata } from "next";
 
@@ -9,14 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function RecognitionPage() {
-  return (
-    <>
-      <SubpageHero
-        title="Recognition"
-        tagline="Awards & certifications"
-        badge="Institutional Excellence"
-      />
-      <RecognitionSection />
-    </>
-  );
+  return <RecognitionSection />;
 }

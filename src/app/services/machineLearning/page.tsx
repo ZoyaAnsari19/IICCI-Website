@@ -549,7 +549,7 @@ export function AIMachineLearningSection({ preview = false }: { preview?: boolea
       aria-labelledby="ai-machine-learning-heading"
       className={cx(
         "relative overflow-hidden bg-gradient-to-b from-navy-950 via-[#0a1628] to-navy-950 border-t border-white/10",
-        preview ? "py-16 lg:py-20" : "section-padding",
+        preview ? "py-16 lg:py-20" : "page-nav-offset",
       )}
     >
       <AIDigitalBackdrop uid={uid} />

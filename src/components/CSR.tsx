@@ -230,9 +230,12 @@ function AnimatedGlobe() {
   );
 }
 
-export const CSR = () => {
+export const CSR = ({ standalone = false }: { standalone?: boolean }) => {
   return (
-    <section id="csr" className="relative section-padding overflow-hidden bg-white">
+    <section
+      id="csr"
+      className={`relative overflow-hidden bg-white ${standalone ? "page-nav-offset" : "section-padding"}`}
+    >
       <div className="absolute inset-0 bg-gradient-to-b from-emerald-50/40 via-white to-white pointer-events-none" aria-hidden />
       <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-emerald-400/8 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-gold/8 blur-3xl pointer-events-none" />

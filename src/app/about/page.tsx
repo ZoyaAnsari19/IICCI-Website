@@ -1,4 +1,3 @@
-import { SubpageHero } from "@/components/layouts/SubpageHero";
 import { About } from "@/components/About";
 import type { Metadata } from "next";
 
@@ -9,14 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return (
-    <>
-      <SubpageHero
-        title="About IICCI"
-        tagline="Our story, legacy & impact"
-        badge="The Chamber"
-      />
-      <About />
-    </>
-  );
+  return <About />;
 }

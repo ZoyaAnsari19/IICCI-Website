@@ -1,4 +1,3 @@
-import { SubpageHero } from "@/components/layouts/SubpageHero";
 import { CSR } from "@/components/CSR";
 import type { Metadata } from "next";
 
@@ -10,13 +9,8 @@ export const metadata: Metadata = {
 
 export default function CsrSdgPage() {
   return (
-    <>
-      <SubpageHero
-        title="CSR & SDG"
-        tagline="Sustainability & social impact"
-        badge="Responsible Commerce"
-      />
-      <CSR />
-    </>
+    <main>
+      <CSR standalone />
+    </main>
   );
 }

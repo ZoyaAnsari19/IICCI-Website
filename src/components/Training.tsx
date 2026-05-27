@@ -1,13 +1,58 @@
-export const Training = () => {
+import Image from 'next/image'
+
+export const Training = ({ standalone = false }: { standalone?: boolean }) => {
   const courses = [
-    { icon: 'fa-ship', title: 'Import Export Masterclass', duration: '12 weeks', level: 'All Levels', students: '2,400+', price: '₹15,000', flag: '★ Bestseller' },
-    { icon: 'fa-helicopter', title: 'DGCA Drone Pilot Training', duration: '6 weeks', level: 'Beginner-Advanced', students: '850+', price: '₹65,000', flag: 'Govt. Certified' },
-    { icon: 'fa-certificate', title: 'Global Trade Certification', duration: '8 weeks', level: 'Intermediate', students: '1,200+', price: '₹25,000', flag: 'International' },
-    { icon: 'fa-briefcase', title: 'Global Placement Program', duration: 'Ongoing', level: 'Graduate', students: '3,500+', price: 'Free for members', flag: 'Career' },
+    {
+      icon: 'fa-ship',
+      title: 'Import Export Masterclass',
+      duration: '12 weeks',
+      level: 'All Levels',
+      students: '2,400+',
+      price: '₹15,000',
+      flag: '★ Bestseller',
+      image: 'https://images.pexels.com/photos/1268855/pexels-photo-1268855.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      alt: 'Cargo containers stacked at an export shipping port',
+    },
+    {
+      icon: 'fa-helicopter',
+      title: 'DGCA Drone Pilot Training',
+      duration: '6 weeks',
+      level: 'Beginner-Advanced',
+      students: '850+',
+      price: '₹65,000',
+      flag: 'Govt. Certified',
+      image: 'https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      alt: 'Professional drone hovering against a clear sky',
+    },
+    {
+      icon: 'fa-certificate',
+      title: 'Global Trade Certification',
+      duration: '8 weeks',
+      level: 'Intermediate',
+      students: '1,200+',
+      price: '₹25,000',
+      flag: 'International',
+      image: 'https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      alt: 'Export documentation and global trade compliance',
+    },
+    {
+      icon: 'fa-briefcase',
+      title: 'Global Placement Program',
+      duration: 'Ongoing',
+      level: 'Graduate',
+      students: '3,500+',
+      price: 'Free for members',
+      flag: 'Career',
+      image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      alt: 'Professionals collaborating in a modern corporate workspace',
+    },
   ]
 
   return (
-    <section id="ai" className="relative section-padding overflow-hidden">
+    <section
+      id="ai"
+      className={`relative overflow-hidden ${standalone ? "page-nav-offset" : "section-padding"}`}
+    >
       <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-royal-dark to-navy-950" />
       <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none">
@@ -38,12 +83,19 @@ export const Training = () => {
           {courses.map((c) => (
             <div key={c.title} className="group glass-dark rounded-3xl overflow-hidden border border-white/10 card-lift reveal-up">
               <div className="relative h-44 overflow-hidden">
-                <div className="absolute inset-0 img-gradient-1 group-hover:scale-110 transition-transform duration-700"></div>
-                <div className="absolute inset-0 bg-grid opacity-20"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <i className={`fas ${c.icon} text-6xl text-white/30 group-hover:text-gold/60 transition`}></i>
+                <Image
+                  src={c.image}
+                  alt={c.alt}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-navy-950/20"></div>
+                <div className="absolute inset-0 bg-grid opacity-10"></div>
+                <div className="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-navy-950/70 backdrop-blur-sm border border-white/10 flex items-center justify-center">
+                  <i className={`fas ${c.icon} text-gold text-lg`}></i>
                 </div>
-                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-gold text-navy-950 text-[10px] uppercase tracking-wider font-bold">
+                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-gold text-navy-950 text-[10px] uppercase tracking-wider font-bold shadow-gold">
                   {c.flag}
                 </div>
               </div>

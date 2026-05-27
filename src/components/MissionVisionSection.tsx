@@ -372,24 +372,28 @@ function VisionCard() {
   );
 }
 
-export const MissionVisionSection = () => {
+export const MissionVisionSection = ({ embedded = false }: { embedded?: boolean }) => {
   return (
     <section
       id="mission-vision"
       aria-labelledby="mission-vision-heading"
-      className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-900 via-navy-950 to-navy-950"
+      className={
+        embedded
+          ? "relative section-padding overflow-hidden bg-white border-t border-navy-950/10"
+          : "relative overflow-hidden bg-white pt-[calc(var(--navbar-height,88px)+3.5rem)] pb-28 lg:pt-[calc(var(--navbar-height,88px)+4.5rem)] lg:pb-32"
+      }
     >
       <WorldTradeBackdrop />
-      <div className="absolute inset-0 bg-grid bg-grid-fade opacity-[0.08] pointer-events-none" />
+      <div className="absolute inset-0 bg-grid opacity-[0.04] pointer-events-none" />
 
       <motion.div
-        className="absolute -top-32 -left-24 w-[520px] h-[520px] rounded-full bg-gold/[0.07] blur-[140px] pointer-events-none"
+        className="absolute -top-32 -left-24 w-[520px] h-[520px] rounded-full bg-gold/5 blur-[140px] pointer-events-none"
         animate={{ x: [0, 26, 0], y: [0, -16, 0] }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
         aria-hidden
       />
       <motion.div
-        className="absolute -bottom-40 -right-24 w-[560px] h-[560px] rounded-full bg-royal/[0.18] blur-[140px] pointer-events-none"
+        className="absolute -bottom-40 -right-24 w-[560px] h-[560px] rounded-full bg-royal/5 blur-[140px] pointer-events-none"
         animate={{ x: [0, -20, 0], y: [0, 18, 0] }}
         transition={{
           duration: 18,
@@ -423,14 +427,14 @@ export const MissionVisionSection = () => {
         >
           <motion.div
             variants={itemVariants}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-6"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950/5 border border-navy-950/10 mb-6"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-white/80 font-semibold">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-navy-950/70 font-semibold">
               The IICCI Compass
             </span>
-            <span className="h-3 w-px bg-white/15" />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-gold/90 font-semibold">
+            <span className="h-3 w-px bg-navy-950/15" />
+            <span className="text-[10px] uppercase tracking-[0.3em] text-gold font-semibold">
               Purpose &amp; Promise
             </span>
           </motion.div>
@@ -440,7 +444,7 @@ export const MissionVisionSection = () => {
             variants={itemVariants}
             className="display-title font-display font-bold mb-5 leading-[1.02]"
           >
-            <span className="text-white">Mission &amp;</span>{" "}
+            <span className="text-navy-950">Mission &amp;</span>{" "}
             <span className="text-gradient-gold italic font-serif font-normal">
               Vision
             </span>
@@ -448,7 +452,7 @@ export const MissionVisionSection = () => {
 
           <motion.p
             variants={itemVariants}
-            className="text-base md:text-lg text-white/70 leading-relaxed font-serif italic"
+            className="text-base md:text-lg text-navy-950/70 leading-relaxed font-serif italic"
           >
             &ldquo;Our Purpose and Our Promise.&rdquo;
           </motion.p>
@@ -474,16 +478,16 @@ export const MissionVisionSection = () => {
           transition={{ duration: 0.55, delay: 0.15 }}
           className="mt-14 lg:mt-16 flex flex-wrap items-center justify-center gap-4"
         >
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-white/10">
+          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-navy-950/5 border border-navy-950/10">
             <i className="fas fa-earth-asia text-gold" aria-hidden />
-            <span className="text-sm text-white/80">
-              <span className="font-semibold text-white">India</span> to the
+            <span className="text-sm text-navy-950/80">
+              <span className="font-semibold text-navy-950">India</span> to the
               world &middot; the world to India
             </span>
           </div>
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-white/10">
+          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-navy-950/5 border border-navy-950/10">
             <i className="fas fa-shield-halved text-gold" aria-hidden />
-            <span className="text-sm text-white/80">
+            <span className="text-sm text-navy-950/80">
               Built on trust, intelligence &amp; institutional integrity
             </span>
           </div>

@@ -1,4 +1,3 @@
-import { SubpageHero } from "@/components/layouts/SubpageHero";
 import { PartnershipsSection } from "@/components/PartnershipsSection";
 import type { Metadata } from "next";
 
@@ -9,14 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function PartnershipsPage() {
-  return (
-    <>
-      <SubpageHero
-        title="Partnerships"
-        tagline="Strategic global alliances"
-        badge="Global Collaboration"
-      />
-      <PartnershipsSection />
-    </>
-  );
+  return <PartnershipsSection />;
 }

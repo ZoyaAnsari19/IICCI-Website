@@ -38,6 +38,60 @@ function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
+const RESOURCES_INITIAL_COUNT = 2;
+const RESOURCES_LOAD_MORE_STEP = 4;
+
+function categoryShortLabel(label: string) {
+  if (label.startsWith("Membership")) return "Membership";
+  if (label.startsWith("Corporate")) return "Corporate";
+  if (label.startsWith("Trade")) return "Trade";
+  if (label.startsWith("Event")) return "Events";
+  if (label.startsWith("Training")) return "Training";
+  if (label.startsWith("Certificates")) return "Certificates";
+  if (label.startsWith("Annual")) return "Reports";
+  return label.split(" ")[0];
+}
+
+function CategoryFilterPills({
+  category,
+  onChange,
+}: {
+  category: ResourceCategory | "all";
+  onChange: (value: ResourceCategory | "all") => void;
+}) {
+  return (
+    <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-1 px-1">
+      <button
+        type="button"
+        onClick={() => onChange("all")}
+        className={cx(
+          "shrink-0 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition",
+          category === "all"
+            ? "bg-gold text-navy-950"
+            : "border border-navy-950/10 bg-navy-950/5 text-navy-950/60 hover:border-gold/30",
+        )}
+      >
+        All
+      </button>
+      {RESOURCE_CATEGORIES.map((c) => (
+        <button
+          key={c.id}
+          type="button"
+          onClick={() => onChange(c.id)}
+          className={cx(
+            "shrink-0 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition whitespace-nowrap",
+            category === c.id
+              ? "bg-gold text-navy-950"
+              : "border border-navy-950/10 bg-navy-950/5 text-navy-950/60 hover:border-gold/30",
+          )}
+        >
+          {categoryShortLabel(c.label)}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function FloatingParticles() {
   return (
     <motion.div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
@@ -112,9 +166,9 @@ function ResourceCard({
       variants={itemVariants}
       whileHover={{ y: -4 }}
       className={cx(
-        "group relative glass-light rounded-2xl border border-navy-950/10 overflow-hidden",
+        "group relative w-full min-w-0 glass-light rounded-2xl border border-navy-950/10 overflow-hidden",
         "hover:border-gold/35 transition duration-400 flex flex-col h-full card-lift",
-        compact && "sm:flex-row sm:items-stretch",
+        compact && "lg:flex-row lg:items-stretch",
       )}
     >
       <div
@@ -123,7 +177,7 @@ function ResourceCard({
           "bg-[radial-gradient(70%_50%_at_20%_0%,rgba(212,175,55,0.08),transparent_60%)]",
         )}
       />
-      <div className={cx("p-5 flex gap-4", compact && "sm:flex-1 sm:items-start")}>
+      <div className={cx("p-4 sm:p-5 flex gap-3 sm:gap-4 min-w-0", compact && "lg:flex-1 lg:items-start")}>
         <FileTypeIcon type={resource.fileType} />
         <div className="min-w-0 flex-1 flex flex-col">
           <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -137,10 +191,10 @@ function ResourceCard({
               </span>
             )}
           </div>
-          <h3 className="font-display font-bold text-navy-950 text-base leading-snug mb-1.5 group-hover:text-gold transition line-clamp-2">
+          <h3 className="font-display font-bold text-navy-950 text-sm sm:text-base leading-snug mb-1.5 group-hover:text-gold transition line-clamp-2 break-words">
             {resource.title}
           </h3>
-          <p className="text-navy-950/60 text-xs leading-relaxed line-clamp-2 flex-1 mb-3">
+          <p className="text-navy-950/60 text-xs leading-relaxed line-clamp-2 flex-1 mb-3 break-words">
             {resource.description}
           </p>
           <div className="flex flex-wrap items-center justify-between gap-3 text-[10px] uppercase tracking-[0.12em] text-navy-950/45">
@@ -156,14 +210,14 @@ function ResourceCard({
       </div>
       <div
         className={cx(
-          "px-5 pb-5 flex gap-2",
-          compact && "sm:flex-col sm:justify-center sm:pb-0 sm:pr-5 sm:pl-0 sm:pt-5",
+          "px-4 sm:px-5 pb-4 sm:pb-5 flex flex-col sm:flex-row gap-2 mt-auto",
+          compact && "lg:flex-col lg:justify-center lg:pb-0 lg:pr-5 lg:pl-0 lg:pt-5",
         )}
       >
         <button
           type="button"
           onClick={() => onPreview(resource)}
-          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-navy-950/12 text-navy-950/75 text-xs font-semibold hover:border-gold/40 hover:text-gold transition"
+          className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl border border-navy-950/12 text-navy-950/75 text-xs font-semibold hover:border-gold/40 hover:text-gold transition"
         >
           <i className="fas fa-eye text-[10px]" aria-hidden />
           Preview
@@ -171,7 +225,104 @@ function ResourceCard({
         <a
           href={resource.fileUrl}
           download
-          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-gold text-navy-950 text-xs font-bold shadow-gold hover:scale-[1.02] transition"
+          className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl bg-gradient-gold text-navy-950 text-xs font-bold shadow-gold hover:scale-[1.02] active:scale-[0.98] transition"
+        >
+          <i className="fas fa-download text-[10px]" aria-hidden />
+          Download
+        </a>
+      </div>
+    </motion.article>
+  );
+}
+
+function RecommendedResourceCard({
+  resource,
+  onPreview,
+  rank,
+}: {
+  resource: ResourceItem;
+  onPreview: (r: ResourceItem) => void;
+  rank: number;
+}) {
+  const meta = FILE_TYPE_META[resource.fileType];
+  const categoryMeta = RESOURCE_CATEGORIES.find((c) => c.id === resource.category);
+
+  return (
+    <motion.article
+      layout
+      variants={itemVariants}
+      whileHover={{ y: -6 }}
+      className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-navy-950/10 bg-white shadow-[0_4px_24px_rgba(8,17,32,0.06)] transition duration-400 hover:border-gold/40 hover:shadow-[0_14px_44px_rgba(212,175,55,0.14)]"
+    >
+      <div
+        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold via-gold/50 to-transparent"
+        aria-hidden
+      />
+      <div className="relative border-b border-navy-950/[0.06] bg-gradient-to-br from-navy-950/[0.04] via-white to-gold/[0.05] px-5 pt-5 pb-4">
+        <span
+          className="absolute right-4 top-4 font-mono text-[11px] font-bold tracking-wider text-gold/35"
+          aria-hidden
+        >
+          {String(rank).padStart(2, "0")}
+        </span>
+        <div className="flex items-start gap-3.5 pr-8">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-gold/25 bg-gradient-to-br from-gold/15 to-gold/5 shadow-sm">
+            <i className={cx("fas", meta.icon, meta.color, "text-xl")} aria-hidden />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="mb-2 flex flex-wrap items-center gap-1.5">
+              <span className="inline-flex items-center gap-1 rounded-full bg-gold px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-navy-950">
+                <i className="fas fa-star text-[8px]" aria-hidden />
+                Top pick
+              </span>
+              <span className="rounded-full border border-navy-950/10 bg-white px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-navy-950/55">
+                {meta.label} · {resource.fileSize}
+              </span>
+            </div>
+            <p className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.1em] text-navy-950/45">
+              {categoryMeta && (
+                <i className={cx("fas", categoryMeta.icon, "text-gold/75 text-[9px]")} aria-hidden />
+              )}
+              <span className="line-clamp-1">{resource.categoryLabel}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-1 flex-col px-5 py-4">
+        <h3 className="font-display mb-2 text-[15px] font-bold leading-snug text-navy-950 transition group-hover:text-gold sm:text-base line-clamp-3">
+          {resource.title}
+        </h3>
+        <p className="mb-4 flex-1 text-xs leading-relaxed text-navy-950/60 line-clamp-3">
+          {resource.description}
+        </p>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-xl border border-navy-950/[0.06] bg-navy-950/[0.02] px-3 py-2.5 text-[10px] uppercase tracking-[0.1em] text-navy-950/45">
+          <span className="inline-flex items-center gap-1.5">
+            <i className="fas fa-clock text-gold/65 text-[9px]" aria-hidden />
+            Updated {resource.updatedAt}
+          </span>
+          {resource.downloadCount != null && (
+            <span className="inline-flex items-center gap-1.5">
+              <i className="fas fa-download text-gold/70 text-[9px]" aria-hidden />
+              {resource.downloadCount.toLocaleString()} downloads
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 border-t border-navy-950/[0.06] bg-navy-950/[0.02] p-4">
+        <button
+          type="button"
+          onClick={() => onPreview(resource)}
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-navy-950/12 bg-white px-3 py-2.5 text-xs font-semibold text-navy-950/75 transition hover:border-gold/40 hover:text-gold"
+        >
+          <i className="fas fa-eye text-[10px]" aria-hidden />
+          Preview
+        </button>
+        <a
+          href={resource.fileUrl}
+          download
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-gold px-3 py-2.5 text-xs font-bold text-navy-950 shadow-gold transition hover:scale-[1.02] active:scale-[0.98]"
         >
           <i className="fas fa-download text-[10px]" aria-hidden />
           Download
@@ -193,12 +344,12 @@ function FeaturedResourceSpotlight({
   return (
     <motion.article
       variants={itemVariants}
-      className="group relative rounded-3xl border border-gold/25 overflow-hidden hover:border-gold/45 transition duration-400"
+      className="group relative w-full min-w-0 rounded-3xl border border-gold/25 overflow-hidden hover:border-gold/45 transition duration-400"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-royal-dark via-navy-900 to-navy-950" />
       <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
       <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
-      <div className="relative grid lg:grid-cols-12 gap-6 p-6 lg:p-8 items-center">
+      <div className="relative grid lg:grid-cols-12 gap-5 sm:gap-6 p-5 sm:p-6 lg:p-8 items-center">
         <div className="lg:col-span-3 flex justify-center lg:justify-start">
           <motion.div
             whileHover={{ scale: 1.04, rotate: -2 }}
@@ -212,11 +363,11 @@ function FeaturedResourceSpotlight({
             <i className="fas fa-star text-[9px]" aria-hidden />
             Featured Resource
           </span>
-          <h3 className="font-display text-xl lg:text-2xl font-bold text-white mb-2 group-hover:text-gold transition">
+          <h3 className="font-display text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2 group-hover:text-gold transition break-words">
             {resource.title}
           </h3>
-          <p className="text-white/60 text-sm leading-relaxed mb-4">{resource.description}</p>
-          <div className="flex flex-wrap justify-center lg:justify-start gap-3 text-[10px] uppercase tracking-[0.14em] text-white/45">
+          <p className="text-white/60 text-sm leading-relaxed mb-4 break-words">{resource.description}</p>
+          <div className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3 text-[10px] uppercase tracking-[0.14em] text-white/45">
             <span>{meta.label} · {resource.fileSize}</span>
             <span>·</span>
             <span>{resource.categoryLabel}</span>
@@ -224,11 +375,11 @@ function FeaturedResourceSpotlight({
             <span>Updated {resource.updatedAt}</span>
           </div>
         </div>
-        <div className="lg:col-span-3 flex flex-col sm:flex-row lg:flex-col gap-2 justify-center">
+        <div className="lg:col-span-3 flex flex-col gap-2 justify-center w-full">
           <button
             type="button"
             onClick={() => onPreview(resource)}
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
+            className="inline-flex w-full items-center justify-center gap-2 px-5 py-3 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
           >
             Quick Preview
             <i className="fas fa-expand text-[10px]" aria-hidden />
@@ -236,7 +387,7 @@ function FeaturedResourceSpotlight({
           <a
             href={resource.fileUrl}
             download
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold shadow-gold btn-premium hover:scale-[1.02] transition"
+            className="inline-flex w-full items-center justify-center gap-2 px-5 py-3 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold shadow-gold btn-premium hover:scale-[1.02] active:scale-[0.98] transition"
           >
             Download Resources
             <i className="fas fa-download text-[10px]" aria-hidden />
@@ -335,11 +486,11 @@ function ResourcePreviewModal({
                   Document preview — connect CMS asset URL for inline viewer
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <a
                   href={resource.fileUrl}
                   download
-                  className="flex-1 inline-flex items-center justify-center gap-2 py-3 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold"
+                  className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 py-3 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold"
                 >
                   Download
                   <i className="fas fa-download text-[10px]" aria-hidden />
@@ -347,7 +498,7 @@ function ResourcePreviewModal({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-5 py-3 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
+                  className="w-full sm:w-auto px-5 py-3 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
                 >
                   Close
                 </button>
@@ -428,13 +579,19 @@ function PopularDownloads({ items }: { items: ResourceItem[] }) {
   );
 }
 
-export function DownloadsResourcesSection({ preview = false }: { preview?: boolean }) {
+export function DownloadsResourcesSection({
+  preview = false,
+  standalone = false,
+}: {
+  preview?: boolean;
+  standalone?: boolean;
+}) {
   const uid = useId().replace(/:/g, "");
   const [category, setCategory] = useState<ResourceCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [sort, setSort] = useState<"newest" | "popular">("newest");
-  const [visibleCount, setVisibleCount] = useState(preview ? 4 : 6);
+  const [visibleCount, setVisibleCount] = useState(preview ? 4 : RESOURCES_INITIAL_COUNT);
   const [data, setData] = useState<FetchResourcesResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [previewItem, setPreviewItem] = useState<ResourceItem | null>(null);
@@ -447,7 +604,7 @@ export function DownloadsResourcesSection({ preview = false }: { preview?: boole
   }, [search]);
 
   useEffect(() => {
-    setVisibleCount(preview ? 4 : 6);
+    setVisibleCount(preview ? 4 : RESOURCES_INITIAL_COUNT);
   }, [category, debouncedSearch, sort, preview]);
 
   const load = useCallback(async () => {
@@ -481,7 +638,7 @@ export function DownloadsResourcesSection({ preview = false }: { preview?: boole
       aria-labelledby="downloads-resources-heading"
       className={cx(
         "relative overflow-hidden bg-white",
-        preview ? "py-16 lg:py-20" : "section-padding",
+        preview ? "py-16 lg:py-20" : standalone ? "page-nav-offset" : "section-padding",
         !preview && "border-t border-navy-950/10",
       )}
     >
@@ -490,7 +647,7 @@ export function DownloadsResourcesSection({ preview = false }: { preview?: boole
       <div className="absolute top-0 right-0 w-[480px] h-[480px] rounded-full bg-gold/8 blur-3xl pointer-events-none" />
       <FloatingParticles />
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8 z-10">
+      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 z-10">
         <motion.div
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-8 lg:mb-10"
           initial="hidden"
@@ -551,9 +708,9 @@ export function DownloadsResourcesSection({ preview = false }: { preview?: boole
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="flex flex-col lg:flex-row gap-3 mb-6"
+          className="flex flex-col sm:flex-row gap-3 mb-4 lg:mb-6"
         >
-          <label className="relative flex-1">
+          <label className="relative flex-1 min-w-0">
             <span className="sr-only">Search resources</span>
             <i
               className="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-navy-950/40 text-sm"
@@ -570,7 +727,7 @@ export function DownloadsResourcesSection({ preview = false }: { preview?: boole
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as "newest" | "popular")}
-            className="px-4 py-3 rounded-2xl bg-white border border-navy-950/10 text-navy-950 text-sm focus:border-gold/40 focus:outline-none min-w-[160px]"
+            className="w-full sm:w-auto sm:min-w-[160px] px-4 py-3 rounded-2xl bg-white border border-navy-950/10 text-navy-950 text-sm focus:border-gold/40 focus:outline-none"
             aria-label="Sort resources"
           >
             <option value="newest">Newest first</option>
@@ -578,10 +735,22 @@ export function DownloadsResourcesSection({ preview = false }: { preview?: boole
           </select>
         </motion.div>
 
+        {!preview && (
+          <motion.div
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="lg:hidden mb-5"
+          >
+            <CategoryFilterPills category={category} onChange={setCategory} />
+          </motion.div>
+        )}
+
         <div className={cx("grid gap-6 lg:gap-8", !preview && "lg:grid-cols-12")}>
           {!preview && (
             <motion.aside
-              className="lg:col-span-3 space-y-2"
+              className="hidden lg:block lg:col-span-3 space-y-2"
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
@@ -618,42 +787,10 @@ export function DownloadsResourcesSection({ preview = false }: { preview?: boole
             </motion.aside>
           )}
 
-          <div className={cx(!preview ? "lg:col-span-9 space-y-6" : "space-y-6")}>
+          <div className={cx(!preview ? "lg:col-span-9 space-y-6 min-w-0" : "space-y-6 min-w-0")}>
             {preview && (
-              <motion.div
-                variants={itemVariants}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                className="flex gap-2 overflow-x-auto no-scrollbar pb-1"
-              >
-                <button
-                  type="button"
-                  onClick={() => setCategory("all")}
-                  className={cx(
-                    "shrink-0 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition",
-                    category === "all"
-                      ? "bg-gold text-navy-950"
-                      : "border border-navy-950/10 bg-navy-950/5 text-navy-950/60 hover:border-gold/30",
-                  )}
-                >
-                  All
-                </button>
-                {RESOURCE_CATEGORIES.slice(0, 5).map((c) => (
-                  <button
-                    key={c.id}
-                    type="button"
-                    onClick={() => setCategory(c.id)}
-                    className={cx(
-                      "shrink-0 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition whitespace-nowrap",
-                      category === c.id
-                        ? "bg-gold text-navy-950"
-                        : "border border-navy-950/10 bg-navy-950/5 text-navy-950/60 hover:border-gold/30",
-                    )}
-                  >
-                    {c.label.split(" ")[0]}
-                  </button>
-                ))}
+              <motion.div variants={itemVariants} initial="hidden" whileInView="show" viewport={{ once: true }}>
+                <CategoryFilterPills category={category} onChange={setCategory} />
               </motion.div>
             )}
 
@@ -680,14 +817,12 @@ export function DownloadsResourcesSection({ preview = false }: { preview?: boole
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="grid sm:grid-cols-2 gap-4 lg:gap-5"
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5 min-w-0"
                   >
                     {data?.resources.map((r) => (
-                      <ResourceCard
-                        key={r.id}
-                        resource={r}
-                        onPreview={setPreviewItem}
-                      />
+                      <div key={r.id} className="min-w-0">
+                        <ResourceCard resource={r} onPreview={setPreviewItem} />
+                      </div>
                     ))}
                   </motion.div>
                 </AnimatePresence>
@@ -702,7 +837,7 @@ export function DownloadsResourcesSection({ preview = false }: { preview?: boole
                   <div className="flex justify-center">
                     <button
                       type="button"
-                      onClick={() => setVisibleCount((c) => c + 4)}
+                      onClick={() => setVisibleCount((c) => c + RESOURCES_LOAD_MORE_STEP)}
                       className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-navy-950/15 text-navy-950 text-sm font-semibold hover:border-gold/40 transition"
                     >
                       Load more resources
@@ -713,31 +848,45 @@ export function DownloadsResourcesSection({ preview = false }: { preview?: boole
 
                 {!preview && recommended.length > 0 && (
                   <div>
-                    <h3 className="text-[10px] uppercase tracking-[0.2em] text-navy-950/45 font-bold mb-4">
-                      Recommended for you
-                    </h3>
-                    <div className="grid sm:grid-cols-3 gap-4">
-                      {recommended.map((r) => (
-                        <ResourceCard
-                          key={`rec-${r.id}`}
-                          resource={r}
-                          onPreview={setPreviewItem}
-                          compact
-                        />
+                    <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                      <div>
+                        <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-gold/25 bg-gold/10 px-3 py-1">
+                          <i className="fas fa-wand-magic-sparkles text-gold text-[10px]" aria-hidden />
+                          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-navy-950">
+                            Recommended for you
+                          </span>
+                        </div>
+                        <p className="max-w-xl text-sm text-navy-950/55">
+                          Popular resources members download most — membership forms, profiles, and trade guides.
+                        </p>
+                      </div>
+                      <span className="text-[10px] uppercase tracking-[0.14em] text-navy-950/40 font-semibold">
+                        {recommended.length} curated picks
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 min-w-0">
+                      {recommended.map((r, index) => (
+                        <div key={`rec-${r.id}`} className="min-w-0">
+                          <RecommendedResourceCard
+                            resource={r}
+                            onPreview={setPreviewItem}
+                            rank={index + 1}
+                          />
+                        </div>
                       ))}
                     </div>
+                  </div>
+                )}
+
+                {!preview && data && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    <RecentResources items={data.recent} />
+                    <PopularDownloads items={data.popular} />
                   </div>
                 )}
               </motion.div>
             )}
           </div>
-
-          {!preview && data && (
-            <div className="lg:col-span-12 grid md:grid-cols-2 gap-6 mt-2">
-              <RecentResources items={data.recent} />
-              <PopularDownloads items={data.popular} />
-            </div>
-          )}
         </div>
 
         <motion.div

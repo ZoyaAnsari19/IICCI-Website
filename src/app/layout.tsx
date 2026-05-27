@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { SiteClientInit } from "@/components/SiteClientInit";
+import { Floats } from "@/components/Floats";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -68,6 +69,7 @@ export default function RootLayout({
       </head>
       <body className="bg-navy-950 text-white font-sans antialiased overflow-x-hidden">
         {children}
+        <Floats />
         <Script
           src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"
           strategy="beforeInteractive"

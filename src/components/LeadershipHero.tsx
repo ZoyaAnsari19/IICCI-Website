@@ -2,12 +2,23 @@
 
 import { motion } from "framer-motion";
 
-export const LeadershipHero = () => {
+function cx(...parts: Array<string | false | null | undefined>) {
+  return parts.filter(Boolean).join(" ");
+}
+
+export const LeadershipHero = ({ embedded = false }: { embedded?: boolean }) => {
+  const HeadingTag = embedded ? "h2" : "h1";
+
   return (
     <section
       id="leadership"
       aria-label="Leadership"
-      className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950"
+      className={cx(
+        "relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950",
+        embedded
+          ? "section-padding border-t border-white/10"
+          : "pt-32 pb-16 lg:pt-40 lg:pb-20",
+      )}
     >
       <div className="absolute inset-0 bg-grid opacity-[0.06] pointer-events-none" />
       <div className="absolute top-1/3 -right-32 w-[500px] h-[500px] rounded-full bg-royal/15 blur-[120px] pointer-events-none" />
@@ -26,7 +37,7 @@ export const LeadershipHero = () => {
             </span>
           </div>
 
-          <h1
+          <HeadingTag
             className="display-title font-display font-bold mb-5 leading-[1.02]"
             style={{ letterSpacing: "-0.02em" }}
           >
@@ -35,7 +46,7 @@ export const LeadershipHero = () => {
             <span className="text-gradient-gold italic font-serif font-normal">
               Global Trade Leadership
             </span>
-          </h1>
+          </HeadingTag>
 
           <p className="text-white/70 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Meet the leadership, honorary directors, and operational teams

@@ -448,7 +448,7 @@ export function NarrativeFilmSection({
           ? stackAfterHero
             ? "pt-16 sm:pt-20 lg:pt-24 pb-14 lg:pb-16"
             : "py-14 lg:py-16"
-          : "section-padding",
+          : "page-nav-offset",
       )}
     >
       <StoryWorldBackdrop uid={uid} />

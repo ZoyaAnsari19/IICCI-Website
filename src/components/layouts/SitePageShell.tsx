@@ -1,6 +1,5 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Floats } from "@/components/Floats";
 
 export function SitePageShell({ children }: { children: React.ReactNode }) {
   return (
@@ -8,7 +7,6 @@ export function SitePageShell({ children }: { children: React.ReactNode }) {
       <Navbar />
       {children}
       <Footer />
-      <Floats />
     </>
   );
 }

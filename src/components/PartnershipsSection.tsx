@@ -63,7 +63,7 @@ export const PartnershipsSection = () => {
     <section
       id="partnerships"
       aria-labelledby="partnerships-heading"
-      className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950"
+      className="relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 pt-[calc(var(--navbar-height,88px)+3.5rem)] pb-28 lg:pt-[calc(var(--navbar-height,88px)+4.5rem)] lg:pb-32"
     >
       <div className="absolute inset-0 bg-grid bg-grid-fade opacity-[0.08] pointer-events-none" />
       <div className="absolute bottom-0 -right-32 w-[520px] h-[520px] rounded-full bg-royal/15 blur-[140px] pointer-events-none" />

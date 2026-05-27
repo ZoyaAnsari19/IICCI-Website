@@ -44,18 +44,26 @@ export const Hero = () => {
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4 mb-12 reveal-up">
-              <a href="#membership" className="group inline-flex items-center gap-3 px-7 py-4 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold tracking-wide btn-premium btn-shine shadow-gold">
-                Become a Member
-                <span className="w-6 h-6 rounded-full bg-navy-950 flex items-center justify-center group-hover:rotate-45 transition-transform">
-                  <i className="fas fa-arrow-right text-gold text-[10px]"></i>
-                </span>
-              </a>
-              <a href="#global" className="group inline-flex items-center gap-3 px-7 py-4 rounded-full glass border border-white/10 text-white text-sm font-semibold tracking-wide hover:border-gold/50 transition">
-                <i className="fas fa-globe text-gold"></i>
-                Explore Global Network
-              </a>
-              <button className="group inline-flex items-center gap-3 text-white/80 hover:text-white text-sm font-medium">
+            <div className="flex flex-col items-stretch gap-4 mb-12 reveal-up max-w-xl">
+              <div className="flex flex-row flex-nowrap items-stretch gap-2 sm:gap-4 w-full">
+                <a
+                  href="#membership"
+                  className="group inline-flex flex-1 min-w-0 items-center justify-center gap-1.5 sm:gap-3 px-2.5 py-3 sm:px-7 sm:py-4 rounded-full bg-gradient-gold text-navy-950 text-[10px] sm:text-sm font-bold tracking-wide btn-premium btn-shine shadow-gold text-center leading-snug"
+                >
+                  <span>Become a Member</span>
+                  <span className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 rounded-full bg-navy-950 flex items-center justify-center group-hover:rotate-45 transition-transform">
+                    <i className="fas fa-arrow-right text-gold text-[9px] sm:text-[10px]"></i>
+                  </span>
+                </a>
+                <a
+                  href="#global"
+                  className="group inline-flex flex-1 min-w-0 items-center justify-center gap-1.5 sm:gap-3 px-2.5 py-3 sm:px-7 sm:py-4 rounded-full glass border border-white/10 text-white text-[10px] sm:text-sm font-semibold tracking-wide hover:border-gold/50 transition text-center leading-snug"
+                >
+                  <i className="fas fa-globe text-gold shrink-0 text-xs sm:text-sm"></i>
+                  <span>Explore Global Network</span>
+                </a>
+              </div>
+              <button className="group inline-flex items-center gap-3 text-white/80 hover:text-white text-sm font-medium self-start">
                 <span className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-gold group-hover:bg-gold/10 transition">
                   <i className="fas fa-play text-gold text-[10px] ml-0.5"></i>
                 </span>

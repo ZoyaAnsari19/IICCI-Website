@@ -1,5 +1,315 @@
 # Changelog
 
+## [27-05-2026 14:00] — Premium dual Leadership Vision showcase
+
+**What changed:** Replaced the single President's Foreword with a cinematic dual-leadership `LeadershipVisionSection` — Current President (Rajesh Kaithwas) and Ex President (Shri Atul Saxena) in equal glassmorphism cards with Framer Motion, timeline connector, trade-route backdrop, and CTAs. Homepage order: Objectives → Mission & Vision (embedded) → Leadership Vision → Mentor's Foreword → Leadership hero. Ex President uses `/images/shri-atul-saxena.jpeg`.
+**Files touched:** `src/components/LeadershipVisionSection.tsx`, `src/app/page.tsx`, `src/components/MissionVisionSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 13:30] — President's Foreword on homepage
+
+**What changed:** Added the President's Foreword section directly below Our Objectives on the homepage — portrait, quote, foreword copy, and link to full leadership. Extracted shared `PresidentSection` component (reused on `/about/leadership`) with mobile-friendly layout.
+**Files touched:** `src/components/PresidentSection.tsx`, `src/app/page.tsx`, `src/app/about/leadership/President.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 13:15] — Responsive Downloads & Resources section
+
+**What changed:** Made the Downloads & Resources page mobile-friendly: horizontal category pills on small screens, full-width stacked search/sort and card action buttons, featured spotlight with full-width CTAs, only 2 resource cards visible on mobile with View More/View Less, and improved padding and text wrapping across homepage preview and `/resources` standalone page.
+**Files touched:** `src/components/DownloadsResourcesSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 13:00] — Responsive notification cards (Trade Circulars)
+
+**What changed:** Fixed Trade Circulars notification cards on mobile so View/Download buttons no longer clip off-screen — buttons stack full-width on small screens, card content uses `min-w-0` / `break-words`, and padding scales down for narrow viewports.
+**Files touched:** `src/components/TradeCircularsSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:45] — Responsive Trade Circulars section
+
+**What changed:** Made Trade Circulars & Notifications mobile-friendly: horizontal category pills on small screens (replacing the tall sidebar), full-width search/sort stack, featured alert buttons that span the width, only 2 list cards visible on mobile with a “View More” toggle, and urgent alerts moved below the main feed on phones.
+**Files touched:** `src/components/TradeCircularsSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:30] — Mobile “View More” on Our Objectives cards
+
+**What changed:** On screens below `md`, the Our Objectives section now shows only the first 2 detail cards, with a gold “View More” / “View Less” toggle to reveal the remaining seven. Tablet and desktop layouts still show all cards in the grid.
+**Files touched:** `src/components/ObjectivesSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:15] — Fix Lenis scroll bleed through mobile menu
+
+**What changed:** Stopped the home page from scrolling when the mobile toggle menu is scrolled — pauses Lenis (`__iicciLenis.stop()` / `start()`), locks the body with `position: fixed` and saved scroll position (works on iOS), blocks `touchmove` outside the drawer, and marks `#mobile-menu` with `data-lenis-prevent` plus `overscroll-behavior: contain` so only the white panel scrolls.
+**Files touched:** `src/components/Navbar.tsx`, `src/app/globals.css`, `src/global.d.ts`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:06] — Lock background scroll under mobile menu
+
+**What changed:** Tightened the mobile drawer scroll-behaviour so only the white toggle menu panel scrolls and the home page behind it stays fixed — now we also lock the `<html>` element (`overflow: hidden`, `overscroll-behavior: contain`) and mirror the `mobile-menu-open` class there. This prevents the underlying page from moving even when you flick past the end of the menu content on mobile devices.
+**Files touched:** `src/components/Navbar.tsx`, `src/app/globals.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:57] — Properly responsive mobile menu with toggle sections
+
+**What changed:** Rebuilt the mobile drawer so About / Services / Media now collapse by default and toggle open with a click — added `mobileSubs` state, animated chevron rotation (`rotate-180`), and smooth `grid-template-rows` expand/collapse for each submenu. Sub-items now match the desktop mega-menu look (gold icon tile + title) and reset whenever the drawer closes or a child link is tapped. Also added `body.mobile-menu-open` class plus CSS so the floating WhatsApp/AI chat dock and back-to-top button stay hidden while the drawer is open, preventing them from overlapping menu items on small screens.
+**Files touched:** `src/components/Navbar.tsx`, `src/app/globals.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:35] — Proper top spacing on More & Resources pages
+
+**What changed:** Added a `standalone` mode to the first section components (Training, ContactSection, CSR, Women, DownloadsResourcesSection) so they use `page-nav-offset` directly (About-style spacing) without creating a blank strip above the page.
+**Files touched:** `src/components/Training.tsx`, `src/components/ContactSection.tsx`, `src/components/CSR.tsx`, `src/components/Women.tsx`, `src/components/DownloadsResourcesSection.tsx`, `src/app/more/ai-innovation/page.tsx`, `src/app/more/contact/page.tsx`, `src/app/more/csr-sdg/page.tsx`, `src/app/more/women-wing/page.tsx`, `src/app/resources/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:30] — Revert top spacing on More & Resources pages
+
+**What changed:** Removed the `page-top-offset` wrapper from `/more/ai-innovation`, `/more/contact`, `/more/csr-sdg`, `/more/women-wing`, and `/resources` to get rid of the blank band above content while keeping the utility available for future use.
+**Files touched:** `src/app/more/ai-innovation/page.tsx`, `src/app/more/contact/page.tsx`, `src/app/more/csr-sdg/page.tsx`, `src/app/more/women-wing/page.tsx`, `src/app/resources/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:25] — Remove SubpageHero from “More” pages
+
+**What changed:** Removed the top SubpageHero blocks from `/more/ai-innovation`, `/more/contact`, `/more/csr-sdg`, and `/more/women-wing` so each route now uses only its main content section.
+**Files touched:** `src/app/more/ai-innovation/page.tsx`, `src/app/more/contact/page.tsx`, `src/app/more/csr-sdg/page.tsx`, `src/app/more/women-wing/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:15] — White background for Current Affairs live ticker
+
+**What changed:** Updated the live Trade News ticker just below the navbar on the Current Affairs page to use a white background and navy text so it visually matches the rest of the light Media header.
+**Files touched:** `src/app/media/currentAffairs/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:10] — Top spacing on Media pages
+
+**What changed:** Applied `page-nav-offset` to Media sections (`currentAffairs`, `events`, `iicci-story`, and the main `media` landing) so content clears the fixed navbar consistently after navigation.
+**Files touched:** `src/app/media/currentAffairs/page.tsx`, `src/app/media/events/page.tsx`, `src/app/media/iicci-story/page.tsx`, `src/app/media/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:05] — Top spacing on Services index & Global Program
+
+**What changed:** Applied `page-nav-offset` to `/services` and `/services/globalProgram` main sections so content clears the fixed navbar like other About and Services pages.
+**Files touched:** `src/app/services/page.tsx`, `src/app/services/globalProgram/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:00] — Services pages top spacing (page-nav-offset)
+
+**What changed:** Defined `.page-nav-offset` in `globals.css` (navbar height + 3.5rem/4.5rem top, matching About pages) so Bilateral Trade, Farmer Support, Global Placement, Industry Verticals, Machine Learning, Monthly Services, and Upcoming Projects clear the fixed header.
+**Files touched:** `src/app/globals.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:50] — Fix mega menu staying open after navigation
+
+**What changed:** Removed CSS `:hover` visibility for mega menus so panels only show when `is-open` is set by JS; menus now stay closed after clicking a link and on route change (fixes hover re-opening the panel after client navigation).
+**Files touched:** `src/components/Navbar.tsx`, `public/static/style.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:45] — Auto-close mega menu on link click
+
+**What changed:** About, Services, Media, and More mega-menu panels now close on link click, including mobile sub-links.
+**Files touched:** `src/components/Navbar.tsx`, `public/static/style.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:40] — Top spacing on About subpages
+
+**What changed:** Applied the same navbar-aware top padding as the About page to Manifesto, Mission & Vision, Partnerships, and Recognition sections.
+**Files touched:** `src/components/Manifesto.tsx`, `src/components/MissionVisionSection.tsx`, `src/components/PartnershipsSection.tsx`, `src/components/RecognitionSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:35] — About page top spacing
+
+**What changed:** Added navbar-aware top padding to the About section so content clears the fixed header after the sub-nav was removed.
+**Files touched:** `src/components/About.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:30] — Remove About section sub-navigation bar
+
+**What changed:** Removed the sticky `AboutSubnav` tab bar from the About layout so About subpages no longer show the secondary horizontal nav (About IICCI, Mission & Vision, Leadership, etc.).
+**Files touched:** `src/app/about/layout.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:25] — Enhance Recognition award cards
+
+**What changed:** Redesigned the four recognition award cards for the white page theme — light elevated cards, gold top accent on hover, larger icons, numbered badges, and verified credential footer.
+**Files touched:** `src/components/RecognitionSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:20] — Recognition page white background
+
+**What changed:** Switched `/about/recognition` section background to white with navy header text; award and milestone cards remain dark for contrast.
+**Files touched:** `src/components/RecognitionSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:15] — Mission & Vision page white background
+
+**What changed:** Switched `/about/mission-vision` section background to white with navy header/footer text; mission and vision cards remain dark for contrast.
+**Files touched:** `src/components/MissionVisionSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:10] — Remove sub-heroes from About subpages
+
+**What changed:** Removed redundant `SubpageHero` from `/about/mission-vision`, `/about/partnerships`, and `/about/recognition` so each page shows only its main section content.
+**Files touched:** `src/app/about/mission-vision/page.tsx`, `src/app/about/partnerships/page.tsx`, `src/app/about/recognition/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:05] — Remove duplicate About IICCI subpage hero
+
+**What changed:** Removed the redundant `SubpageHero` from `/about` so only the main `About` section header is shown.
+**Files touched:** `src/app/about/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:00] — Remove duplicate Manifesto subpage hero
+
+**What changed:** Removed the redundant `SubpageHero` (breadcrumbs, badge, title, tagline) from `/about/manifesto` so only the main `Manifesto` section header is shown.
+**Files touched:** `src/app/about/manifesto/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 10:45] — Fix blank content after client-side navigation
+
+**What changed:** Reveal animations (`reveal-up` / `in-view`) now re-initialize on every Next.js route change via `window.__iicciOnRouteChange`, so subpages like Leadership no longer stay hidden until a full refresh. `SiteClientInit` listens to `usePathname()` and triggers the hook after paint; scroll resets to top on navigation.
+**Files touched:** `public/static/app.js`, `src/components/SiteClientInit.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 10:30] — Floating WhatsApp & AI chat dock
+
+**What changed:** Fixed chat widgets sticking near the footer by removing the conflicting `relative` class on the fixed container, anchoring WhatsApp and AI buttons to the viewport (`fixed` right/bottom with safe-area insets), adding smooth hover transitions, and rendering `Floats` once from the root layout instead of after each page footer.
+**Files touched:** `src/components/Floats.tsx`, `src/app/globals.css`, `src/app/layout.tsx`, `src/app/page.tsx`, `src/components/layouts/SitePageShell.tsx`, `src/app/trade-tools/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 10:15] — Fix missing Training card image (Import Export)
+
+**What changed:** Swapped all four Training course card images from Unsplash to Pexels URLs after the Import Export Masterclass image timed out in Next.js image optimization (`upstream image response timed out`).
+**Files touched:** `src/components/Training.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 10:07] — Add images to Training course cards
+
+**What changed:** Replaced the flat gradient banners on the four "Build skills that power global careers" course cards with topic-relevant photos (cargo port, drone, trade docs, corporate workspace), kept the existing badges, and moved each course icon into a small glass medallion in the bottom-right of the image.
+**Files touched:** `src/components/Training.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 14:45] — Fix broken Current Affairs images (404)
 
 **What changed:** Replaced eight dead Unsplash URLs in Current Affairs seed data with working Pexels images so Next.js image optimization no longer returns upstream 404 errors.
