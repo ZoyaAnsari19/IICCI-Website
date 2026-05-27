@@ -11,7 +11,6 @@ import {
   CIRCULAR_CATEGORIES,
   fetchTradeCirculars,
   PRIORITY_META,
-  TICKER_CIRCULARS,
   type CircularCategory,
   type CircularPriority,
   type FetchCircularsResult,
@@ -128,41 +127,6 @@ function CircularBackdrop({ uid }: { uid: string }) {
   );
 }
 
-function LiveTicker() {
-  return (
-    <div className="relative border-y border-white/10 bg-navy-900/80 overflow-hidden mb-8 lg:mb-10">
-      <div className="flex items-center gap-3 px-4 py-2.5">
-        <span className="shrink-0 flex items-center gap-2 px-2.5 py-1 rounded-md bg-gold/15 border border-gold/30">
-          <motion.span
-            className="w-1.5 h-1.5 rounded-full bg-red-400"
-            animate={{ opacity: [1, 0.35, 1] }}
-            transition={{ duration: 1.2, repeat: Infinity }}
-          />
-          <span className="text-[9px] uppercase tracking-[0.2em] text-gold font-bold">
-            Live Alerts
-          </span>
-        </span>
-        <div className="flex-1 overflow-hidden">
-          <motion.div
-            className="flex gap-10 whitespace-nowrap"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
-          >
-            {[...TICKER_CIRCULARS, ...TICKER_CIRCULARS].map((t, i) => (
-              <span
-                key={`${t}-${i}`}
-                className="text-[11px] text-white/65 uppercase tracking-[0.12em]"
-              >
-                {t}
-              </span>
-            ))}
-          </motion.div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function PriorityBadge({ priority }: { priority: CircularPriority }) {
   const meta = PRIORITY_META[priority];
   return (
@@ -254,72 +218,6 @@ function NotificationCard({
           >
             <i className="fas fa-file-pdf text-[10px]" aria-hidden />
             Download
-          </a>
-        </div>
-      </div>
-    </motion.article>
-  );
-}
-
-function FeaturedAlert({
-  circular,
-  onView,
-}: {
-  circular: TradeCircular;
-  onView: (c: TradeCircular) => void;
-}) {
-  return (
-    <motion.article
-      variants={itemVariants}
-      className={cx(
-        "relative glass-dark rounded-3xl border overflow-hidden",
-        circular.priority === "urgent" ? "border-red-400/30" : "border-gold/25",
-      )}
-    >
-      <div className="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-900/60 to-transparent pointer-events-none" />
-      <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
-      <div className="relative grid lg:grid-cols-12 gap-6 p-6 lg:p-8 items-center">
-        <div className="lg:col-span-8">
-          <div className="flex flex-wrap items-center gap-2 mb-3">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold text-navy-950 text-[10px] uppercase tracking-[0.18em] font-bold">
-              <motion.span
-                animate={{ opacity: [1, 0.4, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <i className="fas fa-bell text-[9px]" aria-hidden />
-              </motion.span>
-              Latest Alert
-            </span>
-            <PriorityBadge priority={circular.priority} />
-          </div>
-          <h3 className="font-display text-xl lg:text-2xl font-bold text-white mb-3 leading-snug">
-            {circular.title}
-          </h3>
-          <p className="text-white/60 text-sm leading-relaxed mb-4 max-w-2xl">
-            {circular.summary}
-          </p>
-          <div className="flex flex-wrap gap-3 text-[10px] uppercase tracking-[0.14em] text-white/45">
-            <span>{circular.categoryLabel}</span>
-            <span>·</span>
-            <span>{circular.publishDate}</span>
-          </div>
-        </div>
-        <div className="lg:col-span-4 flex flex-col gap-2 w-full">
-          <button
-            type="button"
-            onClick={() => onView(circular)}
-            className="inline-flex w-full items-center justify-center gap-2 px-5 py-3 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
-          >
-            View Circular
-            <i className="fas fa-arrow-right text-[10px]" aria-hidden />
-          </button>
-          <a
-            href={circular.pdfUrl}
-            download
-            className="inline-flex w-full items-center justify-center gap-2 px-5 py-3 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold shadow-gold hover:scale-[1.02] transition"
-          >
-            Download Notifications
-            <i className="fas fa-download text-[10px]" aria-hidden />
           </a>
         </div>
       </div>
@@ -423,42 +321,6 @@ function CircularDetailModal({
   );
 }
 
-function UrgentAlertsSidebar({ items }: { items: TradeCircular[] }) {
-  return (
-    <motion.aside
-      variants={itemVariants}
-      className="glass-dark rounded-3xl border border-red-400/20 p-5 lg:p-6 lg:sticky lg:top-[calc(var(--navbar-height,88px)+5rem)]"
-    >
-      <h3 className="font-display font-bold text-white text-sm uppercase tracking-[0.14em] mb-4 flex items-center gap-2">
-        <motion.span
-          animate={{ opacity: [1, 0.5, 1] }}
-          transition={{ duration: 1.8, repeat: Infinity }}
-        >
-          <i className="fas fa-bolt text-red-400 text-sm" aria-hidden />
-        </motion.span>
-        Urgent Alerts
-      </h3>
-      <ul className="space-y-3">
-        {items.map((c) => (
-          <li key={c.id}>
-            <a
-              href={c.pdfUrl}
-              download
-              className="group block rounded-xl p-2 -mx-2 hover:bg-white/[0.04] transition"
-            >
-              <PriorityBadge priority={c.priority} />
-              <p className="text-sm font-semibold text-white/85 group-hover:text-gold transition line-clamp-2 mt-2">
-                {c.title}
-              </p>
-              <p className="text-[10px] text-white/40 mt-1">{c.publishDate}</p>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </motion.aside>
-  );
-}
-
 function TradeCircularPageContent() {
   const uid = useId().replace(/:/g, "");
   const [category, setCategory] = useState<CircularCategory | "all">("all");
@@ -503,6 +365,21 @@ function TradeCircularPageContent() {
 
   const canLoadMore = data ? data.circulars.length < data.total : false;
 
+  const displayCards = useMemo(() => {
+    if (!data) return [];
+    const seen = new Set<string>();
+    const list: TradeCircular[] = [];
+    const add = (c: TradeCircular) => {
+      if (seen.has(c.id)) return;
+      seen.add(c.id);
+      list.push(c);
+    };
+    if (data.featured) add(data.featured);
+    data.pinned.forEach(add);
+    data.circulars.forEach(add);
+    return list;
+  }, [data]);
+
   return (
     <section
       id="trade-circulars"
@@ -514,8 +391,6 @@ function TradeCircularPageContent() {
       <FloatingParticles />
 
       <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 z-10">
-        <LiveTicker />
-
         <motion.div
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-8 lg:mb-10"
           initial="hidden"
@@ -643,7 +518,7 @@ function TradeCircularPageContent() {
               ))}
             </motion.aside>
 
-          <div className="lg:col-span-6 space-y-6 min-w-0">
+          <div className="lg:col-span-9 min-w-0">
             {loading ? (
               <div className="py-16 text-center text-white/50 text-sm">
                 Loading trade notifications…
@@ -656,37 +531,15 @@ function TradeCircularPageContent() {
                 variants={containerVariants}
                 className="space-y-6"
               >
-                {data?.featured && (
-                  <FeaturedAlert circular={data.featured} onView={setViewItem} />
-                )}
-
-                {data && data.pinned.length > 0 && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
-                    {data.pinned.map((c, index) => (
-                      <div
-                        key={c.id}
-                        className={cx(
-                          "min-w-0",
-                          index >= MOBILE_CIRCULARS_PREVIEW &&
-                            !showAllMobileCirculars &&
-                            "max-md:hidden",
-                        )}
-                      >
-                        <NotificationCard circular={c} onView={setViewItem} />
-                      </div>
-                    ))}
-                  </div>
-                )}
-
                 <AnimatePresence mode="popLayout">
                   <motion.div
                     key={`${category}-${debouncedSearch}-${pageSize}-${sort}-${showAllMobileCirculars}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5 min-w-0"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 min-w-0"
                   >
-                    {data?.circulars.map((c, index) => (
+                    {displayCards.map((c, index) => (
                       <div
                         key={c.id}
                         className={cx(
@@ -702,15 +555,13 @@ function TradeCircularPageContent() {
                   </motion.div>
                 </AnimatePresence>
 
-                {data && data.circulars.length === 0 && (
+                {data && displayCards.length === 0 && (
                   <div className="py-16 text-center glass-dark rounded-3xl border border-white/10">
                     <p className="text-white/60">No circulars match your filters.</p>
                   </div>
                 )}
 
-                {data &&
-                  (data.circulars.length > MOBILE_CIRCULARS_PREVIEW ||
-                    data.pinned.length > MOBILE_CIRCULARS_PREVIEW) && (
+                {displayCards.length > MOBILE_CIRCULARS_PREVIEW && (
                     <div className="flex justify-center md:hidden">
                       <button
                         type="button"
@@ -734,7 +585,7 @@ function TradeCircularPageContent() {
                   <div className={cx("flex justify-center", !showAllMobileCirculars && "max-md:hidden")}>
                     <button
                       type="button"
-                      onClick={() => setVisibleCount((c) => c + 4)}
+                      onClick={() => setVisibleCount((c) => c + 6)}
                       className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
                     >
                       Load more circulars
@@ -745,12 +596,6 @@ function TradeCircularPageContent() {
               </motion.div>
             )}
           </div>
-
-          {data && data.urgent.length > 0 && (
-            <div className="lg:col-span-3 order-last lg:order-none">
-              <UrgentAlertsSidebar items={data.urgent} />
-            </div>
-          )}
         </div>
 
         <motion.div
