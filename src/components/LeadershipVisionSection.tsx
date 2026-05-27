@@ -109,7 +109,7 @@ function TradeRouteBackdrop({ uid }: { uid: string }) {
   return (
     <svg
       viewBox="0 0 1600 900"
-      className="absolute inset-0 w-full h-full opacity-[0.08] pointer-events-none"
+      className="absolute inset-0 w-full h-full opacity-[0.14] pointer-events-none"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden
     >
@@ -157,7 +157,7 @@ function FloatingParticles() {
       {particles.map((p, i) => (
         <motion.span
           key={i}
-          className="absolute rounded-full bg-gold/40 blur-[1px]"
+          className="absolute rounded-full bg-gold/50 blur-[1px]"
           style={{ left: p.left, top: p.top, width: p.size, height: p.size }}
           animate={{ y: [0, -16, 0], opacity: [0.15, 0.55, 0.15] }}
           transition={{
@@ -187,7 +187,7 @@ function LeadershipTimeline() {
         style={{ originY: 0 }}
       />
       <motion.div
-        className="my-3 px-3 py-1.5 rounded-full glass border border-gold/30 shrink-0"
+        className="my-3 px-3 py-1.5 rounded-full bg-white border border-gold/35 shadow-sm shrink-0"
         initial={{ opacity: 0, scale: 0.8 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
@@ -225,14 +225,14 @@ function LeadershipCard({
       transition={{ type: "spring", stiffness: 280, damping: 22 }}
       className={cx(
         "group relative flex flex-col h-full rounded-3xl border overflow-hidden",
-        "glass-dark shadow-premium",
+        "glass-light shadow-premium bg-white",
         "before:absolute before:inset-0 before:rounded-3xl before:p-[1px] before:pointer-events-none",
-        "before:bg-gradient-to-br before:from-gold/50 before:via-white/10 before:to-royal-light/30",
+        "before:bg-gradient-to-br before:from-gold/40 before:via-navy-950/5 before:to-royal-light/20",
         "before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]",
         "before:[mask-composite:exclude]",
         isCurrent
-          ? "border-gold/25 hover:border-gold/45 hover:shadow-gold"
-          : "border-white/10 hover:border-gold/30",
+          ? "border-gold/30 hover:border-gold/50 hover:shadow-gold"
+          : "border-navy-950/10 hover:border-gold/35",
         order === "second" && "lg:mt-0",
       )}
     >
@@ -290,14 +290,14 @@ function LeadershipCard({
           </div>
 
           <motion.div
-            className="absolute -bottom-4 left-3 right-3 sm:left-0 sm:right-auto sm:-left-4 sm:max-w-[210px] glass-dark rounded-2xl p-3 sm:p-4 border border-gold/20 shadow-premium"
+            className="absolute -bottom-4 left-3 right-3 sm:left-0 sm:right-auto sm:-left-4 sm:max-w-[210px] glass-light rounded-2xl p-3 sm:p-4 border border-gold/25 shadow-premium bg-white/95 backdrop-blur-sm"
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.35, duration: 0.5 }}
           >
             <i className="fas fa-quote-right text-gold text-lg sm:text-xl mb-1.5 block" aria-hidden />
-            <p className="text-[11px] sm:text-xs text-white/75 italic leading-snug">
+            <p className="text-[11px] sm:text-xs text-navy-950/70 italic leading-snug">
               &ldquo;{profile.floatingQuote}&rdquo;
             </p>
           </motion.div>
@@ -309,7 +309,7 @@ function LeadershipCard({
             {isCurrent ? "Current President" : "Institutional Legacy"}
           </span>
 
-          <h3 className="font-display font-bold text-white text-lg sm:text-xl leading-snug mb-3 group-hover:text-gold transition-colors duration-300">
+          <h3 className="font-display font-bold text-navy-950 text-lg sm:text-xl leading-snug mb-3 group-hover:text-gold transition-colors duration-300">
             <span>{profile.headline} </span>
             {profile.headlineAccent && (
               <span className="text-gradient-gold italic font-serif font-normal">
@@ -317,24 +317,24 @@ function LeadershipCard({
               </span>
             )}
             {profile.headlineSuffix && (
-              <span className="text-white"> {profile.headlineSuffix}</span>
+              <span className="text-navy-950"> {profile.headlineSuffix}</span>
             )}
           </h3>
 
-          <div className="space-y-3 text-white/60 text-xs sm:text-sm leading-relaxed flex-1 mb-5">
+          <div className="space-y-3 text-navy-950/65 text-xs sm:text-sm leading-relaxed flex-1 mb-5">
             {profile.paragraphs.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
             {profile.closingLine && (
-              <p className="text-white/75 font-medium italic">{profile.closingLine}</p>
+              <p className="text-navy-950/80 font-medium italic">{profile.closingLine}</p>
             )}
           </div>
 
-          <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="pt-4 border-t border-navy-950/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <div className="font-display font-bold text-white text-base">{profile.name}</div>
+              <div className="font-display font-bold text-navy-950 text-base">{profile.name}</div>
               <div className="text-sm text-gold mt-0.5">{profile.designation}</div>
-              <div className="text-[10px] text-white/40 mt-0.5 uppercase tracking-wider">
+              <div className="text-[10px] text-navy-950/45 mt-0.5 uppercase tracking-wider">
                 {profile.organization}
               </div>
             </div>
@@ -343,7 +343,7 @@ function LeadershipCard({
                 <a
                   key={s.label}
                   href={s.href}
-                  className="w-10 h-10 rounded-full border border-white/12 flex items-center justify-center text-white/60 hover:text-gold hover:border-gold/40 transition"
+                  className="w-10 h-10 rounded-full border border-navy-950/10 bg-navy-950/5 flex items-center justify-center text-navy-950/60 hover:text-gold hover:border-gold/40 transition"
                   aria-label={s.label}
                 >
                   <i className={cx(s.icon, "text-sm")} aria-hidden />
@@ -364,20 +364,20 @@ export const LeadershipVisionSection = () => {
     <section
       id="leadership-vision"
       aria-labelledby="leadership-vision-heading"
-      className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 border-t border-white/10"
+      className="relative section-padding overflow-hidden bg-white border-t border-navy-950/10"
     >
       <TradeRouteBackdrop uid={uid} />
-      <div className="absolute inset-0 bg-grid bg-grid-fade opacity-[0.06] pointer-events-none" />
+      <div className="absolute inset-0 bg-grid opacity-[0.04] pointer-events-none" />
       <FloatingParticles />
 
       <motion.div
-        className="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full bg-royal/12 blur-[140px] pointer-events-none"
+        className="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full bg-gold/8 blur-[140px] pointer-events-none"
         animate={{ x: [0, 18, 0], y: [0, -10, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
         aria-hidden
       />
       <motion.div
-        className="absolute bottom-1/4 -right-32 w-[520px] h-[520px] rounded-full bg-gold/[0.06] blur-[140px] pointer-events-none"
+        className="absolute bottom-1/4 -right-32 w-[520px] h-[520px] rounded-full bg-royal/5 blur-[140px] pointer-events-none"
         animate={{ x: [0, -14, 0], y: [0, 12, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 1 }}
         aria-hidden
@@ -393,14 +393,14 @@ export const LeadershipVisionSection = () => {
         >
           <motion.div
             variants={headerVariants}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-6"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950/5 border border-navy-950/10 mb-6"
           >
             <i className="fas fa-crown text-gold text-xs" aria-hidden />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-white/80 font-semibold">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-navy-950/70 font-semibold">
               Institutional Leadership
             </span>
-            <span className="h-3 w-px bg-white/15" />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-gold/90 font-semibold">
+            <span className="h-3 w-px bg-navy-950/15" />
+            <span className="text-[10px] uppercase tracking-[0.3em] text-gold font-semibold">
               IICCI
             </span>
           </motion.div>
@@ -410,20 +410,20 @@ export const LeadershipVisionSection = () => {
             variants={headerVariants}
             className="display-title font-display font-bold mb-4 leading-[1.02]"
           >
-            <span className="text-white">Leadership</span>{" "}
+            <span className="text-navy-950">Leadership</span>{" "}
             <span className="text-gradient-gold italic font-serif font-normal">Vision</span>
           </motion.h2>
 
           <motion.p
             variants={headerVariants}
-            className="text-base md:text-lg text-white/70 leading-relaxed font-serif italic"
+            className="text-base md:text-lg text-navy-950/65 leading-relaxed font-serif italic"
           >
             Guided by Experience, Driven by Global Trade Excellence
           </motion.p>
 
           <motion.p
             variants={headerVariants}
-            className="mt-4 text-sm text-white/50 max-w-2xl mx-auto"
+            className="mt-4 text-sm text-navy-950/50 max-w-2xl mx-auto"
           >
             A dual executive showcase honouring institutional legacy and the forward-looking
             presidency guiding India&apos;s importing community into global markets.
@@ -461,14 +461,14 @@ export const LeadershipVisionSection = () => {
           </Link>
           <Link
             href="/about/mission-vision"
-            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 hover:text-gold transition"
+            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-full border border-navy-950/15 text-navy-950 text-sm font-semibold hover:border-gold/40 hover:text-gold transition"
           >
             Explore IICCI Vision
             <i className="fas fa-compass text-xs text-gold" aria-hidden />
           </Link>
           <Link
             href="/about"
-            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-full border border-white/10 text-white/80 text-sm font-semibold hover:border-gold/30 hover:text-white transition"
+            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-full border border-navy-950/10 text-navy-950/80 text-sm font-semibold hover:border-gold/30 hover:text-navy-950 transition"
           >
             Discover Our Journey
             <i className="fas fa-route text-xs text-gold" aria-hidden />

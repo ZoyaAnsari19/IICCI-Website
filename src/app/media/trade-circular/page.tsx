@@ -459,20 +459,20 @@ function UrgentAlertsSidebar({ items }: { items: TradeCircular[] }) {
   );
 }
 
-export function TradeCircularsSection({ preview = false }: { preview?: boolean }) {
+function TradeCircularPageContent() {
   const uid = useId().replace(/:/g, "");
   const [category, setCategory] = useState<CircularCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [sort, setSort] = useState<"newest" | "priority">("newest");
-  const [visibleCount, setVisibleCount] = useState(preview ? 3 : 6);
+  const [visibleCount, setVisibleCount] = useState(6);
   const [data, setData] = useState<FetchCircularsResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [viewItem, setViewItem] = useState<TradeCircular | null>(null);
   const [email, setEmail] = useState("");
   const [showAllMobileCirculars, setShowAllMobileCirculars] = useState(false);
 
-  const pageSize = preview ? 3 : visibleCount;
+  const pageSize = visibleCount;
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedSearch(search), 280);
@@ -480,9 +480,9 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
   }, [search]);
 
   useEffect(() => {
-    setVisibleCount(preview ? 3 : 6);
+    setVisibleCount(6);
     setShowAllMobileCirculars(false);
-  }, [category, debouncedSearch, sort, preview]);
+  }, [category, debouncedSearch, sort]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -501,26 +501,20 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
     load();
   }, [load]);
 
-  const canLoadMore = !preview && data ? data.circulars.length < data.total : false;
-
-  const fullPageHref = "/media#trade-circulars";
+  const canLoadMore = data ? data.circulars.length < data.total : false;
 
   return (
     <section
       id="trade-circulars"
       aria-labelledby="trade-circulars-heading"
-      className={cx(
-        "relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950",
-        preview ? "py-16 lg:py-20" : "section-padding",
-        !preview && "border-t border-white/10",
-      )}
+      className="relative page-nav-offset overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 border-t border-white/10"
     >
       <CircularBackdrop uid={uid} />
       <div className="absolute inset-0 bg-grid opacity-[0.06] pointer-events-none" />
       <FloatingParticles />
 
       <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 z-10">
-        {!preview && <LiveTicker />}
+        <LiveTicker />
 
         <motion.div
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-8 lg:mb-10"
@@ -553,22 +547,20 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
               Official Updates for Importers &amp; Exporters
             </motion.p>
           </div>
-          {!preview && (
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-2">
-              {[
-                "Regulatory awareness",
-                "Trade compliance",
-                "Business intelligence",
-              ].map((p) => (
-                <span
-                  key={p}
-                  className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-[10px] uppercase tracking-[0.12em] text-white/50"
-                >
-                  {p}
-                </span>
-              ))}
-            </motion.div>
-          )}
+          <motion.div variants={itemVariants} className="flex flex-wrap gap-2">
+            {[
+              "Regulatory awareness",
+              "Trade compliance",
+              "Business intelligence",
+            ].map((p) => (
+              <span
+                key={p}
+                className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-[10px] uppercase tracking-[0.12em] text-white/50"
+              >
+                {p}
+              </span>
+            ))}
+          </motion.div>
         </motion.div>
 
         <motion.div
@@ -603,21 +595,18 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
           </select>
         </motion.div>
 
-        {!preview && (
-          <motion.div
-            variants={itemVariants}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="lg:hidden mb-5"
-          >
-            <CategoryFilterPills category={category} onChange={setCategory} />
-          </motion.div>
-        )}
+        <motion.div
+          variants={itemVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="lg:hidden mb-5"
+        >
+          <CategoryFilterPills category={category} onChange={setCategory} />
+        </motion.div>
 
-        <div className={cx("grid gap-6 lg:gap-8", !preview && "lg:grid-cols-12")}>
-          {!preview && (
-            <motion.aside
+        <div className="grid gap-6 lg:gap-8 lg:grid-cols-12">
+          <motion.aside
               className="hidden lg:block lg:col-span-3 space-y-2"
               initial="hidden"
               whileInView="show"
@@ -653,15 +642,8 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
                 </button>
               ))}
             </motion.aside>
-          )}
 
-          <div className={cx(!preview ? "lg:col-span-6 space-y-6 min-w-0" : "space-y-6 min-w-0")}>
-            {preview && (
-              <motion.div variants={itemVariants}>
-                <CategoryFilterPills category={category} onChange={setCategory} />
-              </motion.div>
-            )}
-
+          <div className="lg:col-span-6 space-y-6 min-w-0">
             {loading ? (
               <div className="py-16 text-center text-white/50 text-sm">
                 Loading trade notifications…
@@ -678,7 +660,7 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
                   <FeaturedAlert circular={data.featured} onView={setViewItem} />
                 )}
 
-                {data && data.pinned.length > 0 && !preview && (
+                {data && data.pinned.length > 0 && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
                     {data.pinned.map((c, index) => (
                       <div
@@ -764,20 +746,19 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
             )}
           </div>
 
-          {!preview && data && data.urgent.length > 0 && (
+          {data && data.urgent.length > 0 && (
             <div className="lg:col-span-3 order-last lg:order-none">
               <UrgentAlertsSidebar items={data.urgent} />
             </div>
           )}
         </div>
 
-        {!preview && (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-10 glass-dark rounded-2xl border border-white/10 p-6 flex flex-col md:flex-row gap-4 items-center justify-between"
-          >
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-10 glass-dark rounded-2xl border border-white/10 p-6 flex flex-col md:flex-row gap-4 items-center justify-between"
+        >
             <div>
               <h3 className="font-display font-bold text-white text-sm mb-1">
                 Subscribe to trade alerts
@@ -808,8 +789,7 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
                 Subscribe
               </button>
             </form>
-          </motion.div>
-        )}
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 14 }}
@@ -818,14 +798,14 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
           className="mt-10 lg:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3"
         >
           <Link
-            href={preview ? fullPageHref : "#trade-circulars"}
+            href="/media"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold shadow-gold hover:scale-[1.02] transition"
           >
-            {preview ? "View All Circulars" : "Explore Trade Updates"}
+            Back to Media Center
             <i className="fas fa-arrow-right text-xs" aria-hidden />
           </Link>
           <Link
-            href="/resources#trade-circulars"
+            href="/resources"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/15 text-white text-sm font-semibold hover:border-gold/40 transition"
           >
             Resources Center
@@ -836,5 +816,13 @@ export function TradeCircularsSection({ preview = false }: { preview?: boolean }
 
       <CircularDetailModal circular={viewItem} onClose={() => setViewItem(null)} />
     </section>
+  );
+}
+
+export default function TradeCircularPage() {
+  return (
+    <main>
+      <TradeCircularPageContent />
+    </main>
   );
 }

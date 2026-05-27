@@ -1,5 +1,4 @@
 import { DownloadsResourcesSection } from "@/components/DownloadsResourcesSection";
-import { TradeCircularsSection } from "@/components/TradeCircularsSection";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,7 +11,6 @@ export default function ResourcesPage() {
   return (
     <main>
       <DownloadsResourcesSection standalone />
-      <TradeCircularsSection />
     </main>
   );
 }

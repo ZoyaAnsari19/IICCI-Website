@@ -3,7 +3,6 @@ import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
 
 import { ObjectivesSection } from "@/components/ObjectivesSection";
-import { MissionVisionSection } from "@/components/MissionVisionSection";
 import { LeadershipVisionSection } from "@/components/LeadershipVisionSection";
 // import { MentorsForewordSection } from "@/app/about/leadership/MentorsForewordSection";
 import { LeadershipHero } from "@/components/LeadershipHero";
@@ -15,7 +14,6 @@ import { Membership } from "@/components/Membership";
 import { Training } from "@/components/Training";
 import { Directory } from "@/components/Directory";
 import { DownloadsResourcesSection } from "@/components/DownloadsResourcesSection";
-import { TradeCircularsSection } from "@/components/TradeCircularsSection";
 import {
   ExchangeRatesProvider,
   LiveExchangeRatesSection,
@@ -34,7 +32,6 @@ export default function Home() {
           <Stats />
         </div>
         <ObjectivesSection />
-        <MissionVisionSection embedded />
         <LeadershipVisionSection />
         {/* <MentorsForewordSection /> */}
         <LeadershipHero embedded />
@@ -46,7 +43,6 @@ export default function Home() {
         <Training />
         <Directory />
         <LiveExchangeRatesSection preview />
-        <TradeCircularsSection preview />
         <DownloadsResourcesSection preview />
         </main>
         <Footer />
