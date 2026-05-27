@@ -1,5 +1,15 @@
 # Changelog
 
+## [27-05-2026 13:15] — Responsive Downloads & Resources section
+
+**What changed:** Made the Downloads & Resources page mobile-friendly: horizontal category pills on small screens, full-width stacked search/sort and card action buttons, featured spotlight with full-width CTAs, only 2 resource cards visible on mobile with View More/View Less, and improved padding and text wrapping across homepage preview and `/resources` standalone page.
+**Files touched:** `src/components/DownloadsResourcesSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 13:00] — Responsive notification cards (Trade Circulars)
 
 **What changed:** Fixed Trade Circulars notification cards on mobile so View/Download buttons no longer clip off-screen — buttons stack full-width on small screens, card content uses `min-w-0` / `break-words`, and padding scales down for narrow viewports.
