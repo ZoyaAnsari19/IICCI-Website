@@ -15,13 +15,6 @@ export const MORE_NAV: ReadonlyArray<MoreNavItem> = [
     href: "/more/csr-sdg",
   },
   {
-    slug: "ai-innovation",
-    title: "AI & Innovation",
-    description: "Training & trade technology",
-    icon: "fa-microchip",
-    href: "/more/ai-innovation",
-  },
-  {
     slug: "women-wing",
     title: "Women Wing",
     description: "Women entrepreneurship",
