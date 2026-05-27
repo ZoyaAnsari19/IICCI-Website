@@ -71,7 +71,7 @@ export const Navbar = () => {
   );
 
   const downloadsHref =
-    pathname === "/resources" ? "#downloads-resources" : "/#downloads-resources";
+    pathname === "/" || pathname === "/resources" ? "#downloads-resources" : "/#downloads-resources";
 
   const exchangeRatesHref =
     pathname === "/trade-tools"
@@ -116,6 +116,21 @@ export const Navbar = () => {
     setOpenMega(null);
     if (prevPathRef.current !== pathname) {
       prevPathRef.current = pathname;
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const hash = window.location.hash;
+    if (hash === "#downloads-resources") {
+      requestAnimationFrame(() => {
+        document.getElementById("downloads-resources")?.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+    if (hash === "#live-exchange-rates") {
+      requestAnimationFrame(() => {
+        document.getElementById("live-exchange-rates")?.scrollIntoView({ behavior: "smooth" });
+      });
     }
   }, [pathname]);
 
