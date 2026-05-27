@@ -40,6 +40,14 @@ export const Navbar = () => {
   const openMobile = useCallback(() => setMobileOpen(true), []);
   const closeMegaMenu = useCallback(() => setOpenMega(null), []);
 
+  const handleMegaNavClick = useCallback(() => {
+    setOpenMega(null);
+    closeMobile();
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }, [closeMobile]);
+
   const scrollToHero = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       closeMobile();
@@ -84,8 +92,8 @@ export const Navbar = () => {
   );
 
   useEffect(() => {
+    setOpenMega(null);
     if (prevPathRef.current !== pathname) {
-      setOpenMega(null);
       prevPathRef.current = pathname;
     }
   }, [pathname]);
@@ -106,11 +114,14 @@ export const Navbar = () => {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeMobile();
+      if (e.key === "Escape") {
+        closeMobile();
+        closeMegaMenu();
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [closeMobile]);
+  }, [closeMobile, closeMegaMenu]);
 
   useEffect(() => {
     const onResize = () => {
@@ -214,7 +225,7 @@ export const Navbar = () => {
             {menuItems.slice(0, 7).map((item) => (
               <li
                 key={item.href ?? item.label}
-                className={`has-mega-menu relative ${item.mega ? "group" : ""}`}
+                className={cx("has-mega-menu relative", item.mega && "group")}
                 onMouseEnter={item.mega ? () => setOpenMega(item.mega!) : undefined}
                 onMouseLeave={item.mega ? closeMegaMenu : undefined}
               >
@@ -257,7 +268,7 @@ export const Navbar = () => {
                           key={c.href}
                           href={c.href}
                           className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition group/item"
-                          onClick={closeMegaMenu}
+                          onClick={handleMegaNavClick}
                         >
                           <div className="w-10 h-10 rounded-lg bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition">
                             <i className={`fas ${c.icon} text-sm`}></i>
@@ -288,10 +299,7 @@ export const Navbar = () => {
                           key={c.href}
                           href={c.href}
                           className="flex items-start gap-3 p-4 rounded-xl border border-gray-100 bg-gradient-to-br from-gray-50/80 to-white hover:border-gold/30 hover:shadow-sm transition group/item"
-                          onClick={() => {
-                            closeMegaMenu();
-                            closeMobile();
-                          }}
+                          onClick={handleMegaNavClick}
                         >
                           <div className="w-11 h-11 rounded-xl bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition shrink-0">
                             <i className={`fas ${c.icon} text-sm`}></i>
@@ -314,10 +322,7 @@ export const Navbar = () => {
                       <Link
                         href="/services"
                         className="text-gold-600 text-xs font-semibold flex items-center gap-2 hover:gap-3 transition-all"
-                        onClick={() => {
-                          closeMegaMenu();
-                          closeMobile();
-                        }}
+                        onClick={handleMegaNavClick}
                       >
                         View all services <i className="fas fa-arrow-right text-[10px]"></i>
                       </Link>
@@ -337,10 +342,7 @@ export const Navbar = () => {
                           key={c.href}
                           href={c.href}
                           className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition group/item"
-                          onClick={() => {
-                            closeMegaMenu();
-                            closeMobile();
-                          }}
+                          onClick={handleMegaNavClick}
                         >
                           <div className="w-10 h-10 rounded-lg bg-gold/15 flex items-center justify-center text-gold-700 group-hover/item:bg-gold group-hover/item:text-white transition shrink-0">
                             <i className={`fas ${c.icon} text-sm`} aria-hidden />
@@ -379,10 +381,7 @@ export const Navbar = () => {
                     key={item.href}
                     href={item.href}
                     className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-navy-900/80 hover:bg-gray-50 hover:text-navy-950 transition group/item"
-                    onClick={() => {
-                      closeMegaMenu();
-                      closeMobile();
-                    }}
+                    onClick={handleMegaNavClick}
                   >
                     <span className="w-8 h-8 rounded-lg bg-gold/15 flex items-center justify-center text-gold shrink-0 group-hover/item:bg-gold group-hover/item:text-white transition">
                       <i className={cx("fas", item.icon, "text-xs")} aria-hidden />
@@ -575,7 +574,7 @@ export const Navbar = () => {
                         <Link
                           href={sub.href}
                           className="block py-2 px-3 rounded-lg text-sm text-navy-900/70 hover:text-gold hover:bg-gray-50 transition"
-                          onClick={closeMobile}
+                          onClick={handleMegaNavClick}
                         >
                           {sub.title}
                         </Link>
@@ -590,7 +589,7 @@ export const Navbar = () => {
                         <Link
                           href={sub.href}
                           className="block py-2 px-3 rounded-lg text-sm text-navy-900/70 hover:text-gold hover:bg-gray-50 transition"
-                          onClick={closeMobile}
+                          onClick={handleMegaNavClick}
                         >
                           {sub.title}
                         </Link>
@@ -605,7 +604,7 @@ export const Navbar = () => {
                         <Link
                           href={sub.href}
                           className="block py-2 px-3 rounded-lg text-sm text-navy-900/70 hover:text-gold hover:bg-gray-50 transition"
-                          onClick={closeMobile}
+                          onClick={handleMegaNavClick}
                         >
                           {sub.title}
                         </Link>

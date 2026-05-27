@@ -468,9 +468,7 @@ html.iicci-animate .reveal-scale:not(.in-view) {
   z-index: 100;
   pointer-events: none;
 }
-.has-mega-menu:hover .mega-menu,
-.has-mega-menu:focus-within .mega-menu,
-.mega-menu:hover,
+/* Visibility controlled only by JS (.is-open) — not CSS :hover */
 .mega-menu.is-open {
   opacity: 1;
   visibility: visible;

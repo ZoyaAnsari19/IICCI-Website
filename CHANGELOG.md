@@ -1,5 +1,25 @@
 # Changelog
 
+## [27-05-2026 11:50] — Fix mega menu staying open after navigation
+
+**What changed:** Removed CSS `:hover` visibility for mega menus so panels only show when `is-open` is set by JS; menus now stay closed after clicking a link and on route change (fixes hover re-opening the panel after client navigation).
+**Files touched:** `src/components/Navbar.tsx`, `public/static/style.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:45] — Auto-close mega menu on link click
+
+**What changed:** About, Services, Media, and More mega-menu panels now close on link click, including mobile sub-links.
+**Files touched:** `src/components/Navbar.tsx`, `public/static/style.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 11:40] — Top spacing on About subpages
 
 **What changed:** Applied the same navbar-aware top padding as the About page to Manifesto, Mission & Vision, Partnerships, and Recognition sections.
