@@ -34,14 +34,25 @@ export const Navbar = () => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMega, setOpenMega] = useState<string | null>(null);
+  const [mobileSubs, setMobileSubs] = useState<Set<string>>(() => new Set());
   const prevPathRef = useRef(pathname);
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
   const openMobile = useCallback(() => setMobileOpen(true), []);
   const closeMegaMenu = useCallback(() => setOpenMega(null), []);
 
+  const toggleMobileSub = useCallback((key: string) => {
+    setMobileSubs((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }, []);
+
   const handleMegaNavClick = useCallback(() => {
     setOpenMega(null);
+    setMobileSubs(new Set());
     closeMobile();
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
@@ -100,8 +111,11 @@ export const Navbar = () => {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
+    document.body.classList.toggle("mobile-menu-open", mobileOpen);
+    if (!mobileOpen) setMobileSubs(new Set());
     return () => {
       document.body.style.overflow = "";
+      document.body.classList.remove("mobile-menu-open");
     };
   }, [mobileOpen]);
 
@@ -522,97 +536,95 @@ export const Navbar = () => {
             </button>
           </div>
 
-          <ul className="space-y-0.5">
+          <ul className="space-y-1">
             {menuItems.map((item, i) => {
-              const itemClass =
-                "flex items-center justify-between p-3 rounded-xl text-navy-900/80 hover:text-navy-950 hover:bg-gray-50 active:bg-gray-100 transition";
-              const itemInner = (
+              const rowBase =
+                "flex items-center justify-between gap-3 p-3 rounded-xl text-navy-900/85 hover:text-navy-950 hover:bg-gray-50 active:bg-gray-100 transition";
+              const indexLabel = String(i + 1).padStart(2, "0");
+              const isMega = Boolean(item.mega);
+              const subKey = item.mega ?? "";
+              const isSubOpen = isMega && mobileSubs.has(subKey);
+              const subItems =
+                item.mega === "about"
+                  ? ABOUT_NAV
+                  : item.mega === "services"
+                    ? SERVICES_NAV
+                    : item.mega === "media"
+                      ? MEDIA_NAV
+                      : null;
+
+              const rowInner = (trailingIcon: React.ReactNode) => (
                 <>
                   <span className="flex items-center gap-3 min-w-0">
-                    <span className="text-gold text-xs font-mono shrink-0">
-                      {String(i + 1).padStart(2, "0")}
+                    <span className="text-gold text-xs font-mono shrink-0 w-6">
+                      {indexLabel}
                     </span>
-                    <span className="text-base truncate">{item.label}</span>
+                    <span className="text-base font-medium truncate">{item.label}</span>
                   </span>
-                  <i className="fas fa-arrow-right text-xs text-gold shrink-0"></i>
+                  <span className="shrink-0 text-gold">{trailingIcon}</span>
                 </>
               );
-              const mobileTriggerInner = (
-                <>
-                  <span className="flex items-center gap-3 min-w-0">
-                    <span className="text-gold text-xs font-mono shrink-0">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-base truncate">{item.label}</span>
-                  </span>
-                  <i className="fas fa-chevron-down text-xs text-gold shrink-0"></i>
-                </>
-              );
+
               return (
-              <li key={item.href ?? item.label}>
-                {item.triggerOnly ? (
-                  <button
-                    type="button"
-                    className={`${itemClass} w-full text-left`}
-                    aria-haspopup="true"
-                  >
-                    {mobileTriggerInner}
-                  </button>
-                ) : item.href?.startsWith("/") ? (
-                  <Link href={item.href} className={itemClass} onClick={closeMobile}>
-                    {itemInner}
-                  </Link>
-                ) : (
-                  <a href={item.href} className={itemClass} onClick={closeMobile}>
-                    {itemInner}
-                  </a>
-                )}
-                {item.mega === "about" && (
-                  <ul className="mt-1 mb-2 ml-4 pl-4 border-l border-gray-200 space-y-0.5">
-                    {ABOUT_NAV.map((sub) => (
-                      <li key={sub.href}>
-                        <Link
-                          href={sub.href}
-                          className="block py-2 px-3 rounded-lg text-sm text-navy-900/70 hover:text-gold hover:bg-gray-50 transition"
-                          onClick={handleMegaNavClick}
-                        >
-                          {sub.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {item.mega === "services" && (
-                  <ul className="mt-1 mb-2 ml-4 pl-4 border-l border-gray-200 space-y-0.5">
-                    {SERVICES_NAV.map((sub) => (
-                      <li key={sub.href}>
-                        <Link
-                          href={sub.href}
-                          className="block py-2 px-3 rounded-lg text-sm text-navy-900/70 hover:text-gold hover:bg-gray-50 transition"
-                          onClick={handleMegaNavClick}
-                        >
-                          {sub.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {item.mega === "media" && (
-                  <ul className="mt-1 mb-2 ml-4 pl-4 border-l border-gray-200 space-y-0.5">
-                    {MEDIA_NAV.map((sub) => (
-                      <li key={sub.href}>
-                        <Link
-                          href={sub.href}
-                          className="block py-2 px-3 rounded-lg text-sm text-navy-900/70 hover:text-gold hover:bg-gray-50 transition"
-                          onClick={handleMegaNavClick}
-                        >
-                          {sub.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
+                <li key={item.href ?? item.label}>
+                  {isMega ? (
+                    <button
+                      type="button"
+                      className={cx(rowBase, "w-full text-left", isSubOpen && "bg-gray-50 text-navy-950")}
+                      aria-haspopup="true"
+                      aria-expanded={isSubOpen}
+                      aria-controls={`mobile-sub-${subKey}`}
+                      onClick={() => toggleMobileSub(subKey)}
+                    >
+                      {rowInner(
+                        <i
+                          className={cx(
+                            "fas fa-chevron-down text-xs transition-transform duration-300",
+                            isSubOpen && "rotate-180",
+                          )}
+                          aria-hidden
+                        />,
+                      )}
+                    </button>
+                  ) : item.href?.startsWith("/") ? (
+                    <Link href={item.href} className={rowBase} onClick={closeMobile}>
+                      {rowInner(<i className="fas fa-arrow-right text-xs" aria-hidden />)}
+                    </Link>
+                  ) : (
+                    <a href={item.href} className={rowBase} onClick={closeMobile}>
+                      {rowInner(<i className="fas fa-arrow-right text-xs" aria-hidden />)}
+                    </a>
+                  )}
+
+                  {subItems && (
+                    <div
+                      id={`mobile-sub-${subKey}`}
+                      className={cx(
+                        "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
+                        isSubOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                      )}
+                      aria-hidden={!isSubOpen}
+                    >
+                      <ul className="overflow-hidden ml-9 mt-1 pl-3 border-l border-gold/30 space-y-0.5">
+                        {subItems.map((sub) => (
+                          <li key={sub.href}>
+                            <Link
+                              href={sub.href}
+                              className="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm text-navy-900/75 hover:text-navy-950 hover:bg-gold/10 transition"
+                              onClick={handleMegaNavClick}
+                              tabIndex={isSubOpen ? 0 : -1}
+                            >
+                              <span className="w-7 h-7 rounded-md bg-gold/10 flex items-center justify-center text-gold shrink-0">
+                                <i className={cx("fas", sub.icon, "text-[11px]")} aria-hidden />
+                              </span>
+                              <span className="truncate">{sub.title}</span>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
               );
             })}
           </ul>

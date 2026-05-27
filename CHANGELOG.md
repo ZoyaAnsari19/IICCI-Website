@@ -1,5 +1,15 @@
 # Changelog
 
+## [27-05-2026 11:57] — Properly responsive mobile menu with toggle sections
+
+**What changed:** Rebuilt the mobile drawer so About / Services / Media now collapse by default and toggle open with a click — added `mobileSubs` state, animated chevron rotation (`rotate-180`), and smooth `grid-template-rows` expand/collapse for each submenu. Sub-items now match the desktop mega-menu look (gold icon tile + title) and reset whenever the drawer closes or a child link is tapped. Also added `body.mobile-menu-open` class plus CSS so the floating WhatsApp/AI chat dock and back-to-top button stay hidden while the drawer is open, preventing them from overlapping menu items on small screens.
+**Files touched:** `src/components/Navbar.tsx`, `src/app/globals.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 12:35] — Proper top spacing on More & Resources pages
 
 **What changed:** Added a `standalone` mode to the first section components (Training, ContactSection, CSR, Women, DownloadsResourcesSection) so they use `page-nav-offset` directly (About-style spacing) without creating a blank strip above the page.
