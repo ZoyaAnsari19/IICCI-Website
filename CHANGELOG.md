@@ -1,5 +1,15 @@
 # Changelog
 
+## [27-05-2026 11:30] — Remove About section sub-navigation bar
+
+**What changed:** Removed the sticky `AboutSubnav` tab bar from the About layout so About subpages no longer show the secondary horizontal nav (About IICCI, Mission & Vision, Leadership, etc.).
+**Files touched:** `src/app/about/layout.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 11:25] — Enhance Recognition award cards
 
 **What changed:** Redesigned the four recognition award cards for the white page theme — light elevated cards, gold top accent on hover, larger icons, numbered badges, and verified credential footer.
