@@ -1,5 +1,15 @@
 # Changelog
 
+## [27-05-2026 14:00] — Premium dual Leadership Vision showcase
+
+**What changed:** Replaced the single President's Foreword with a cinematic dual-leadership `LeadershipVisionSection` — Current President (Rajesh Kaithwas) and Ex President (Shri Atul Saxena) in equal glassmorphism cards with Framer Motion, timeline connector, trade-route backdrop, and CTAs. Homepage order: Objectives → Mission & Vision (embedded) → Leadership Vision → Mentor's Foreword → Leadership hero. Ex President uses `/images/shri-atul-saxena.jpeg`.
+**Files touched:** `src/components/LeadershipVisionSection.tsx`, `src/app/page.tsx`, `src/components/MissionVisionSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 13:30] — President's Foreword on homepage
 
 **What changed:** Added the President's Foreword section directly below Our Objectives on the homepage — portrait, quote, foreword copy, and link to full leadership. Extracted shared `PresidentSection` component (reused on `/about/leadership`) with mobile-friendly layout.

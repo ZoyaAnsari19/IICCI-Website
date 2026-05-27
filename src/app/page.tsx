@@ -3,7 +3,9 @@ import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
 
 import { ObjectivesSection } from "@/components/ObjectivesSection";
-import { PresidentSection } from "@/components/PresidentSection";
+import { MissionVisionSection } from "@/components/MissionVisionSection";
+import { LeadershipVisionSection } from "@/components/LeadershipVisionSection";
+import { MentorsForewordSection } from "@/app/about/leadership/MentorsForewordSection";
 import { LeadershipHero } from "@/components/LeadershipHero";
 import { CoreTeam } from "@/components/CoreTeam";
 import { GlobalPresence } from "@/components/GlobalPresence";
@@ -32,7 +34,9 @@ export default function Home() {
           <Stats />
         </div>
         <ObjectivesSection />
-        <PresidentSection />
+        <MissionVisionSection embedded />
+        <LeadershipVisionSection />
+        <MentorsForewordSection />
         <LeadershipHero embedded />
         <CoreTeam />
         <GlobalPresence />

@@ -372,12 +372,16 @@ function VisionCard() {
   );
 }
 
-export const MissionVisionSection = () => {
+export const MissionVisionSection = ({ embedded = false }: { embedded?: boolean }) => {
   return (
     <section
       id="mission-vision"
       aria-labelledby="mission-vision-heading"
-      className="relative overflow-hidden bg-white pt-[calc(var(--navbar-height,88px)+3.5rem)] pb-28 lg:pt-[calc(var(--navbar-height,88px)+4.5rem)] lg:pb-32"
+      className={
+        embedded
+          ? "relative section-padding overflow-hidden bg-white border-t border-navy-950/10"
+          : "relative overflow-hidden bg-white pt-[calc(var(--navbar-height,88px)+3.5rem)] pb-28 lg:pt-[calc(var(--navbar-height,88px)+4.5rem)] lg:pb-32"
+      }
     >
       <WorldTradeBackdrop />
       <div className="absolute inset-0 bg-grid opacity-[0.04] pointer-events-none" />
