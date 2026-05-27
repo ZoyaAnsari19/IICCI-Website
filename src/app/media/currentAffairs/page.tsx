@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useId, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import {
   motion,
   AnimatePresence,
@@ -623,6 +623,150 @@ function TrendingSidebar({ items }: { items: CurrentAffairsArticle[] }) {
   );
 }
 
+function ScrollableCategoryTabs({
+  category,
+  onChange,
+}: {
+  category: AffairsCategory | "all";
+  onChange: (value: AffairsCategory | "all") => void;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
+  const [scrollHints, setScrollHints] = useState({ left: false, right: false });
+
+  const tabs: Array<{ id: AffairsCategory | "all"; label: string; icon?: string }> = [
+    { id: "all", label: "All Updates" },
+    ...AFFAIRS_CATEGORIES.map((c) => ({ id: c.id, label: c.label, icon: c.icon })),
+  ];
+
+  const updateScrollHints = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setScrollHints({
+      left: scrollLeft > 8,
+      right: scrollLeft + clientWidth < scrollWidth - 8,
+    });
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    updateScrollHints();
+    el.addEventListener("scroll", updateScrollHints, { passive: true });
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(updateScrollHints) : null;
+    if (ro) ro.observe(el);
+    window.addEventListener("resize", updateScrollHints);
+    return () => {
+      el.removeEventListener("scroll", updateScrollHints);
+      ro?.disconnect();
+      window.removeEventListener("resize", updateScrollHints);
+    };
+  }, [updateScrollHints]);
+
+  useEffect(() => {
+    const btn = tabRefs.current.get(category);
+    const container = scrollRef.current;
+    if (!btn || !container) return;
+    if (category === "all") {
+      container.scrollTo({ left: 0, behavior: "smooth" });
+      return;
+    }
+    btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, [category]);
+
+  const scrollTabs = (direction: -1 | 1) => {
+    scrollRef.current?.scrollBy({ left: direction * 260, behavior: "smooth" });
+  };
+
+  const tabClass = (active: boolean) =>
+    cx(
+      "shrink-0 snap-start inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition whitespace-nowrap",
+      active
+        ? "bg-gold text-navy-950 shadow-gold"
+        : "glass border border-white/10 text-white/60 hover:border-gold/30 hover:text-white/80",
+    );
+
+  return (
+    <div className="mb-8 lg:mb-10 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => scrollTabs(-1)}
+          disabled={!scrollHints.left}
+          className={cx(
+            "hidden sm:flex shrink-0 w-9 h-9 rounded-full border items-center justify-center transition",
+            scrollHints.left
+              ? "border-white/15 bg-navy-950/90 text-white/70 hover:text-gold hover:border-gold/40"
+              : "border-white/5 bg-navy-950/40 text-white/25 cursor-default",
+          )}
+          aria-label="Scroll categories left"
+        >
+          <i className="fas fa-chevron-left text-xs" aria-hidden />
+        </button>
+
+        <div className="relative flex-1 min-w-0">
+          {scrollHints.left && (
+            <div
+              className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-6 bg-gradient-to-r from-navy-950 to-transparent sm:hidden"
+              aria-hidden
+            />
+          )}
+          {scrollHints.right && (
+            <div
+              className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-6 bg-gradient-to-l from-navy-950 to-transparent sm:hidden"
+              aria-hidden
+            />
+          )}
+
+          <div
+            ref={scrollRef}
+            role="tablist"
+            aria-label="Filter current affairs by category"
+            className="flex gap-2 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory overscroll-x-contain touch-pan-x py-0.5"
+          >
+        {tabs.map((tab) => {
+          const isActive = category === tab.id;
+          return (
+            <button
+              key={tab.id}
+              ref={(el) => {
+                if (el) tabRefs.current.set(tab.id, el);
+                else tabRefs.current.delete(tab.id);
+              }}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => onChange(tab.id)}
+              className={tabClass(isActive)}
+            >
+              {tab.icon && <i className={cx("fas", tab.icon, "text-[10px]")} aria-hidden />}
+              {tab.label}
+            </button>
+          );
+        })}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => scrollTabs(1)}
+          disabled={!scrollHints.right}
+          className={cx(
+            "hidden sm:flex shrink-0 w-9 h-9 rounded-full border items-center justify-center transition",
+            scrollHints.right
+              ? "border-white/15 bg-navy-950/90 text-white/70 hover:text-gold hover:border-gold/40"
+              : "border-white/5 bg-navy-950/40 text-white/25 cursor-default",
+          )}
+          aria-label="Scroll categories right"
+        >
+          <i className="fas fa-chevron-right text-xs" aria-hidden />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 /* ============================================================
    Main Section
    ============================================================ */
@@ -778,42 +922,9 @@ export function CurrentAffairsSection({ preview = false }: { preview?: boolean }
           </motion.div>
         )}
 
-        {/* Category filters */}
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="flex gap-2 overflow-x-auto no-scrollbar pb-2 mb-8 lg:mb-10"
-        >
-          <button
-            type="button"
-            onClick={() => setCategory("all")}
-            className={cx(
-              "shrink-0 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition",
-              category === "all"
-                ? "bg-gold text-navy-950"
-                : "glass border border-white/10 text-white/60 hover:border-gold/30",
-            )}
-          >
-            All Updates
-          </button>
-          {AFFAIRS_CATEGORIES.map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              onClick={() => setCategory(c.id)}
-              className={cx(
-                "shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.14em] font-semibold transition",
-                category === c.id
-                  ? "bg-gold text-navy-950"
-                  : "glass border border-white/10 text-white/60 hover:border-gold/30",
-              )}
-            >
-              <i className={cx("fas", c.icon, "text-[10px]")} aria-hidden />
-              <span className="whitespace-nowrap">{c.label}</span>
-            </button>
-          ))}
+        {/* Category filters — horizontal scroll */}
+        <motion.div variants={itemVariants} initial="hidden" whileInView="show" viewport={{ once: true }}>
+          <ScrollableCategoryTabs category={category} onChange={setCategory} />
         </motion.div>
 
         {/* Content grid */}
