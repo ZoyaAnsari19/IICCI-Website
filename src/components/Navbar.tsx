@@ -102,6 +102,16 @@ export const Navbar = () => {
     [pathname, closeMobile],
   );
 
+  const openAiAssistant = useCallback(() => {
+    closeMobile();
+    closeMegaMenu();
+    if (typeof window.__iicciOpenAI === "function") {
+      window.__iicciOpenAI();
+      return;
+    }
+    window.dispatchEvent(new CustomEvent("iicci:open-ai"));
+  }, [closeMobile, closeMegaMenu]);
+
   useEffect(() => {
     setOpenMega(null);
     if (prevPathRef.current !== pathname) {
@@ -475,7 +485,11 @@ export const Navbar = () => {
             <button
               id="ai-toggle"
               type="button"
+              onClick={openAiAssistant}
               className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-gold/40 bg-gold/10 text-gold-700 hover:bg-gold hover:text-white text-xs font-semibold transition"
+              aria-label="Open AI Assistant"
+              aria-controls="ai-panel"
+              aria-expanded={false}
             >
               <i className="fas fa-robot text-xs"></i>
               <span className="hidden lg:inline">AI Assistant</span>

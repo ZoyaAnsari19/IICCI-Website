@@ -89,6 +89,29 @@ body.mobile-menu-open {
   touch-action: pan-y;
 }
 
+/* Lock page scroll while AI assistant popup is open */
+body.ai-assistant-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+html.ai-assistant-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body.ai-assistant-open #ai-panel,
+body.ai-assistant-open #ai-messages {
+  touch-action: pan-y;
+}
+
+#ai-panel,
+#ai-messages {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Viewport-floating chat dock (WhatsApp + AI) */
 .chat-float-dock {
   transition:
