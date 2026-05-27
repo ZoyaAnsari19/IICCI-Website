@@ -1,5 +1,25 @@
 # Changelog
 
+## [27-05-2026 11:40] — Top spacing on About subpages
+
+**What changed:** Applied the same navbar-aware top padding as the About page to Manifesto, Mission & Vision, Partnerships, and Recognition sections.
+**Files touched:** `src/components/Manifesto.tsx`, `src/components/MissionVisionSection.tsx`, `src/components/PartnershipsSection.tsx`, `src/components/RecognitionSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:35] — About page top spacing
+
+**What changed:** Added navbar-aware top padding to the About section so content clears the fixed header after the sub-nav was removed.
+**Files touched:** `src/components/About.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 11:30] — Remove About section sub-navigation bar
 
 **What changed:** Removed the sticky `AboutSubnav` tab bar from the About layout so About subpages no longer show the secondary horizontal nav (About IICCI, Mission & Vision, Leadership, etc.).

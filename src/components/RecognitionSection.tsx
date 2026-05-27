@@ -108,7 +108,7 @@ export const RecognitionSection = () => {
     <section
       id="recognition"
       aria-labelledby="recognition-heading"
-      className="relative section-padding overflow-hidden bg-white"
+      className="relative overflow-hidden bg-white pt-[calc(var(--navbar-height,88px)+3.5rem)] pb-28 lg:pt-[calc(var(--navbar-height,88px)+4.5rem)] lg:pb-32"
     >
       <div className="absolute inset-0 bg-grid opacity-[0.04] pointer-events-none" />
       <div className="absolute -top-32 -left-24 w-[480px] h-[480px] rounded-full bg-gold/5 blur-[140px] pointer-events-none" />

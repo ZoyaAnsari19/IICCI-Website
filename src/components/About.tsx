@@ -91,7 +91,7 @@ export const About = () => {
   return (
     <section
       id="about"
-      className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-950 via-navy-950 to-navy-900"
+      className="relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-950 to-navy-900 pt-[calc(var(--navbar-height,88px)+3.5rem)] pb-28 lg:pt-[calc(var(--navbar-height,88px)+4.5rem)] lg:pb-32"
     >
       <WorldMapBackdrop />
       <div className="absolute top-1/3 -right-32 w-[600px] h-[600px] rounded-full bg-royal/10 blur-[140px] pointer-events-none" />

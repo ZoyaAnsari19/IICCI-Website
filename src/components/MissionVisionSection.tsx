@@ -377,7 +377,7 @@ export const MissionVisionSection = () => {
     <section
       id="mission-vision"
       aria-labelledby="mission-vision-heading"
-      className="relative section-padding overflow-hidden bg-white"
+      className="relative overflow-hidden bg-white pt-[calc(var(--navbar-height,88px)+3.5rem)] pb-28 lg:pt-[calc(var(--navbar-height,88px)+4.5rem)] lg:pb-32"
     >
       <WorldTradeBackdrop />
       <div className="absolute inset-0 bg-grid opacity-[0.04] pointer-events-none" />
