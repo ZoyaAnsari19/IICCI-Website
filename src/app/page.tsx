@@ -10,7 +10,6 @@ import { CoreTeam } from "@/components/CoreTeam";
 import { GlobalPresence } from "@/components/GlobalPresence";
 import { WhyIndia } from "@/components/WhyIndia";
 import { ForeignDesk } from "@/components/ForeignDesk";
-import { Membership } from "@/components/Membership";
 import { Training } from "@/components/Training";
 import { Directory } from "@/components/Directory";
 import { DownloadsResourcesSection } from "@/components/DownloadsResourcesSection";
@@ -39,7 +38,6 @@ export default function Home() {
         <GlobalPresence />
         <WhyIndia />
         <ForeignDesk />
-        <Membership />
         <Training />
         <Directory />
         <LiveExchangeRatesSection preview />

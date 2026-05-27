@@ -38,7 +38,8 @@ function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-const MOBILE_RESOURCES_PREVIEW = 2;
+const RESOURCES_INITIAL_COUNT = 2;
+const RESOURCES_LOAD_MORE_STEP = 4;
 
 function categoryShortLabel(label: string) {
   if (label.startsWith("Membership")) return "Membership";
@@ -225,6 +226,103 @@ function ResourceCard({
           href={resource.fileUrl}
           download
           className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 sm:py-2.5 rounded-xl bg-gradient-gold text-navy-950 text-xs font-bold shadow-gold hover:scale-[1.02] active:scale-[0.98] transition"
+        >
+          <i className="fas fa-download text-[10px]" aria-hidden />
+          Download
+        </a>
+      </div>
+    </motion.article>
+  );
+}
+
+function RecommendedResourceCard({
+  resource,
+  onPreview,
+  rank,
+}: {
+  resource: ResourceItem;
+  onPreview: (r: ResourceItem) => void;
+  rank: number;
+}) {
+  const meta = FILE_TYPE_META[resource.fileType];
+  const categoryMeta = RESOURCE_CATEGORIES.find((c) => c.id === resource.category);
+
+  return (
+    <motion.article
+      layout
+      variants={itemVariants}
+      whileHover={{ y: -6 }}
+      className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-navy-950/10 bg-white shadow-[0_4px_24px_rgba(8,17,32,0.06)] transition duration-400 hover:border-gold/40 hover:shadow-[0_14px_44px_rgba(212,175,55,0.14)]"
+    >
+      <div
+        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold via-gold/50 to-transparent"
+        aria-hidden
+      />
+      <div className="relative border-b border-navy-950/[0.06] bg-gradient-to-br from-navy-950/[0.04] via-white to-gold/[0.05] px-5 pt-5 pb-4">
+        <span
+          className="absolute right-4 top-4 font-mono text-[11px] font-bold tracking-wider text-gold/35"
+          aria-hidden
+        >
+          {String(rank).padStart(2, "0")}
+        </span>
+        <div className="flex items-start gap-3.5 pr-8">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-gold/25 bg-gradient-to-br from-gold/15 to-gold/5 shadow-sm">
+            <i className={cx("fas", meta.icon, meta.color, "text-xl")} aria-hidden />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="mb-2 flex flex-wrap items-center gap-1.5">
+              <span className="inline-flex items-center gap-1 rounded-full bg-gold px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-navy-950">
+                <i className="fas fa-star text-[8px]" aria-hidden />
+                Top pick
+              </span>
+              <span className="rounded-full border border-navy-950/10 bg-white px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-navy-950/55">
+                {meta.label} · {resource.fileSize}
+              </span>
+            </div>
+            <p className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.1em] text-navy-950/45">
+              {categoryMeta && (
+                <i className={cx("fas", categoryMeta.icon, "text-gold/75 text-[9px]")} aria-hidden />
+              )}
+              <span className="line-clamp-1">{resource.categoryLabel}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-1 flex-col px-5 py-4">
+        <h3 className="font-display mb-2 text-[15px] font-bold leading-snug text-navy-950 transition group-hover:text-gold sm:text-base line-clamp-3">
+          {resource.title}
+        </h3>
+        <p className="mb-4 flex-1 text-xs leading-relaxed text-navy-950/60 line-clamp-3">
+          {resource.description}
+        </p>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-xl border border-navy-950/[0.06] bg-navy-950/[0.02] px-3 py-2.5 text-[10px] uppercase tracking-[0.1em] text-navy-950/45">
+          <span className="inline-flex items-center gap-1.5">
+            <i className="fas fa-clock text-gold/65 text-[9px]" aria-hidden />
+            Updated {resource.updatedAt}
+          </span>
+          {resource.downloadCount != null && (
+            <span className="inline-flex items-center gap-1.5">
+              <i className="fas fa-download text-gold/70 text-[9px]" aria-hidden />
+              {resource.downloadCount.toLocaleString()} downloads
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 border-t border-navy-950/[0.06] bg-navy-950/[0.02] p-4">
+        <button
+          type="button"
+          onClick={() => onPreview(resource)}
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-navy-950/12 bg-white px-3 py-2.5 text-xs font-semibold text-navy-950/75 transition hover:border-gold/40 hover:text-gold"
+        >
+          <i className="fas fa-eye text-[10px]" aria-hidden />
+          Preview
+        </button>
+        <a
+          href={resource.fileUrl}
+          download
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-gold px-3 py-2.5 text-xs font-bold text-navy-950 shadow-gold transition hover:scale-[1.02] active:scale-[0.98]"
         >
           <i className="fas fa-download text-[10px]" aria-hidden />
           Download
@@ -493,11 +591,10 @@ export function DownloadsResourcesSection({
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [sort, setSort] = useState<"newest" | "popular">("newest");
-  const [visibleCount, setVisibleCount] = useState(preview ? 4 : 6);
+  const [visibleCount, setVisibleCount] = useState(preview ? 4 : RESOURCES_INITIAL_COUNT);
   const [data, setData] = useState<FetchResourcesResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [previewItem, setPreviewItem] = useState<ResourceItem | null>(null);
-  const [showAllMobileResources, setShowAllMobileResources] = useState(false);
 
   const pageSize = preview ? 4 : visibleCount;
 
@@ -507,8 +604,7 @@ export function DownloadsResourcesSection({
   }, [search]);
 
   useEffect(() => {
-    setVisibleCount(preview ? 4 : 6);
-    setShowAllMobileResources(false);
+    setVisibleCount(preview ? 4 : RESOURCES_INITIAL_COUNT);
   }, [category, debouncedSearch, sort, preview]);
 
   const load = useCallback(async () => {
@@ -717,22 +813,14 @@ export function DownloadsResourcesSection({
 
                 <AnimatePresence mode="popLayout">
                   <motion.div
-                    key={`${category}-${debouncedSearch}-${pageSize}-${sort}-${showAllMobileResources}`}
+                    key={`${category}-${debouncedSearch}-${pageSize}-${sort}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5 min-w-0"
                   >
-                    {data?.resources.map((r, index) => (
-                      <div
-                        key={r.id}
-                        className={cx(
-                          "min-w-0",
-                          index >= MOBILE_RESOURCES_PREVIEW &&
-                            !showAllMobileResources &&
-                            "max-md:hidden",
-                        )}
-                      >
+                    {data?.resources.map((r) => (
+                      <div key={r.id} className="min-w-0">
                         <ResourceCard resource={r} onPreview={setPreviewItem} />
                       </div>
                     ))}
@@ -745,36 +833,11 @@ export function DownloadsResourcesSection({
                   </div>
                 )}
 
-                {data && data.resources.length > MOBILE_RESOURCES_PREVIEW && (
-                  <div className="flex justify-center md:hidden">
-                    <button
-                      type="button"
-                      onClick={() => setShowAllMobileResources((prev) => !prev)}
-                      aria-expanded={showAllMobileResources}
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-gold/40 bg-gold/10 text-gold-700 text-sm font-semibold hover:bg-gold hover:text-navy-950 transition"
-                    >
-                      {showAllMobileResources ? "View Less" : "View More"}
-                      <i
-                        className={cx(
-                          "fas fa-chevron-down text-xs transition-transform duration-300",
-                          showAllMobileResources && "rotate-180",
-                        )}
-                        aria-hidden
-                      />
-                    </button>
-                  </div>
-                )}
-
                 {canLoadMore && (
-                  <div
-                    className={cx(
-                      "flex justify-center",
-                      !showAllMobileResources && "max-md:hidden",
-                    )}
-                  >
+                  <div className="flex justify-center">
                     <button
                       type="button"
-                      onClick={() => setVisibleCount((c) => c + 4)}
+                      onClick={() => setVisibleCount((c) => c + RESOURCES_LOAD_MORE_STEP)}
                       className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-navy-950/15 text-navy-950 text-sm font-semibold hover:border-gold/40 transition"
                     >
                       Load more resources
@@ -784,29 +847,46 @@ export function DownloadsResourcesSection({
                 )}
 
                 {!preview && recommended.length > 0 && (
-                  <div className={cx(!showAllMobileResources && "max-md:hidden")}>
-                    <h3 className="text-[10px] uppercase tracking-[0.2em] text-navy-950/45 font-bold mb-4">
-                      Recommended for you
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 min-w-0">
-                      {recommended.map((r) => (
+                  <div>
+                    <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                      <div>
+                        <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-gold/25 bg-gold/10 px-3 py-1">
+                          <i className="fas fa-wand-magic-sparkles text-gold text-[10px]" aria-hidden />
+                          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-navy-950">
+                            Recommended for you
+                          </span>
+                        </div>
+                        <p className="max-w-xl text-sm text-navy-950/55">
+                          Popular resources members download most — membership forms, profiles, and trade guides.
+                        </p>
+                      </div>
+                      <span className="text-[10px] uppercase tracking-[0.14em] text-navy-950/40 font-semibold">
+                        {recommended.length} curated picks
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 min-w-0">
+                      {recommended.map((r, index) => (
                         <div key={`rec-${r.id}`} className="min-w-0">
-                          <ResourceCard resource={r} onPreview={setPreviewItem} compact />
+                          <RecommendedResourceCard
+                            resource={r}
+                            onPreview={setPreviewItem}
+                            rank={index + 1}
+                          />
                         </div>
                       ))}
                     </div>
                   </div>
                 )}
+
+                {!preview && data && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    <RecentResources items={data.recent} />
+                    <PopularDownloads items={data.popular} />
+                  </div>
+                )}
               </motion.div>
             )}
           </div>
-
-          {!preview && data && (
-            <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-6 mt-2 order-last">
-              <RecentResources items={data.recent} />
-              <PopularDownloads items={data.popular} />
-            </div>
-          )}
         </div>
 
         <motion.div

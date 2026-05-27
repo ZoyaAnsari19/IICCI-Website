@@ -18,7 +18,7 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
   { label: "About", mega: "about", triggerOnly: true },
-  { label: "Membership", href: "#membership" },
+  { label: "Membership", href: "/membership" },
   { label: "Services", mega: "services", triggerOnly: true },
   { label: "Media", href: "/media", mega: "media" },
 ];
