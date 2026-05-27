@@ -688,7 +688,7 @@ export function CurrentAffairsSection({ preview = false }: { preview?: boolean }
       aria-labelledby="current-affairs-heading"
       className={cx(
         "relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950",
-        preview ? "py-16 lg:py-20" : "section-padding",
+        preview ? "py-16 lg:py-20" : "page-nav-offset",
         !preview && "border-t border-white/10",
       )}
     >

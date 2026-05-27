@@ -609,7 +609,7 @@ export const Media = () => {
   const canLoadMore = shownList.length < filtered.list.length;
 
   return (
-    <section id="media" className="relative section-padding overflow-hidden">
+    <section id="media" className="relative page-nav-offset overflow-hidden">
       <div className="absolute inset-0 bg-radial-navy" />
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">

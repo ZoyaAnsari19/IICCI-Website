@@ -1,5 +1,15 @@
 # Changelog
 
+## [27-05-2026 12:10] — Top spacing on Media pages
+
+**What changed:** Applied `page-nav-offset` to Media sections (`currentAffairs`, `events`, `iicci-story`, and the main `media` landing) so content clears the fixed navbar consistently after navigation.
+**Files touched:** `src/app/media/currentAffairs/page.tsx`, `src/app/media/events/page.tsx`, `src/app/media/iicci-story/page.tsx`, `src/app/media/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 12:05] — Top spacing on Services index & Global Program
 
 **What changed:** Applied `page-nav-offset` to `/services` and `/services/globalProgram` main sections so content clears the fixed navbar like other About and Services pages.
