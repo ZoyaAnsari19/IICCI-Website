@@ -632,6 +632,10 @@ export function DownloadsResourcesSection({
     [data],
   );
 
+  const scrollToSection = useCallback(() => {
+    document.getElementById("downloads-resources")?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   return (
     <section
       id="downloads-resources"
@@ -895,13 +899,24 @@ export function DownloadsResourcesSection({
           viewport={{ once: true }}
           className="mt-10 lg:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3"
         >
-          <Link
-            href={preview ? "/resources" : "#downloads-resources"}
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold shadow-gold hover:scale-[1.02] transition"
-          >
-            {preview ? "Explore Documents" : "Access Trade Guides"}
-            <i className="fas fa-arrow-right text-xs" aria-hidden />
-          </Link>
+          {preview ? (
+            <Link
+              href="/resources"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold shadow-gold hover:scale-[1.02] transition"
+            >
+              Explore Documents
+              <i className="fas fa-arrow-right text-xs" aria-hidden />
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={scrollToSection}
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold shadow-gold hover:scale-[1.02] transition"
+            >
+              Access Trade Guides
+              <i className="fas fa-arrow-right text-xs" aria-hidden />
+            </button>
+          )}
           {preview ? (
             <Link
               href="/resources"
@@ -911,13 +926,14 @@ export function DownloadsResourcesSection({
               <i className="fas fa-download text-xs text-gold" aria-hidden />
             </Link>
           ) : (
-            <a
-              href="#downloads-resources"
+            <button
+              type="button"
+              onClick={scrollToSection}
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-navy-950/15 text-navy-950 text-sm font-semibold hover:border-gold/40 transition"
             >
               Browse categories
               <i className="fas fa-layer-group text-xs text-gold" aria-hidden />
-            </a>
+            </button>
           )}
         </motion.div>
       </div>

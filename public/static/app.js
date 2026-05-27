@@ -223,6 +223,7 @@
 
   // ===== AI Assistant =====
   const aiPanel = document.getElementById('ai-panel');
+  const aiFloatingBtn = document.getElementById('ai-floating-btn');
   const aiInput = document.getElementById('ai-input');
   const aiSend = document.getElementById('ai-send');
   const aiMessages = document.getElementById('ai-messages');
