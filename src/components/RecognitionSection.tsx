@@ -49,15 +49,70 @@ const itemVariants: Variants = {
   },
 };
 
+function AwardCard({
+  icon,
+  title,
+  body,
+  index,
+}: {
+  icon: string;
+  title: string;
+  body: string;
+  index: number;
+}) {
+  return (
+    <motion.article
+      variants={itemVariants}
+      className="group relative flex flex-col h-full rounded-3xl p-6 lg:p-7 bg-white border border-navy-950/10 shadow-[0_8px_32px_rgba(8,17,32,0.06)] overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:border-gold/35 hover:shadow-[0_20px_50px_rgba(8,17,32,0.1)] card-lift"
+    >
+      <div
+        className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-gold/20 via-gold to-gold/20 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"
+        aria-hidden
+      />
+      <div
+        className="absolute -top-20 -right-16 w-40 h-40 rounded-full bg-gold/15 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        aria-hidden
+      />
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(ellipse_at_50%_0%,rgba(212,175,55,0.08),transparent_60%)]"
+        aria-hidden
+      />
+
+      <div className="relative flex-1 flex flex-col">
+        <div className="flex items-start justify-between gap-3 mb-6">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold/20 via-gold/10 to-transparent border border-gold/30 flex items-center justify-center text-gold shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:from-gold group-hover:to-gold-600 group-hover:text-navy-950 group-hover:shadow-gold group-hover:border-gold">
+            <i className={`fas ${icon} text-xl`} aria-hidden />
+          </div>
+          <span className="shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-navy-950/[0.04] border border-navy-950/10 text-[11px] font-display font-bold text-navy-950/35 group-hover:border-gold/30 group-hover:text-gold/80 transition-colors duration-500">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+        </div>
+
+        <h3 className="font-display font-bold text-navy-950 text-lg leading-snug mb-3 group-hover:text-gold transition-colors duration-300">
+          {title}
+        </h3>
+
+        <p className="text-sm text-navy-950/65 leading-relaxed flex-1">{body}</p>
+
+        <div className="mt-6 pt-4 border-t border-navy-950/[0.06] flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-semibold text-navy-950/40 group-hover:text-gold/90 transition-colors duration-300">
+          <i className="fas fa-shield-halved text-gold text-[10px]" aria-hidden />
+          <span>Verified credential</span>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
 export const RecognitionSection = () => {
   return (
     <section
       id="recognition"
       aria-labelledby="recognition-heading"
-      className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950"
+      className="relative section-padding overflow-hidden bg-white"
     >
-      <div className="absolute inset-0 bg-grid bg-grid-fade opacity-[0.08] pointer-events-none" />
-      <div className="absolute -top-32 -left-24 w-[480px] h-[480px] rounded-full bg-gold/[0.07] blur-[140px] pointer-events-none" />
+      <div className="absolute inset-0 bg-grid opacity-[0.04] pointer-events-none" />
+      <div className="absolute -top-32 -left-24 w-[480px] h-[480px] rounded-full bg-gold/5 blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] rounded-full bg-royal/5 blur-[140px] pointer-events-none" />
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
         <motion.div
@@ -69,10 +124,10 @@ export const RecognitionSection = () => {
         >
           <motion.div
             variants={itemVariants}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-6"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950/5 border border-navy-950/10 mb-6"
           >
             <i className="fas fa-medal text-gold text-xs" aria-hidden />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-white/80 font-semibold">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-navy-950/70 font-semibold">
               Awards &amp; Certifications
             </span>
           </motion.div>
@@ -82,7 +137,7 @@ export const RecognitionSection = () => {
             variants={itemVariants}
             className="display-title font-display font-bold mb-5 leading-[1.02]"
           >
-            <span className="text-white">Institutional</span>{" "}
+            <span className="text-navy-950">Institutional</span>{" "}
             <span className="text-gradient-gold italic font-serif font-normal">
               Recognition
             </span>
@@ -90,7 +145,7 @@ export const RecognitionSection = () => {
 
           <motion.p
             variants={itemVariants}
-            className="text-white/70 text-base md:text-lg leading-relaxed"
+            className="text-navy-950/70 text-base md:text-lg leading-relaxed"
           >
             IICCI upholds the highest standards of governance, quality, and
             global trade integrity — recognized by national and international
@@ -99,26 +154,20 @@ export const RecognitionSection = () => {
         </motion.div>
 
         <motion.div
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14"
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 mb-14"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
           variants={containerVariants}
         >
-          {AWARDS.map((a) => (
-            <motion.article
+          {AWARDS.map((a, i) => (
+            <AwardCard
               key={a.title}
-              variants={itemVariants}
-              className="group rounded-3xl glass-dark border border-white/10 p-6 shadow-premium hover:border-gold/35 hover:shadow-gold transition-all duration-500 hover:-translate-y-1"
-            >
-              <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/25 flex items-center justify-center text-gold mb-5 group-hover:bg-gold group-hover:text-navy-950 transition">
-                <i className={`fas ${a.icon} text-lg`} />
-              </div>
-              <h3 className="font-display font-bold text-white mb-2 group-hover:text-gold transition">
-                {a.title}
-              </h3>
-              <p className="text-sm text-white/65 leading-relaxed">{a.body}</p>
-            </motion.article>
+              icon={a.icon}
+              title={a.title}
+              body={a.body}
+              index={i}
+            />
           ))}
         </motion.div>
 

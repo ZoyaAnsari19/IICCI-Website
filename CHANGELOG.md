@@ -1,5 +1,35 @@
 # Changelog
 
+## [27-05-2026 11:25] — Enhance Recognition award cards
+
+**What changed:** Redesigned the four recognition award cards for the white page theme — light elevated cards, gold top accent on hover, larger icons, numbered badges, and verified credential footer.
+**Files touched:** `src/components/RecognitionSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:20] — Recognition page white background
+
+**What changed:** Switched `/about/recognition` section background to white with navy header text; award and milestone cards remain dark for contrast.
+**Files touched:** `src/components/RecognitionSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:15] — Mission & Vision page white background
+
+**What changed:** Switched `/about/mission-vision` section background to white with navy header/footer text; mission and vision cards remain dark for contrast.
+**Files touched:** `src/components/MissionVisionSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 11:10] — Remove sub-heroes from About subpages
 
 **What changed:** Removed redundant `SubpageHero` from `/about/mission-vision`, `/about/partnerships`, and `/about/recognition` so each page shows only its main section content.
