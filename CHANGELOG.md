@@ -1,5 +1,35 @@
 # Changelog
 
+## [27-05-2026 12:30] — Mobile “View More” on Our Objectives cards
+
+**What changed:** On screens below `md`, the Our Objectives section now shows only the first 2 detail cards, with a gold “View More” / “View Less” toggle to reveal the remaining seven. Tablet and desktop layouts still show all cards in the grid.
+**Files touched:** `src/components/ObjectivesSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:15] — Fix Lenis scroll bleed through mobile menu
+
+**What changed:** Stopped the home page from scrolling when the mobile toggle menu is scrolled — pauses Lenis (`__iicciLenis.stop()` / `start()`), locks the body with `position: fixed` and saved scroll position (works on iOS), blocks `touchmove` outside the drawer, and marks `#mobile-menu` with `data-lenis-prevent` plus `overscroll-behavior: contain` so only the white panel scrolls.
+**Files touched:** `src/components/Navbar.tsx`, `src/app/globals.css`, `src/global.d.ts`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:06] — Lock background scroll under mobile menu
+
+**What changed:** Tightened the mobile drawer scroll-behaviour so only the white toggle menu panel scrolls and the home page behind it stays fixed — now we also lock the `<html>` element (`overflow: hidden`, `overscroll-behavior: contain`) and mirror the `mobile-menu-open` class there. This prevents the underlying page from moving even when you flick past the end of the menu content on mobile devices.
+**Files touched:** `src/components/Navbar.tsx`, `src/app/globals.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 11:57] — Properly responsive mobile menu with toggle sections
 
 **What changed:** Rebuilt the mobile drawer so About / Services / Media now collapse by default and toggle open with a click — added `mobileSubs` state, animated chevron rotation (`rotate-180`), and smooth `grid-template-rows` expand/collapse for each submenu. Sub-items now match the desktop mega-menu look (gold icon tile + title) and reset whenever the drawer closes or a child link is tapped. Also added `body.mobile-menu-open` class plus CSS so the floating WhatsApp/AI chat dock and back-to-top button stay hidden while the drawer is open, preventing them from overlapping menu items on small screens.

@@ -74,6 +74,21 @@
   }
 }
 
+/* Prevent background page from scrolling while the mobile drawer is open */
+html.mobile-menu-open,
+body.mobile-menu-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+  height: 100%;
+}
+
+/* Only the drawer panel scrolls; scroll does not chain to the page behind */
+#mobile-menu {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+
 /* Viewport-floating chat dock (WhatsApp + AI) */
 .chat-float-dock {
   transition:

@@ -265,8 +265,11 @@ function ObjectiveCard({
   );
 }
 
+const MOBILE_OBJECTIVES_PREVIEW = 2;
+
 export const ObjectivesSection = () => {
   const uid = useId().replace(/:/g, "");
+  const [showAllObjectives, setShowAllObjectives] = useState(false);
   const handleSpotlight = useCallback((e: MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -378,14 +381,42 @@ export const ObjectivesSection = () => {
           variants={containerVariants}
         >
           {OBJECTIVES.map((objective, index) => (
-            <ObjectiveCard
+            <div
               key={objective.id}
-              objective={objective}
-              index={index}
-              onSpotlight={handleSpotlight}
-            />
+              className={cx(
+                index >= MOBILE_OBJECTIVES_PREVIEW &&
+                  !showAllObjectives &&
+                  "max-md:hidden",
+              )}
+            >
+              <ObjectiveCard
+                objective={objective}
+                index={index}
+                onSpotlight={handleSpotlight}
+              />
+            </div>
           ))}
         </motion.div>
+
+        {OBJECTIVES.length > MOBILE_OBJECTIVES_PREVIEW && (
+          <div className="mt-6 flex justify-center md:hidden">
+            <button
+              type="button"
+              onClick={() => setShowAllObjectives((prev) => !prev)}
+              aria-expanded={showAllObjectives}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-gold/40 bg-gold/10 text-gold text-sm font-semibold hover:bg-gold hover:text-navy-950 transition"
+            >
+              {showAllObjectives ? "View Less" : "View More"}
+              <i
+                className={cx(
+                  "fas fa-chevron-down text-xs transition-transform duration-300",
+                  showAllObjectives && "rotate-180",
+                )}
+                aria-hidden
+              />
+            </button>
+          </div>
+        )}
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}

@@ -110,12 +110,57 @@ export const Navbar = () => {
   }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    document.body.classList.toggle("mobile-menu-open", mobileOpen);
-    if (!mobileOpen) setMobileSubs(new Set());
+    if (!mobileOpen) return;
+
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const root = document.documentElement;
+    const lenis = window.__iicciLenis;
+
+    lenis?.stop();
+
+    body.classList.add("mobile-menu-open");
+    root.classList.add("mobile-menu-open");
+
+    const prevBodyPosition = body.style.position;
+    const prevBodyTop = body.style.top;
+    const prevBodyLeft = body.style.left;
+    const prevBodyRight = body.style.right;
+    const prevBodyWidth = body.style.width;
+    const prevBodyOverflow = body.style.overflow;
+
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+
+    const menu = document.getElementById("mobile-menu");
+    const blockBackgroundTouch = (e: TouchEvent) => {
+      const target = e.target;
+      if (menu && target instanceof Node && menu.contains(target)) return;
+      e.preventDefault();
+    };
+
+    document.addEventListener("touchmove", blockBackgroundTouch, { passive: false });
+
     return () => {
-      document.body.style.overflow = "";
-      document.body.classList.remove("mobile-menu-open");
+      document.removeEventListener("touchmove", blockBackgroundTouch);
+
+      body.classList.remove("mobile-menu-open");
+      root.classList.remove("mobile-menu-open");
+
+      body.style.position = prevBodyPosition;
+      body.style.top = prevBodyTop;
+      body.style.left = prevBodyLeft;
+      body.style.right = prevBodyRight;
+      body.style.width = prevBodyWidth;
+      body.style.overflow = prevBodyOverflow;
+
+      window.scrollTo(0, scrollY);
+      lenis?.start();
+      setMobileSubs(new Set());
     };
   }, [mobileOpen]);
 
@@ -502,8 +547,9 @@ export const Navbar = () => {
       {/* Mobile menu */}
       <div
         id="mobile-menu"
+        data-lenis-prevent
         className={cx(
-          "mobile-menu fixed top-0 right-0 h-[100dvh] w-[min(100%,20rem)] sm:w-96 bg-white border-l border-gray-200 z-[70] xl:hidden overflow-y-auto shadow-2xl",
+          "mobile-menu fixed top-0 right-0 h-[100dvh] max-h-[100dvh] w-[min(100%,20rem)] sm:w-96 bg-white border-l border-gray-200 z-[70] xl:hidden overflow-y-auto overscroll-y-contain touch-pan-y shadow-2xl [-webkit-overflow-scrolling:touch]",
           mobileOpen && "open",
         )}
         aria-hidden={!mobileOpen}
