@@ -632,7 +632,7 @@ export function MonthlyPerformanceSection({ preview = false }: { preview?: boole
       aria-labelledby="monthly-performance-heading"
       className={cx(
         "relative overflow-hidden bg-white border-y border-navy-950/10",
-        preview ? "py-16 lg:py-20" : "section-padding",
+        preview ? "py-16 lg:py-20" : "page-nav-offset",
       )}
     >
       <DashboardBackdrop uid={uid} />

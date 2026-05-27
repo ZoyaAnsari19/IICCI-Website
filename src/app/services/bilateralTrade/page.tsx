@@ -744,7 +744,7 @@ export function BilateralTradeTutorialSection({ preview = false }: { preview?: b
       aria-labelledby="bilateral-trade-tutorial-heading"
       className={cx(
         "relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 border-t border-white/10",
-        preview ? "py-16 lg:py-20" : "section-padding",
+        preview ? "py-16 lg:py-20" : "page-nav-offset",
       )}
       ref={scrollRef}
       tabIndex={-1}

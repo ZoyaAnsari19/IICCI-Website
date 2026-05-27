@@ -611,7 +611,7 @@ export function GlobalCertificationSection({ preview = false }: { preview?: bool
       aria-labelledby="global-certification-heading"
       className={cx(
         "relative overflow-hidden bg-gradient-to-b from-navy-950 via-royal-dark to-navy-950",
-        preview ? "py-16 lg:py-20" : "section-padding",
+        preview ? "py-16 lg:py-20" : "page-nav-offset",
       )}
     >
       <LearningBackdrop uid={uid} />

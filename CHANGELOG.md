@@ -1,5 +1,25 @@
 # Changelog
 
+## [27-05-2026 12:05] — Top spacing on Services index & Global Program
+
+**What changed:** Applied `page-nav-offset` to `/services` and `/services/globalProgram` main sections so content clears the fixed navbar like other About and Services pages.
+**Files touched:** `src/app/services/page.tsx`, `src/app/services/globalProgram/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:00] — Services pages top spacing (page-nav-offset)
+
+**What changed:** Defined `.page-nav-offset` in `globals.css` (navbar height + 3.5rem/4.5rem top, matching About pages) so Bilateral Trade, Farmer Support, Global Placement, Industry Verticals, Machine Learning, Monthly Services, and Upcoming Projects clear the fixed header.
+**Files touched:** `src/app/globals.css`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 11:50] — Fix mega menu staying open after navigation
 
 **What changed:** Removed CSS `:hover` visibility for mega menus so panels only show when `is-open` is set by JS; menus now stay closed after clicking a link and on route change (fixes hover re-opening the panel after client navigation).

@@ -1017,7 +1017,7 @@ export function GlobalPlacementSection({ preview = false }: { preview?: boolean 
       aria-labelledby="global-placement-heading"
       className={cx(
         "relative overflow-hidden bg-gradient-to-b from-navy-900 via-navy-950 to-navy-950 border-t border-white/10",
-        preview ? "py-16 lg:py-20" : "section-padding",
+        preview ? "py-16 lg:py-20" : "page-nav-offset",
       )}
     >
       <CareerNetworkBackdrop uid={uid} />

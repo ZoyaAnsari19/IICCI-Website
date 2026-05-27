@@ -132,7 +132,7 @@ export function IndustryVerticalsSection() {
     <section
       id="industry-verticals"
       aria-labelledby="industry-verticals-heading"
-      className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-900 via-navy-950 to-navy-950"
+      className="relative page-nav-offset overflow-hidden bg-gradient-to-b from-navy-900 via-navy-950 to-navy-950"
     >
       <TradeGridBackdrop uid={uid} />
       <motion.div
