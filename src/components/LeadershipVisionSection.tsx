@@ -284,9 +284,6 @@ function LeadershipCard({
               {profile.badge}
             </div>
 
-            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-              <div className="font-serif italic text-gold text-lg sm:text-xl">{profile.name}</div>
-            </div>
           </div>
 
           <motion.div
@@ -303,8 +300,15 @@ function LeadershipCard({
           </motion.div>
         </div>
 
+        <div className="text-center px-2 mb-1 sm:mb-2">
+          <h3 className="font-display font-bold text-navy-950 text-xl sm:text-2xl leading-tight">
+            {profile.name}
+          </h3>
+          <p className="text-sm text-gold font-semibold mt-1">{profile.designation}</p>
+        </div>
+
         {/* Copy */}
-        <div className="relative flex flex-col flex-1 pt-6 sm:pt-8">
+        <div className="relative flex flex-col flex-1 pt-4 sm:pt-6">
           <span className="text-[10px] uppercase tracking-[0.2em] text-gold/80 font-semibold mb-2">
             {isCurrent ? "Current President" : "Institutional Legacy"}
           </span>
@@ -332,9 +336,7 @@ function LeadershipCard({
 
           <div className="pt-4 border-t border-navy-950/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <div className="font-display font-bold text-navy-950 text-base">{profile.name}</div>
-              <div className="text-sm text-gold mt-0.5">{profile.designation}</div>
-              <div className="text-[10px] text-navy-950/45 mt-0.5 uppercase tracking-wider">
+              <div className="text-[10px] text-navy-950/45 uppercase tracking-wider">
                 {profile.organization}
               </div>
             </div>
