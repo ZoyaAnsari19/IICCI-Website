@@ -1,5 +1,15 @@
 # Changelog
 
+## [27-05-2026 10:45] — Fix blank content after client-side navigation
+
+**What changed:** Reveal animations (`reveal-up` / `in-view`) now re-initialize on every Next.js route change via `window.__iicciOnRouteChange`, so subpages like Leadership no longer stay hidden until a full refresh. `SiteClientInit` listens to `usePathname()` and triggers the hook after paint; scroll resets to top on navigation.
+**Files touched:** `public/static/app.js`, `src/components/SiteClientInit.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 10:30] — Floating WhatsApp & AI chat dock
 
 **What changed:** Fixed chat widgets sticking near the footer by removing the conflicting `relative` class on the fixed container, anchoring WhatsApp and AI buttons to the viewport (`fixed` right/bottom with safe-area insets), adding smooth hover transitions, and rendering `Floats` once from the root layout instead of after each page footer.
