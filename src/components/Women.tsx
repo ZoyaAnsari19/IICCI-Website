@@ -1,6 +1,9 @@
-export const Women = () => {
+export const Women = ({ standalone = false }: { standalone?: boolean }) => {
   return (
-    <section id="women" className="relative section-padding overflow-hidden">
+    <section
+      id="women"
+      className={`relative overflow-hidden ${standalone ? "page-nav-offset" : "section-padding"}`}
+    >
       <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-royal-dark to-navy-950"></div>
       <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none">

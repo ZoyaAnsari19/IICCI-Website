@@ -1,5 +1,15 @@
 # Changelog
 
+## [27-05-2026 12:35] — Proper top spacing on More & Resources pages
+
+**What changed:** Added a `standalone` mode to the first section components (Training, ContactSection, CSR, Women, DownloadsResourcesSection) so they use `page-nav-offset` directly (About-style spacing) without creating a blank strip above the page.
+**Files touched:** `src/components/Training.tsx`, `src/components/ContactSection.tsx`, `src/components/CSR.tsx`, `src/components/Women.tsx`, `src/components/DownloadsResourcesSection.tsx`, `src/app/more/ai-innovation/page.tsx`, `src/app/more/contact/page.tsx`, `src/app/more/csr-sdg/page.tsx`, `src/app/more/women-wing/page.tsx`, `src/app/resources/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 12:30] — Revert top spacing on More & Resources pages
 
 **What changed:** Removed the `page-top-offset` wrapper from `/more/ai-innovation`, `/more/contact`, `/more/csr-sdg`, `/more/women-wing`, and `/resources` to get rid of the blank band above content while keeping the utility available for future use.

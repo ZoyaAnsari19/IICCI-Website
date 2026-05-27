@@ -1,8 +1,10 @@
 "use client";
 
-export const ContactSection = () => {
+export const ContactSection = ({ standalone = false }: { standalone?: boolean }) => {
   return (
-    <section className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950">
+    <section
+      className={`relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 ${standalone ? "page-nav-offset" : "section-padding"}`}
+    >
       <div className="absolute inset-0 bg-grid opacity-[0.08] pointer-events-none" />
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14">

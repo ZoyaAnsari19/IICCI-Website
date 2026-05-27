@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function CsrSdgPage() {
   return (
     <main>
-      <CSR />
+      <CSR standalone />
     </main>
   );
 }

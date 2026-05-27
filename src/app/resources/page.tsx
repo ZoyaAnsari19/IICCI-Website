@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function ResourcesPage() {
   return (
     <main>
-      <DownloadsResourcesSection />
+      <DownloadsResourcesSection standalone />
       <TradeCircularsSection />
     </main>
   );

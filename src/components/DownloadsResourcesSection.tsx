@@ -428,7 +428,13 @@ function PopularDownloads({ items }: { items: ResourceItem[] }) {
   );
 }
 
-export function DownloadsResourcesSection({ preview = false }: { preview?: boolean }) {
+export function DownloadsResourcesSection({
+  preview = false,
+  standalone = false,
+}: {
+  preview?: boolean;
+  standalone?: boolean;
+}) {
   const uid = useId().replace(/:/g, "");
   const [category, setCategory] = useState<ResourceCategory | "all">("all");
   const [search, setSearch] = useState("");
@@ -481,7 +487,7 @@ export function DownloadsResourcesSection({ preview = false }: { preview?: boole
       aria-labelledby="downloads-resources-heading"
       className={cx(
         "relative overflow-hidden bg-white",
-        preview ? "py-16 lg:py-20" : "section-padding",
+        preview ? "py-16 lg:py-20" : standalone ? "page-nav-offset" : "section-padding",
         !preview && "border-t border-navy-950/10",
       )}
     >

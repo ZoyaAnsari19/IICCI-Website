@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function WomenWingPage() {
   return (
     <main>
-      <Women />
+      <Women standalone />
     </main>
   );
 }

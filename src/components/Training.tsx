@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-export const Training = () => {
+export const Training = ({ standalone = false }: { standalone?: boolean }) => {
   const courses = [
     {
       icon: 'fa-ship',
@@ -49,7 +49,10 @@ export const Training = () => {
   ]
 
   return (
-    <section id="ai" className="relative section-padding overflow-hidden">
+    <section
+      id="ai"
+      className={`relative overflow-hidden ${standalone ? "page-nav-offset" : "section-padding"}`}
+    >
       <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-royal-dark to-navy-950" />
       <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none">
