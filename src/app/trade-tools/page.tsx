@@ -1,6 +1,5 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Floats } from "@/components/Floats";
 import { LiveExchangeRatesSection } from "@/components/LiveExchangeRatesSection";
 
 export const metadata = {
@@ -38,7 +37,6 @@ export default function TradeToolsPage() {
         <LiveExchangeRatesSection />
       </main>
       <Footer />
-      <Floats />
     </>
   );
 }

@@ -18,8 +18,6 @@ import {
   LiveExchangeRatesTicker,
 } from "@/components/LiveExchangeRatesSection";
 import { Footer } from "@/components/Footer";
-import { Floats } from "@/components/Floats";
-
 export default function Home() {
   return (
     <>
@@ -44,7 +42,6 @@ export default function Home() {
         <DownloadsResourcesSection preview />
         </main>
         <Footer />
-        <Floats />
       </ExchangeRatesProvider>
     </>
   );

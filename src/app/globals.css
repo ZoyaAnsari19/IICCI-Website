@@ -74,6 +74,39 @@
   }
 }
 
+/* Viewport-floating chat dock (WhatsApp + AI) */
+.chat-float-dock {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chat-float-btn {
+  position: relative;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease;
+}
+
+.chat-float-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.chat-float-btn:active {
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-float-dock,
+  .chat-float-btn {
+    transition: none;
+  }
+
+  .chat-float-btn:hover,
+  .chat-float-btn:active {
+    transform: none;
+  }
+}
+
 /* ============================================================
    Orbital satellite system around the central globe.
    Each satellite is composed of three nested layers so that:

@@ -1,5 +1,15 @@
 # Changelog
 
+## [27-05-2026 10:30] — Floating WhatsApp & AI chat dock
+
+**What changed:** Fixed chat widgets sticking near the footer by removing the conflicting `relative` class on the fixed container, anchoring WhatsApp and AI buttons to the viewport (`fixed` right/bottom with safe-area insets), adding smooth hover transitions, and rendering `Floats` once from the root layout instead of after each page footer.
+**Files touched:** `src/components/Floats.tsx`, `src/app/globals.css`, `src/app/layout.tsx`, `src/app/page.tsx`, `src/components/layouts/SitePageShell.tsx`, `src/app/trade-tools/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 10:15] — Fix missing Training card image (Import Export)
 
 **What changed:** Swapped all four Training course card images from Unsplash to Pexels URLs after the Import Export Masterclass image timed out in Next.js image optimization (`upstream image response timed out`).
