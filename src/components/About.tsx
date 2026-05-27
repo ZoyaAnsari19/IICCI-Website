@@ -91,7 +91,7 @@ export const About = () => {
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-950 to-navy-900 pt-[calc(var(--navbar-height,88px)+3.5rem)] pb-28 lg:pt-[calc(var(--navbar-height,88px)+4.5rem)] lg:pb-32"
+      className="relative overflow-hidden bg-gradient-to-b from-navy-950 via-navy-950 to-navy-900 pt-[calc(var(--navbar-height,88px)+3.5rem)] pb-10 lg:pt-[calc(var(--navbar-height,88px)+4.5rem)] lg:pb-14"
     >
       <WorldMapBackdrop />
       <div className="absolute top-1/3 -right-32 w-[600px] h-[600px] rounded-full bg-royal/10 blur-[140px] pointer-events-none" />
@@ -188,7 +188,7 @@ export const About = () => {
         </motion.figure>
 
         <motion.div
-          className="grid lg:grid-cols-2 gap-6 lg:gap-7 mb-14"
+          className="grid lg:grid-cols-2 gap-6 lg:gap-7"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
