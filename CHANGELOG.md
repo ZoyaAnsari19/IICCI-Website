@@ -1,5 +1,15 @@
 # Changelog
 
+## [27-05-2026 13:30] — President's Foreword on homepage
+
+**What changed:** Added the President's Foreword section directly below Our Objectives on the homepage — portrait, quote, foreword copy, and link to full leadership. Extracted shared `PresidentSection` component (reused on `/about/leadership`) with mobile-friendly layout.
+**Files touched:** `src/components/PresidentSection.tsx`, `src/app/page.tsx`, `src/app/about/leadership/President.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 13:15] — Responsive Downloads & Resources section
 
 **What changed:** Made the Downloads & Resources page mobile-friendly: horizontal category pills on small screens, full-width stacked search/sort and card action buttons, featured spotlight with full-width CTAs, only 2 resource cards visible on mobile with View More/View Less, and improved padding and text wrapping across homepage preview and `/resources` standalone page.
