@@ -1,6 +1,5 @@
 import { LeadershipHero } from "@/components/LeadershipHero";
 import { President } from "./President";
-import { MentorsForewordSection } from "./MentorsForewordSection";
 import { OrganizationalStructureSection } from "./OrganizationalStructureSection";
 import { HonoraryDirectorsSection } from "./HonoraryDirectorsSection";
 import { OurTeamSection } from "./OurTeamSection";
@@ -17,7 +16,7 @@ export default function LeadershipPage() {
     <>
       <LeadershipHero />
       <President />
-      <MentorsForewordSection />
+      {/* <MentorsForewordSection /> */}
       <OrganizationalStructureSection />
       <HonoraryDirectorsSection />
       <OurTeamSection />
