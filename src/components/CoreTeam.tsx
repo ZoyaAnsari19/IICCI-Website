@@ -56,14 +56,6 @@ const TEAM: TeamMember[] = [
     image: "/images/pradeep-kumar.png",
     bio: "Coordinates on-ground operations, delegation logistics, and member-facing field activities that keep IICCI programs running seamlessly.",
   },
-  {
-    id: "anand",
-    name: "Mr. Anand",
-    designation: "Peon",
-    tier: "operations",
-    initials: "A",
-    bio: "Supports daily office operations and front-desk coordination, ensuring a welcoming, efficient environment for members and visiting delegations.",
-  },
 ];
 
 const TIER_LABEL: Record<TeamTier, string> = {
@@ -427,7 +419,7 @@ export const CoreTeam = () => {
               </span>
               <span className="flex-1 h-px bg-gradient-to-r from-gold/40 to-transparent" />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
               {[...management, ...operations].map((member) => (
                 <TeamCard key={member.id} member={member} compact />
               ))}
