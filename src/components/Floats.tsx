@@ -242,19 +242,6 @@ export const Floats = () => {
             </div>
           </div>
 
-          <a
-            href="https://wa.me/911145678900"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="chat-float-btn group pointer-events-auto w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 shadow-lg flex items-center justify-center text-white magnetic"
-            aria-label="Chat on WhatsApp"
-          >
-            <i className="fab fa-whatsapp text-2xl" aria-hidden />
-            <span className="absolute right-full mr-3 px-3 py-1.5 rounded-lg bg-navy-900 text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition">
-              Chat on WhatsApp
-            </span>
-          </a>
-
           <button
             id="ai-floating-btn"
             type="button"

@@ -25,14 +25,6 @@ const TEAM: TeamMember[] = [
     bio: "Leads organizational direction, bilateral engagement, and high-level partnerships that strengthen IICCI's international trade facilitation mandate.",
   },
   {
-    id: "geeta-kumar",
-    name: "Mrs. Geeta Kumar",
-    designation: "Trustee",
-    tier: "leadership",
-    initials: "GK",
-    bio: "Provides governance oversight and strategic stewardship, ensuring IICCI upholds fiduciary excellence and institutional integrity across all chamber operations.",
-  },
-  {
     id: "prem-kishore",
     name: "Mr. Prem Kishore",
     designation: "Manager (Accounts & Finance)",
@@ -201,10 +193,15 @@ function Portrait({
           src={member.image}
           alt={member.name}
           fill
-          className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+          className={cx(
+            "object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]",
+            horizontal ? "object-[center_top]" : "object-top",
+          )}
           sizes={
             horizontal
-              ? "(max-width: 768px) 40vw, 320px"
+              ? featured
+                ? "(max-width: 768px) 50vw, 420px"
+                : "(max-width: 768px) 40vw, 320px"
               : featured
                 ? "(max-width: 768px) 100vw, 480px"
                 : "(max-width: 768px) 50vw, 320px"
@@ -256,7 +253,7 @@ function TeamCard({
       <motion.article variants={cardVariants} className="group relative reveal-up h-full">
         <div
           className={cx(
-            "relative h-full min-h-[280px] rounded-3xl overflow-hidden border border-white/10",
+            "relative h-full min-h-[300px] sm:min-h-[320px] rounded-3xl overflow-hidden border border-white/10",
             "bg-navy-950/40 backdrop-blur-xl shadow-premium",
             "transition-all duration-500",
             "hover:border-gold/45 hover:shadow-gold",
@@ -266,11 +263,18 @@ function TeamCard({
           )}
         >
           <div className="relative flex h-full flex-row items-stretch">
-            <div className="relative w-[38%] shrink-0 overflow-hidden sm:w-[40%] lg:w-[38%] min-w-[120px]">
+            <div
+              className={cx(
+                "relative shrink-0 overflow-hidden",
+                featured
+                  ? "w-[48%] sm:w-[46%] lg:w-[44%] min-w-[200px] sm:min-w-[260px] lg:min-w-[300px]"
+                  : "w-[38%] sm:w-[40%] lg:w-[38%] min-w-[120px]",
+              )}
+            >
               <Portrait member={member} horizontal featured={featured} />
             </div>
 
-            <div className="relative flex flex-1 flex-col justify-center border-l border-white/8 bg-navy-950/75 p-5 backdrop-blur-md sm:p-6 lg:p-7">
+            <div className="relative flex flex-1 flex-col items-start justify-center text-left border-l border-white/8 bg-navy-950/75 p-5 backdrop-blur-md sm:p-6 lg:p-8">
               <h3 className="font-display text-xl font-bold text-white transition-colors duration-300 group-hover:text-gold sm:text-2xl">
                 {member.name}
               </h3>
@@ -405,7 +409,14 @@ export const CoreTeam = () => {
               </span>
               <span className="flex-1 h-px bg-gradient-to-r from-gold/40 to-transparent" />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
+            <div
+              className={cx(
+                "grid gap-5 lg:gap-6",
+                leadership.length === 1
+                  ? "grid-cols-1 w-full max-w-6xl justify-items-start"
+                  : "grid-cols-1 md:grid-cols-2",
+              )}
+            >
               {leadership.map((member) => (
                 <TeamCard key={member.id} member={member} horizontal featured />
               ))}
@@ -437,7 +448,7 @@ export const CoreTeam = () => {
           <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass-light border border-navy-950/10">
             <i className="fas fa-building-columns text-gold" aria-hidden />
             <span className="text-sm text-navy-950/70">
-              <span className="font-semibold text-navy-950">6</span> core team
+              <span className="font-semibold text-navy-950">{TEAM.length}</span> core team
               members
             </span>
           </div>
