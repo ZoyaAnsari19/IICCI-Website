@@ -1,5 +1,25 @@
 # Changelog
 
+## [27-05-2026 10:15] — Fix missing Training card image (Import Export)
+
+**What changed:** Swapped all four Training course card images from Unsplash to Pexels URLs after the Import Export Masterclass image timed out in Next.js image optimization (`upstream image response timed out`).
+**Files touched:** `src/components/Training.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 10:07] — Add images to Training course cards
+
+**What changed:** Replaced the flat gradient banners on the four "Build skills that power global careers" course cards with topic-relevant photos (cargo port, drone, trade docs, corporate workspace), kept the existing badges, and moved each course icon into a small glass medallion in the bottom-right of the image.
+**Files touched:** `src/components/Training.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [25-05-2026 14:45] — Fix broken Current Affairs images (404)
 
 **What changed:** Replaced eight dead Unsplash URLs in Current Affairs seed data with working Pexels images so Next.js image optimization no longer returns upstream 404 errors.
