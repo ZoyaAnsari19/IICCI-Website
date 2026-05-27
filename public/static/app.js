@@ -223,17 +223,11 @@
 
   // ===== AI Assistant =====
   const aiPanel = document.getElementById('ai-panel');
-  const aiFloatingBtn = document.getElementById('ai-floating-btn');
-  const aiToggle = document.getElementById('ai-toggle');
-  const aiClose = document.getElementById('ai-close');
   const aiInput = document.getElementById('ai-input');
   const aiSend = document.getElementById('ai-send');
   const aiMessages = document.getElementById('ai-messages');
 
-  function toggleAI() { aiPanel?.classList.toggle('open'); }
-  aiFloatingBtn?.addEventListener('click', toggleAI);
-  aiToggle?.addEventListener('click', toggleAI);
-  aiClose?.addEventListener('click', () => aiPanel?.classList.remove('open'));
+  // Open/close is managed by Floats.tsx (React) via window.__iicciOpenAI etc.
 
   const aiResponses = {
     membership: "Our flagship Associate Membership is currently available at ₹21,000/year (limited-time offer). It includes network access, intelligence reports, certifications, and member directory listing. Would you like me to share the full benefits?",
