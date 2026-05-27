@@ -425,9 +425,9 @@ function FloatingParticles() {
 
 function TradeNewsTicker() {
   return (
-    <div className="relative border-y border-white/10 bg-navy-900/80 overflow-hidden">
+    <div className="relative border-y border-navy-950/10 bg-white overflow-hidden">
       <div className="flex items-center gap-3 px-4 py-2.5">
-        <span className="shrink-0 flex items-center gap-2 px-2.5 py-1 rounded-md bg-gold/15 border border-gold/30">
+        <span className="shrink-0 flex items-center gap-2 px-2.5 py-1 rounded-md bg-gold/10 border border-gold/25">
           <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
           <span className="text-[9px] uppercase tracking-[0.2em] text-gold font-bold">
             Live
@@ -442,7 +442,7 @@ function TradeNewsTicker() {
             {[...TICKER_ITEMS, ...TICKER_ITEMS].map((t, i) => (
               <span
                 key={`${t}-${i}`}
-                className="text-[11px] text-white/65 uppercase tracking-[0.12em]"
+                className="text-[11px] text-navy-950/70 uppercase tracking-[0.12em]"
               >
                 {t}
               </span>
@@ -695,8 +695,6 @@ export function CurrentAffairsSection({ preview = false }: { preview?: boolean }
       <IntelligenceBackdrop uid={uid} />
       <div className="absolute inset-0 bg-grid opacity-[0.06] pointer-events-none" />
       <FloatingParticles />
-
-      {!preview && <TradeNewsTicker />}
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8 z-10">
         {/* Header */}

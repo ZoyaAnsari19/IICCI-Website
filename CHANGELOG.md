@@ -1,5 +1,25 @@
 # Changelog
 
+## [27-05-2026 12:20] — Remove Current Affairs live marquee
+
+**What changed:** Removed the “LIVE” scrolling Trade News ticker below the navbar on the Current Affairs page.
+**Files touched:** `src/app/media/currentAffairs/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:15] — White background for Current Affairs live ticker
+
+**What changed:** Updated the live Trade News ticker just below the navbar on the Current Affairs page to use a white background and navy text so it visually matches the rest of the light Media header.
+**Files touched:** `src/app/media/currentAffairs/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 12:10] — Top spacing on Media pages
 
 **What changed:** Applied `page-nav-offset` to Media sections (`currentAffairs`, `events`, `iicci-story`, and the main `media` landing) so content clears the fixed navbar consistently after navigation.
