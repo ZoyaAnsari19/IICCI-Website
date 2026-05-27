@@ -1,5 +1,25 @@
 # Changelog
 
+## [27-05-2026 13:00] — Responsive notification cards (Trade Circulars)
+
+**What changed:** Fixed Trade Circulars notification cards on mobile so View/Download buttons no longer clip off-screen — buttons stack full-width on small screens, card content uses `min-w-0` / `break-words`, and padding scales down for narrow viewports.
+**Files touched:** `src/components/TradeCircularsSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:45] — Responsive Trade Circulars section
+
+**What changed:** Made Trade Circulars & Notifications mobile-friendly: horizontal category pills on small screens (replacing the tall sidebar), full-width search/sort stack, featured alert buttons that span the width, only 2 list cards visible on mobile with a “View More” toggle, and urgent alerts moved below the main feed on phones.
+**Files touched:** `src/components/TradeCircularsSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 12:30] — Mobile “View More” on Our Objectives cards
 
 **What changed:** On screens below `md`, the Our Objectives section now shows only the first 2 detail cards, with a gold “View More” / “View Less” toggle to reveal the remaining seven. Tablet and desktop layouts still show all cards in the grid.
