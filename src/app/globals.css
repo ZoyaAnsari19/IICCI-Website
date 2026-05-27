@@ -120,6 +120,17 @@
   }
 }
 
+/* Fixed-navbar top spacing only (no extra bottom padding) */
+.page-top-offset {
+  padding-top: calc(var(--navbar-height, 88px) + 3.5rem);
+}
+
+@media (min-width: 1024px) {
+  .page-top-offset {
+    padding-top: calc(var(--navbar-height, 88px) + 4.5rem);
+  }
+}
+
 /* ============================================================
    Orbital satellite system around the central globe.
    Each satellite is composed of three nested layers so that:

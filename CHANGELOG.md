@@ -1,9 +1,19 @@
 # Changelog
 
-## [27-05-2026 12:20] — Remove Current Affairs live marquee
+## [27-05-2026 12:30] — Revert top spacing on More & Resources pages
 
-**What changed:** Removed the “LIVE” scrolling Trade News ticker below the navbar on the Current Affairs page.
-**Files touched:** `src/app/media/currentAffairs/page.tsx`, `CHANGELOG.md`
+**What changed:** Removed the `page-top-offset` wrapper from `/more/ai-innovation`, `/more/contact`, `/more/csr-sdg`, `/more/women-wing`, and `/resources` to get rid of the blank band above content while keeping the utility available for future use.
+**Files touched:** `src/app/more/ai-innovation/page.tsx`, `src/app/more/contact/page.tsx`, `src/app/more/csr-sdg/page.tsx`, `src/app/more/women-wing/page.tsx`, `src/app/resources/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 12:25] — Remove SubpageHero from “More” pages
+
+**What changed:** Removed the top SubpageHero blocks from `/more/ai-innovation`, `/more/contact`, `/more/csr-sdg`, and `/more/women-wing` so each route now uses only its main content section.
+**Files touched:** `src/app/more/ai-innovation/page.tsx`, `src/app/more/contact/page.tsx`, `src/app/more/csr-sdg/page.tsx`, `src/app/more/women-wing/page.tsx`, `CHANGELOG.md`
 **API endpoints used:** None
 **Breaking change:** NO
 **Branch:** zoya-dev
