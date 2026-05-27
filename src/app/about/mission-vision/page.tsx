@@ -1,4 +1,3 @@
-import { SubpageHero } from "@/components/layouts/SubpageHero";
 import { MissionVisionSection } from "@/components/MissionVisionSection";
 import type { Metadata } from "next";
 
@@ -9,14 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function MissionVisionPage() {
-  return (
-    <>
-      <SubpageHero
-        title="Mission & Vision"
-        tagline="Driving global trade forward"
-        badge="Purpose & Promise"
-      />
-      <MissionVisionSection />
-    </>
-  );
+  return <MissionVisionSection />;
 }

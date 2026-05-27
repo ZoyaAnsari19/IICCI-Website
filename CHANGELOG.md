@@ -1,5 +1,35 @@
 # Changelog
 
+## [27-05-2026 11:10] — Remove sub-heroes from About subpages
+
+**What changed:** Removed redundant `SubpageHero` from `/about/mission-vision`, `/about/partnerships`, and `/about/recognition` so each page shows only its main section content.
+**Files touched:** `src/app/about/mission-vision/page.tsx`, `src/app/about/partnerships/page.tsx`, `src/app/about/recognition/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:05] — Remove duplicate About IICCI subpage hero
+
+**What changed:** Removed the redundant `SubpageHero` from `/about` so only the main `About` section header is shown.
+**Files touched:** `src/app/about/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [27-05-2026 11:00] — Remove duplicate Manifesto subpage hero
+
+**What changed:** Removed the redundant `SubpageHero` (breadcrumbs, badge, title, tagline) from `/about/manifesto` so only the main `Manifesto` section header is shown.
+**Files touched:** `src/app/about/manifesto/page.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 10:45] — Fix blank content after client-side navigation
 
 **What changed:** Reveal animations (`reveal-up` / `in-view`) now re-initialize on every Next.js route change via `window.__iicciOnRouteChange`, so subpages like Leadership no longer stay hidden until a full refresh. `SiteClientInit` listens to `usePathname()` and triggers the hook after paint; scroll resets to top on navigation.
