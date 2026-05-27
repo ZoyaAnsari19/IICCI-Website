@@ -1,1 +1,1 @@
-export { PresidentSection as President } from "@/components/PresidentSection";
+export { LeadershipVisionSection as President } from "@/components/LeadershipVisionSection";

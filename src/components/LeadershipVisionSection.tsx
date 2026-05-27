@@ -246,7 +246,7 @@ function LeadershipCard({
 
       <div className="relative p-5 sm:p-6 lg:p-7 flex flex-col h-full">
         {/* Portrait */}
-        <div className="relative mx-auto w-full max-w-[280px] mb-5 sm:mb-6">
+        <div className="relative mx-auto w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[420px] mb-5 sm:mb-6">
           <div
             className="absolute -inset-2 sm:-inset-3 rounded-[1.75rem] border border-gold/15 pointer-events-none"
             aria-hidden
@@ -267,7 +267,7 @@ function LeadershipCard({
                 alt={profile.imageAlt}
                 fill
                 className="object-cover object-top"
-                sizes="(max-width: 1024px) 90vw, 320px"
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 380px, 420px"
               />
             </motion.div>
             <div
@@ -290,7 +290,7 @@ function LeadershipCard({
           </div>
 
           <motion.div
-            className="absolute -bottom-4 left-3 right-3 sm:left-0 sm:right-auto sm:-left-4 sm:max-w-[210px] glass-light rounded-2xl p-3 sm:p-4 border border-gold/25 shadow-premium bg-white/95 backdrop-blur-sm"
+            className="absolute -bottom-4 left-3 right-3 sm:left-0 sm:right-auto sm:-left-4 sm:max-w-[240px] glass-light rounded-2xl p-3 sm:p-4 border border-gold/25 shadow-premium bg-white/95 backdrop-blur-sm"
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

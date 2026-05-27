@@ -364,10 +364,10 @@ export const HonoraryDirectorsSection = () => {
     <section
       id="honorary-directors"
       aria-labelledby="honorary-directors-heading"
-      className="relative section-padding overflow-hidden bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950"
+      className="relative section-padding overflow-hidden bg-white text-navy-950 border-t border-navy-950/10"
     >
       <WorldTradeBackdrop />
-      <div className="absolute inset-0 bg-grid bg-grid-fade opacity-[0.08] pointer-events-none" />
+      <div className="absolute inset-0 bg-grid opacity-[0.05] pointer-events-none" />
 
       <motion.div
         className="absolute -top-32 -left-24 w-[520px] h-[520px] rounded-full bg-gold/[0.07] blur-[140px] pointer-events-none"
@@ -399,14 +399,14 @@ export const HonoraryDirectorsSection = () => {
         >
           <motion.div
             variants={cardVariants}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-6"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950/5 border border-navy-950/10 mb-6"
           >
             <i className="fas fa-award text-gold text-xs" aria-hidden />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-white/80 font-semibold">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-navy-950/70 font-semibold">
               Executive Council
             </span>
-            <span className="h-3 w-px bg-white/15" />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-gold/90 font-semibold">
+            <span className="h-3 w-px bg-navy-950/15" />
+            <span className="text-[10px] uppercase tracking-[0.3em] text-gold font-semibold">
               Honorary Board
             </span>
           </motion.div>
@@ -416,7 +416,7 @@ export const HonoraryDirectorsSection = () => {
             variants={cardVariants}
             className="display-title font-display font-bold mb-5 leading-[1.02]"
           >
-            <span className="text-white">Honorary</span>{" "}
+            <span className="text-navy-950">Honorary</span>{" "}
             <span className="text-gradient-gold italic font-serif font-normal">
               Directors
             </span>
@@ -424,7 +424,7 @@ export const HonoraryDirectorsSection = () => {
 
           <motion.p
             variants={cardVariants}
-            className="text-base md:text-lg text-white/70 leading-relaxed font-serif italic"
+            className="text-base md:text-lg text-navy-950/65 leading-relaxed font-serif italic"
           >
             &ldquo;Distinguished Leaders Guiding IICCI&rsquo;s Global
             Vision.&rdquo;
@@ -455,16 +455,16 @@ export const HonoraryDirectorsSection = () => {
           transition={{ duration: 0.5, delay: 0.15 }}
           className="mt-14 lg:mt-16 flex flex-wrap items-center justify-center gap-4"
         >
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-white/10">
+          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-navy-950/10 shadow-sm">
             <i className="fas fa-user-tie text-gold" aria-hidden />
-            <span className="text-sm text-white/80">
-              <span className="font-semibold text-white">3</span> honorary
+            <span className="text-sm text-navy-950/75">
+              <span className="font-semibold text-navy-950">3</span> honorary
               directors &amp; global advisors
             </span>
           </div>
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-white/10">
+          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-navy-950/10 shadow-sm">
             <i className="fas fa-handshake text-gold" aria-hidden />
-            <span className="text-sm text-white/80">
+            <span className="text-sm text-navy-950/75">
               Institutional credibility &amp; international expertise
             </span>
           </div>

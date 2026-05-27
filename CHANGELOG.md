@@ -1,5 +1,15 @@
 # Changelog
 
+## [27-05-2026 14:15] — Enlarged Leadership Vision portraits
+
+**What changed:** Increased President & Ex President photo size in `LeadershipVisionSection` — portrait container max-width bumped from `280px` to responsive `340px / 380px / 420px` (mobile / tablet / desktop), `Image` `sizes` updated to match, and floating quote card widened from `210px` to `240px` for proportionate balance. Aspect ratio `4/5` retained so both height and width scale together.
+**Files touched:** `src/components/LeadershipVisionSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 14:00] — Premium dual Leadership Vision showcase
 
 **What changed:** Replaced the single President's Foreword with a cinematic dual-leadership `LeadershipVisionSection` — Current President (Rajesh Kaithwas) and Ex President (Shri Atul Saxena) in equal glassmorphism cards with Framer Motion, timeline connector, trade-route backdrop, and CTAs. Homepage order: Objectives → Mission & Vision (embedded) → Leadership Vision → Mentor's Foreword → Leadership hero. Ex President uses `/images/shri-atul-saxena.jpeg`.

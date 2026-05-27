@@ -220,12 +220,12 @@ function cx(...parts: Array<string | false | null | undefined>) {
 function LightGridBackdrop() {
   return (
     <div
-      className="absolute inset-0 pointer-events-none opacity-[0.35]"
+      className="absolute inset-0 pointer-events-none opacity-[0.25]"
       aria-hidden
       style={{
         backgroundImage: `
-          linear-gradient(to right, rgba(8,17,32,0.04) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(8,17,32,0.04) 1px, transparent 1px)
+          linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)
         `,
         backgroundSize: "48px 48px",
       }}
@@ -267,13 +267,13 @@ function TierLabel({
 }) {
   return (
     <div className="mb-5 flex items-center gap-3 w-full max-w-5xl mx-auto px-2">
-      <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-navy-950 text-gold text-[11px] font-bold font-mono shadow-sm">
+      <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 text-gold text-[11px] font-bold font-mono shadow-sm border border-white/10">
         L{level}
       </span>
-      <span className="text-[11px] uppercase tracking-[0.22em] text-navy-950 font-bold shrink-0">
+      <span className="text-[11px] uppercase tracking-[0.22em] text-white/80 font-bold shrink-0">
         {label}
       </span>
-      <span className="flex-1 h-px bg-gradient-to-r from-gold/60 via-navy-200/80 to-transparent" />
+      <span className="flex-1 h-px bg-gradient-to-r from-gold/60 via-white/25 to-transparent" />
     </div>
   );
 }
@@ -297,17 +297,17 @@ function OrgNodeCard({
       aria-expanded={isActive}
       aria-controls={isActive ? `org-detail-${node.id}` : undefined}
       className={cx(
-        "group relative w-full text-left rounded-2xl border bg-white transition-all duration-300",
+        "group relative w-full text-left rounded-2xl border bg-white/5 backdrop-blur-md transition-all duration-300",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-4",
-        "shadow-[0_4px_24px_rgba(8,17,32,0.06)]",
+        "shadow-[0_10px_38px_rgba(0,0,0,0.35)]",
         node.featured
-          ? "p-6 md:p-7 border-gold/50 ring-2 ring-gold/20 max-w-lg mx-auto"
+          ? "p-6 md:p-7 border-gold/50 ring-2 ring-gold/15 max-w-lg mx-auto"
           : compact
-            ? "p-4 border-gray-200"
-            : "p-5 md:p-6 border-gray-200 max-w-md mx-auto",
+            ? "p-4 border-white/10"
+            : "p-5 md:p-6 border-white/10 max-w-md mx-auto",
         isActive
-          ? "border-gold shadow-[0_8px_32px_rgba(212,175,55,0.18)] ring-2 ring-gold/25"
-          : "hover:border-gold/40 hover:shadow-[0_8px_28px_rgba(8,17,32,0.1)]",
+          ? "border-gold shadow-[0_14px_44px_rgba(212,175,55,0.18)] ring-2 ring-gold/20"
+          : "hover:border-gold/40 hover:bg-white/8 hover:shadow-[0_14px_44px_rgba(0,0,0,0.45)]",
       )}
     >
       {node.pulse && (
@@ -335,7 +335,7 @@ function OrgNodeCard({
           <div className="flex items-start justify-between gap-2">
             <h3
               className={cx(
-                "font-display font-bold text-navy-950 leading-snug transition-colors group-hover:text-gold-700",
+                "font-display font-bold text-white leading-snug transition-colors group-hover:text-gold-200",
                 node.featured ? "text-lg md:text-xl" : "text-sm md:text-base",
               )}
             >
@@ -351,13 +351,13 @@ function OrgNodeCard({
           </div>
           <p
             className={cx(
-              "mt-1.5 text-gray-600 leading-relaxed",
+              "mt-1.5 text-white/70 leading-relaxed",
               compact ? "text-xs line-clamp-2" : "text-xs md:text-sm line-clamp-3",
             )}
           >
             {node.description}
           </p>
-          <span className="mt-2.5 inline-flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] text-gold-700 font-bold">
+          <span className="mt-2.5 inline-flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] text-gold/90 font-bold">
             <span className="h-px w-5 bg-gold/50 group-hover:w-8 transition-all duration-300" />
             {isActive ? "Hide detail" : "View detail"}
           </span>
@@ -379,10 +379,10 @@ function OrgDetailPanel({ node }: { node: OrgNodeData }) {
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       className="overflow-hidden"
     >
-      <div className="mt-3 rounded-xl bg-slate-50 border border-gold/25 p-4 md:p-5 text-sm text-gray-700 leading-relaxed">
+      <div className="mt-3 rounded-xl bg-white/5 border border-gold/25 p-4 md:p-5 text-sm text-white/75 leading-relaxed backdrop-blur-md">
         <div className="flex items-center gap-2 mb-2">
-          <i className={cx("fas", node.icon, "text-gold-600 text-sm")} />
-          <span className="text-[10px] uppercase tracking-[0.24em] text-gold-700 font-bold">
+          <i className={cx("fas", node.icon, "text-gold text-sm")} />
+          <span className="text-[10px] uppercase tracking-[0.24em] text-gold/90 font-bold">
             Governance Detail
           </span>
         </div>
@@ -401,7 +401,7 @@ function FlowSummaryStrip() {
       <div className="flex items-center justify-center gap-1 sm:gap-2 min-w-max mx-auto px-2">
         {FLOW_SUMMARY.map((step, i) => (
           <div key={step} className="flex items-center gap-1 sm:gap-2">
-            <span className="px-2.5 sm:px-3 py-1.5 rounded-full bg-white border border-gray-200 text-[9px] sm:text-[10px] uppercase tracking-[0.12em] font-bold text-navy-900/80 whitespace-nowrap shadow-sm">
+            <span className="px-2.5 sm:px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[9px] sm:text-[10px] uppercase tracking-[0.12em] font-bold text-white/80 whitespace-nowrap shadow-sm backdrop-blur-md">
               {step}
             </span>
             {i < FLOW_SUMMARY.length - 1 && (
@@ -493,7 +493,7 @@ function DesktopOrgChart({
                   >
                     {!tier.label && (
                       <div className="flex justify-center mb-3" aria-hidden>
-                        <span className="px-2 py-0.5 rounded-md bg-navy-950/5 text-[10px] font-mono font-bold text-navy-900/50">
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-mono font-bold text-white/60 border border-white/10">
                           L{tier.level}
                         </span>
                       </div>
@@ -556,7 +556,7 @@ function MobileOrgChart({
         } else {
           items.push(
             <div key={`level-${tier.id}`} className="flex justify-center py-1">
-              <span className="px-2 py-0.5 rounded-md bg-navy-950/5 text-[10px] font-mono font-bold text-navy-900/50">
+              <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-mono font-bold text-white/60 border border-white/10">
                 Level {tier.level}
               </span>
             </div>,
@@ -600,7 +600,7 @@ export const OrganizationalStructureSection = () => {
     <section
       id="organizational-structure"
       aria-labelledby="org-structure-heading"
-      className="relative section-padding overflow-hidden bg-white"
+      className="relative section-padding overflow-hidden bg-navy-950 text-white"
     >
       <LightGridBackdrop />
 
@@ -618,13 +618,13 @@ export const OrganizationalStructureSection = () => {
         >
           <motion.div
             variants={tierVariants}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/25 mb-6"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-gold/25 mb-6"
           >
             <i className="fas fa-sitemap text-gold-700 text-xs" aria-hidden />
-            <span className="text-[10px] uppercase tracking-[0.28em] text-navy-950/80 font-semibold">
+            <span className="text-[10px] uppercase tracking-[0.28em] text-white/80 font-semibold">
               Governance Framework
             </span>
-            <span className="h-3 w-px bg-navy-950/15" />
+            <span className="h-3 w-px bg-white/20" />
             <span className="text-[10px] uppercase tracking-[0.28em] text-gold-700 font-bold">
               IICCI
             </span>
@@ -635,7 +635,7 @@ export const OrganizationalStructureSection = () => {
             variants={tierVariants}
             className="display-title font-display font-bold mb-5 leading-[1.02]"
           >
-            <span className="text-navy-950">Organizational</span>{" "}
+            <span className="text-white">Organizational</span>{" "}
             <span className="text-gradient-gold italic font-serif font-normal">
               Structure
             </span>
@@ -643,7 +643,7 @@ export const OrganizationalStructureSection = () => {
 
           <motion.p
             variants={tierVariants}
-            className="text-base md:text-lg text-gray-600 leading-relaxed"
+            className="text-base md:text-lg text-white/70 leading-relaxed"
           >
             A clear, tiered governance hierarchy — from strategic advisors to
             global chapters and operational support teams.
@@ -671,21 +671,21 @@ export const OrganizationalStructureSection = () => {
               exit={{ opacity: 0, y: 8 }}
               className="hidden lg:block mt-10 max-w-3xl mx-auto"
             >
-              <div className="rounded-2xl bg-slate-50 border border-gold/30 p-6 md:p-8 shadow-[0_8px_32px_rgba(8,17,32,0.08)]">
+              <div className="rounded-2xl bg-white/5 border border-gold/30 p-6 md:p-8 shadow-[0_18px_55px_rgba(0,0,0,0.45)] backdrop-blur-md">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold-700">
+                  <div className="w-10 h-10 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center text-gold">
                     <i className={cx("fas", activeNode.icon)} />
                   </div>
                   <div>
-                    <div className="text-[10px] uppercase tracking-[0.24em] text-gold-700 font-bold">
+                    <div className="text-[10px] uppercase tracking-[0.24em] text-gold/90 font-bold">
                       Selected Role
                     </div>
-                    <div className="font-display font-bold text-navy-950 text-lg">
+                    <div className="font-display font-bold text-white text-lg">
                       {activeNode.title}
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-600 leading-relaxed text-sm md:text-base">
+                <p className="text-white/70 leading-relaxed text-sm md:text-base">
                   {activeNode.detail}
                 </p>
               </div>
@@ -708,14 +708,14 @@ export const OrganizationalStructureSection = () => {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-gray-200 shadow-sm"
+              className="flex items-start gap-3 p-4 rounded-2xl bg-white/5 border border-white/10 shadow-[0_10px_32px_rgba(0,0,0,0.35)] backdrop-blur-md"
             >
-              <div className="w-10 h-10 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center text-gold-700 shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-gold/10 border border-gold/25 flex items-center justify-center text-gold shrink-0">
                 <i className={cx("fas", stat.icon, "text-sm")} aria-hidden />
               </div>
               <div>
-                <div className="text-sm font-bold text-navy-950">{stat.label}</div>
-                <div className="text-xs text-gray-500 mt-0.5">{stat.sub}</div>
+                <div className="text-sm font-bold text-white">{stat.label}</div>
+                <div className="text-xs text-white/60 mt-0.5">{stat.sub}</div>
               </div>
             </div>
           ))}
