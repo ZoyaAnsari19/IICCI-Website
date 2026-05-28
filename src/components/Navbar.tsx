@@ -8,6 +8,7 @@ import { ABOUT_NAV } from "@/config/about-navigation";
 import { MEDIA_NAV } from "@/config/media-navigation";
 import { MORE_NAV } from "@/config/more-navigation";
 import { SERVICES_NAV } from "@/config/services-navigation";
+import { delhiOffice } from "@/config/contact";
 
 type MenuItem = {
   label: string;
@@ -243,14 +244,28 @@ export const Navbar = () => {
       {/* Top bar */}
       <div className="hidden lg:block bg-[#0a192f] border-b border-white/10">
         <div className="max-w-[1400px] mx-auto px-6 py-2.5 flex items-center justify-between text-xs text-white/90">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 flex-wrap">
             <span className="flex items-center gap-2">
               <i className="fas fa-phone text-gold text-[10px]"></i>
-              +91 11 4567 8900
+              {delhiOffice.phones.map((phone, i) => (
+                <span key={phone.tel} className="flex items-center gap-2">
+                  {i > 0 && <span className="text-white/40">|</span>}
+                  <a href={`tel:${phone.tel}`} className="hover:text-gold transition">
+                    {phone.display}
+                  </a>
+                </span>
+              ))}
             </span>
             <span className="flex items-center gap-2">
               <i className="fas fa-envelope text-gold text-[10px]"></i>
-              info@iicci.global
+              {delhiOffice.emails.map((email, i) => (
+                <span key={email.href} className="flex items-center gap-2">
+                  {i > 0 && <span className="text-white/40">|</span>}
+                  <a href={`mailto:${email.href}`} className="hover:text-gold transition">
+                    {email.display}
+                  </a>
+                </span>
+              ))}
             </span>
             <span className="flex items-center gap-2">
               <i className="fas fa-clock text-gold text-[10px]"></i>
@@ -757,20 +772,26 @@ export const Navbar = () => {
             </a>
 
             <div className="grid grid-cols-1 gap-2 text-sm text-gray-600">
-              <a
-                href="tel:+911145678900"
-                className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:bg-gray-50 hover:text-navy-950 transition"
-              >
-                <i className="fas fa-phone text-gold w-4 text-center"></i>
-                +91 11 4567 8900
-              </a>
-              <a
-                href="mailto:info@iicci.global"
-                className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:bg-gray-50 hover:text-navy-950 transition"
-              >
-                <i className="fas fa-envelope text-gold w-4 text-center"></i>
-                info@iicci.global
-              </a>
+              {delhiOffice.phones.map((phone) => (
+                <a
+                  key={phone.tel}
+                  href={`tel:${phone.tel}`}
+                  className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:bg-gray-50 hover:text-navy-950 transition"
+                >
+                  <i className="fas fa-phone text-gold w-4 text-center"></i>
+                  {phone.display}
+                </a>
+              ))}
+              {delhiOffice.emails.map((email) => (
+                <a
+                  key={email.href}
+                  href={`mailto:${email.href}`}
+                  className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:bg-gray-50 hover:text-navy-950 transition break-all"
+                >
+                  <i className="fas fa-envelope text-gold w-4 text-center"></i>
+                  {email.display}
+                </a>
+              ))}
             </div>
 
             <div className="flex items-center justify-center gap-4 pt-2 text-navy-900/70">

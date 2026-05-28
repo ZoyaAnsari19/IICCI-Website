@@ -8,10 +8,11 @@ export const metadata: Metadata = {
   title:
     "IICCI – Indian Importers Chambers of Commerce & Industry | Global Trade",
   description:
-    "Indian Importers Chambers of Commerce & Industry (IICCI) - Connecting India to Global Trade Opportunities. Empowering importers, global partnerships, international trade, investment opportunities, and bilateral business growth.",
+    "Indian Importers Chambers of Commerce & Industry (IICCI) - Connecting India to Global Trade Opportunities. Empowering importers and exporters, global partnerships, international trade, investment opportunities, and bilateral business growth. Established 2000 with 25+ years of experience.",
   keywords: [
     "IICCI",
     "Indian Importers",
+    "Indian Exporters",
     "Chamber of Commerce",
     "International Trade",
     "Import Export",
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "IICCI - Indian Importers Chambers of Commerce & Industry",
     description:
-      "Connecting India To Global Trade Opportunities. A premium international chamber empowering importers and global partnerships.",
+      "Connecting India To Global Trade Opportunities. A premium international chamber empowering importers and exporters with 25+ years of experience since 2000.",
     type: "website",
   },
   other: {

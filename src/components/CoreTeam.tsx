@@ -2,59 +2,16 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import {
+  OPERATIONAL_TEAM,
+  OPERATIONAL_TEAM_GOVERNANCE_NOTE,
+  type OperationalTeamMember,
+  type TeamTier,
+} from "@/config/operational-team";
 
-type TeamTier = "leadership" | "management" | "operations";
+type TeamMember = OperationalTeamMember;
 
-type TeamMember = {
-  id: string;
-  name: string;
-  designation: string;
-  tier: TeamTier;
-  bio: string;
-  image?: string;
-  initials?: string;
-};
-
-const TEAM: TeamMember[] = [
-  {
-    id: "tk-pandey",
-    name: "Mr. T.K. Pandey",
-    designation: "Director",
-    tier: "leadership",
-    image: "/images/tk-pandey.png",
-    bio: "Leads organizational direction, bilateral engagement, and high-level partnerships that strengthen IICCI's international trade facilitation mandate.",
-  },
-  {
-    id: "prem-kishore",
-    name: "Mr. Prem Kishore",
-    designation: "Manager (Accounts & Finance)",
-    tier: "management",
-    image: "/images/prem-kishor.png",
-    bio: "Oversees financial governance, member billing, compliance reporting, and fiscal planning that supports transparent chamber administration.",
-  },
-  {
-    id: "manoj-bhargava",
-    name: "Mr. Manoj Kumar Bhargava",
-    designation: "Marketing Manager",
-    tier: "management",
-    image: "/images/manoj-kumar-bhargava.png",
-    bio: "Drives brand visibility, member outreach, campaign strategy, and market communications across domestic and international trade ecosystems.",
-  },
-  {
-    id: "pradeep-kumar",
-    name: "Mr. Pradeep Kumar",
-    designation: "Executive (Office & Field Work)",
-    tier: "management",
-    image: "/images/pradeep-kumar.png",
-    bio: "Coordinates on-ground operations, delegation logistics, and member-facing field activities that keep IICCI programs running seamlessly.",
-  },
-];
-
-const TIER_LABEL: Record<TeamTier, string> = {
-  leadership: "Leadership",
-  management: "Management",
-  operations: "Operations",
-};
+const TEAM: TeamMember[] = [...OPERATIONAL_TEAM];
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -177,17 +134,19 @@ function Portrait({
       className={cx(
         "relative overflow-hidden bg-navy-900 h-full w-full",
         !horizontal &&
-          (featured ? "aspect-[4/5]" : compact ? "aspect-[4/3]" : "aspect-[3/4]"),
+          (featured ? "aspect-[4/5]" : compact ? "aspect-[3/4]" : "aspect-[3/4]"),
       )}
     >
-      <div
-        className={cx(
-          "absolute inset-0 z-[1]",
-          horizontal
-            ? "bg-gradient-to-r from-navy-950/50 via-navy-950/15 to-transparent"
-            : "bg-gradient-to-t from-navy-950 via-navy-950/20 to-royal/10",
-        )}
-      />
+      {!compact && (
+        <div
+          className={cx(
+            "absolute inset-0 z-[1] pointer-events-none",
+            horizontal
+              ? "bg-gradient-to-r from-navy-950/50 via-navy-950/15 to-transparent"
+              : "bg-gradient-to-t from-navy-950/40 via-transparent to-transparent",
+          )}
+        />
+      )}
       {member.image ? (
         <Image
           src={member.image}
@@ -195,7 +154,7 @@ function Portrait({
           fill
           className={cx(
             "object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]",
-            horizontal ? "object-[center_top]" : "object-top",
+            horizontal ? "object-[center_top]" : compact ? "object-[center_18%]" : "object-top",
           )}
           sizes={
             horizontal
@@ -221,16 +180,11 @@ function Portrait({
         </div>
       )}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[2] bg-[linear-gradient(105deg,transparent_40%,rgba(212,175,55,0.12)_50%,transparent_60%)]" />
-      <div className="absolute top-4 left-4 z-[3]">
-        <span className="px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-gold/25 text-[9px] uppercase tracking-[0.2em] text-gold font-bold">
-          {TIER_LABEL[member.tier]}
-        </span>
-      </div>
       {compact && (
-        <div className="absolute inset-x-0 bottom-0 z-[4] flex items-end justify-center px-3 pb-4 pt-14 bg-gradient-to-t from-navy-950 via-navy-950/95 to-transparent opacity-100 translate-y-0 transition-all duration-300 pointer-events-none md:opacity-0 md:translate-y-1 md:group-hover:opacity-100 md:group-hover:translate-y-0">
-          <p className="font-display text-sm font-bold text-center text-white leading-snug">
-            {member.name}
-          </p>
+        <div className="absolute top-3 right-3 z-[3] max-w-[85%]">
+          <span className="inline-block px-2.5 py-1 rounded-lg bg-white/95 text-navy-950 border border-gold/30 text-[9px] sm:text-[10px] font-bold leading-tight shadow-sm line-clamp-2">
+            {member.designation}
+          </span>
         </div>
       )}
     </div>
@@ -278,7 +232,10 @@ function TeamCard({
               <h3 className="font-display text-xl font-bold text-white transition-colors duration-300 group-hover:text-gold sm:text-2xl">
                 {member.name}
               </h3>
-              <p className="mt-1 text-sm font-medium tracking-wide text-gold">
+              <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-white/45 font-semibold">
+                Role &amp; designation
+              </p>
+              <p className="mt-0.5 text-sm font-semibold tracking-wide text-gold">
                 {member.designation}
               </p>
               <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-white/60">
@@ -296,10 +253,10 @@ function TeamCard({
   }
 
   return (
-    <motion.article variants={cardVariants} className="group relative reveal-up">
+    <motion.article variants={cardVariants} className="group relative reveal-up h-full">
       <div
         className={cx(
-          "relative h-full rounded-3xl overflow-hidden border border-white/10",
+          "relative flex h-full flex-col rounded-3xl overflow-hidden border border-white/10",
           "bg-navy-950/40 backdrop-blur-xl shadow-premium",
           "transition-all duration-500",
           "hover:border-gold/45 hover:shadow-gold",
@@ -309,11 +266,13 @@ function TeamCard({
           featured && "lg:min-h-[520px]",
         )}
       >
-        <Portrait member={member} featured={featured} compact={compact} />
+        <div className={compact ? "shrink-0" : undefined}>
+          <Portrait member={member} featured={featured} compact={compact} />
+        </div>
 
         <div
           className={cx(
-            "relative border-t border-white/8 bg-navy-950/75 backdrop-blur-md",
+            "relative flex flex-1 flex-col border-t border-white/8 bg-navy-950/90 backdrop-blur-md",
             compact ? "p-3.5 sm:p-4" : "p-5 sm:p-6",
           )}
         >
@@ -327,8 +286,8 @@ function TeamCard({
           </h3>
           <p
             className={cx(
-              "mt-1 font-medium tracking-wide text-gold",
-              compact ? "text-xs" : "text-sm",
+              "mt-1 font-semibold tracking-wide text-gold",
+              compact ? "text-sm leading-snug" : "text-sm",
             )}
           >
             {member.designation}
@@ -412,9 +371,9 @@ export const CoreTeam = () => {
             <div
               className={cx(
                 "grid gap-5 lg:gap-6",
-                leadership.length === 1
-                  ? "grid-cols-1 w-full max-w-6xl justify-items-start"
-                  : "grid-cols-1 md:grid-cols-2",
+                leadership.length <= 2
+                  ? "grid-cols-1 md:grid-cols-2"
+                  : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
               )}
             >
               {leadership.map((member) => (
@@ -423,19 +382,37 @@ export const CoreTeam = () => {
             </div>
           </div>
 
-          <div>
-            <div className="flex items-center gap-3 mb-6 reveal-up">
-              <span className="text-[10px] uppercase tracking-[0.28em] text-gold font-bold">
-                Management & Operations
-              </span>
-              <span className="flex-1 h-px bg-gradient-to-r from-gold/40 to-transparent" />
+          {management.length > 0 && (
+            <div>
+              <div className="flex items-center gap-3 mb-6 reveal-up">
+                <span className="text-[10px] uppercase tracking-[0.28em] text-gold font-bold">
+                  Management
+                </span>
+                <span className="flex-1 h-px bg-gradient-to-r from-gold/40 to-transparent" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+                {management.map((member) => (
+                  <TeamCard key={member.id} member={member} compact />
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-              {[...management, ...operations].map((member) => (
-                <TeamCard key={member.id} member={member} compact />
-              ))}
+          )}
+
+          {operations.length > 0 && (
+            <div>
+              <div className="flex items-center gap-3 mb-6 reveal-up">
+                <span className="text-[10px] uppercase tracking-[0.28em] text-gold font-bold">
+                  Operations &amp; Support
+                </span>
+                <span className="flex-1 h-px bg-gradient-to-r from-gold/40 to-transparent" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+                {operations.map((member) => (
+                  <TeamCard key={member.id} member={member} compact />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </motion.div>
 
         <motion.div
@@ -459,6 +436,10 @@ export const CoreTeam = () => {
             </span>
           </div>
         </motion.div>
+
+        <p className="mt-8 max-w-3xl mx-auto text-center text-sm text-navy-950/55 leading-relaxed reveal-up px-4">
+          {OPERATIONAL_TEAM_GOVERNANCE_NOTE}
+        </p>
       </div>
     </section>
   );

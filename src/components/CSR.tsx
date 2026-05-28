@@ -70,10 +70,10 @@ const SDG_PILLARS = [
 ] as const;
 
 const IMPACT_STATS = [
-  { value: 10000, suffix: "+", label: "Member Ecosystem Engaged", desc: "Active importers & partners" },
+  { value: 10000, suffix: "+", label: "Member Ecosystem Engaged", desc: "Active importers, exporters & partners" },
   { value: 50, suffix: "+", label: "Nations in SDG Outreach", desc: "Bilateral & global chapters" },
   { value: 200, suffix: "+", label: "CSR Programs Facilitated", desc: "Chamber-led initiatives" },
-  { value: 47, suffix: "+", label: "Years of Institutional Service", desc: "Since 1978" },
+  { value: 25, suffix: "+", label: "Years of Institutional Service", desc: "Since 2000" },
 ] as const;
 
 const containerVariants = {

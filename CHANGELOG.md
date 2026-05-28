@@ -1,5 +1,75 @@
 # Changelog
 
+## [28-05-2026 21:35] — Team card photos without face-shadow overlay
+
+**What changed:** Removed heavy bottom gradients and duplicate name overlays on management team photos so faces stay fully visible. Designation now appears as a small top-right pill on a clean photo; name, role, and bio remain in the card footer below the image.
+**Files touched:** `src/components/CoreTeam.tsx`, `src/app/about/leadership/OurTeamSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [28-05-2026 21:20] — Team cards show role & designation clearly
+
+**What changed:** Core Team compact cards now display each member's designation on the photo badge, photo overlay, and card footer (replacing generic "Management" labels). Split Management and Operations & Support rows. Leadership cards label "Role & designation". Our Team section updated to match.
+**Files touched:** `src/components/CoreTeam.tsx`, `src/app/about/leadership/OurTeamSection.tsx`, `src/config/operational-team.ts`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [28-05-2026 21:05] — Full operational team roster (6 members)
+
+**What changed:** Added Mrs. Geeta Kumar (Trustee) and Mr. Anand (Peon) to the shared operational team config; consolidated all six members with correct designations for homepage Core Team and leadership Our Team sections. Added governance note that members may also be designated VP, Director, or other council roles. Introduced Governance department filter on leadership team page.
+**Files touched:** `src/config/operational-team.ts`, `src/components/CoreTeam.tsx`, `src/app/about/leadership/OurTeamSection.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [28-05-2026 20:50] — ECGC, Certificate of Origin, Trade Events on landing page
+
+**What changed:** Added `ChamberCapabilitiesSection` on the homepage highlighting IICCI empanelment with ECGC, authority to issue Certificates of Origin, and Trade Events (linked to `/media/events`). Updated footer services/resources labels. Extended membership benefit bullets for COO guidance, ECGC support, and trade events access.
+**Files touched:** `src/config/chamber-capabilities.ts`, `src/components/ChamberCapabilitiesSection.tsx`, `src/app/page.tsx`, `src/components/Footer.tsx`, `src/config/membership.ts`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [28-05-2026 20:35] — Org facts, exporters copy, membership benefits (no fees)
+
+**What changed:** Updated established year to 2000 and experience to 25+ years across hero, stats, footer, objectives, CSR, and metadata. Added exporters alongside importers in key landing copy. Added `MembershipSection` on homepage and refactored `/membership` to show Associate, Corporate, and Enterprise categories with benefits only; fees removed with contact email `info@iicci.global` for enquiries.
+**Files touched:** `src/config/org.ts`, `src/config/membership.ts`, `src/components/MembershipSection.tsx`, `src/components/Hero.tsx`, `src/components/Stats.tsx`, `src/components/Footer.tsx`, `src/components/ObjectivesSection.tsx`, `src/components/LeadershipHero.tsx`, `src/components/About.tsx`, `src/components/CSR.tsx`, `src/app/page.tsx`, `src/app/membership/page.tsx`, `src/app/layout.tsx`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [28-05-2026 20:15] — Updated Delhi office contact on landing page
+
+**What changed:** Replaced placeholder Connaught Place address and phone with official Delhi office details (F-5 Hauz Khas Enclave, 110016), two telephone numbers, and two email addresses in footer, navbar top bar, mobile menu, and AI chatbot fallback message. Centralized values in `src/config/contact.ts`.
+**Files touched:** `src/config/contact.ts`, `src/components/Footer.tsx`, `src/components/Navbar.tsx`, `public/static/app.js`, `CHANGELOG.md`
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
+## [28-05-2026 20:01] — Started Next.js dev server locally
+
+**What changed:** Launched local development server via `npm run dev` (Next.js 16.2.6 with Turbopack). Server ready in 9.2s on http://localhost:3000 (Network: http://172.16.0.63:3000). No code changes — runtime-only action.
+**Files touched:** None (CHANGELOG entry only)
+**API endpoints used:** None
+**Breaking change:** NO
+**Branch:** zoya-dev
+
+---
+
 ## [27-05-2026 14:15] — Enlarged Leadership Vision portraits
 
 **What changed:** Increased President & Ex President photo size in `LeadershipVisionSection` — portrait container max-width bumped from `280px` to responsive `340px / 380px / 420px` (mobile / tablet / desktop), `Image` `sizes` updated to match, and floating quote card widened from `210px` to `240px` for proportionate balance. Aspect ratio `4/5` retained so both height and width scale together.

@@ -50,7 +50,7 @@ export const LeadershipHero = ({ embedded = false }: { embedded?: boolean }) => 
 
           <p className="text-white/70 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Meet the leadership, honorary directors, and operational teams
-            powering India&rsquo;s premier chamber for importers and
+            powering India&rsquo;s premier chamber for importers, exporters, and
             international trade.
           </p>
         </motion.div>

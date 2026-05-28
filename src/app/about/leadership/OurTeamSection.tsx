@@ -9,66 +9,30 @@ import {
 } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 
-type Department =
-  | "Trade Facilitation"
-  | "Membership"
-  | "Operations"
-  | "Research"
-  | "Administration"
-  | "International Coordination";
+import {
+  OPERATIONAL_TEAM,
+  OPERATIONAL_TEAM_DEPARTMENTS,
+  OPERATIONAL_TEAM_GOVERNANCE_NOTE,
+  type OperationalTeamMember,
+  type TeamDepartment,
+} from "@/config/operational-team";
 
-type TeamMember = {
-  id: string;
-  name: string;
-  designation: string;
-  department: Department;
-  bio: string;
-  image?: string;
-  initials?: string;
+type Department = TeamDepartment;
+
+type TeamMember = OperationalTeamMember & {
   email?: string;
   linkedin?: string;
 };
 
-const DEPARTMENTS: ReadonlyArray<Department> = [
-  "Trade Facilitation",
-  "Membership",
-  "Operations",
-  "Research",
-  "Administration",
-  "International Coordination",
-];
+const DEPARTMENTS = OPERATIONAL_TEAM_DEPARTMENTS;
 
-const TEAM: ReadonlyArray<TeamMember> = [
-  {
-    id: "prem-kishore",
-    name: "Mr. Prem Kishore",
-    designation: "Manager (Accounts & Finance)",
-    department: "Administration",
-    bio: "Oversees financial governance, member billing, compliance reporting, and fiscal planning that supports transparent chamber administration.",
-    image: "/images/prem-kishor.png",
-    linkedin: "#",
-  },
-  {
-    id: "manoj-bhargava",
-    name: "Mr. Manoj Kumar Bhargava",
-    designation: "Marketing Manager",
-    department: "Membership",
-    bio: "Drives brand visibility, member outreach, campaign strategy, and market communications across domestic and international trade ecosystems.",
-    image: "/images/manoj-kumar-bhargava.png",
-    linkedin: "#",
-  },
-  {
-    id: "pradeep-kumar",
-    name: "Mr. Pradeep Kumar",
-    designation: "Executive (Office & Field Work)",
-    department: "Operations",
-    bio: "Coordinates on-ground operations, delegation logistics, and member-facing field activities that keep IICCI programs running seamlessly.",
-    image: "/images/pradeep-kumar.png",
-    linkedin: "#",
-  },
-];
+const TEAM: ReadonlyArray<TeamMember> = OPERATIONAL_TEAM.map((member) => ({
+  ...member,
+  linkedin: "#",
+}));
 
 const DEPARTMENT_ICONS: Record<Department, string> = {
+  Governance: "fa-landmark",
   "Trade Facilitation": "fa-ship",
   Membership: "fa-id-card",
   Operations: "fa-gears",
@@ -101,13 +65,12 @@ function cx(...parts: Array<string | false | null | undefined>) {
 function TeamPortrait({ member }: { member: TeamMember }) {
   return (
     <div className="relative h-[280px] sm:h-[300px] lg:h-[320px] overflow-hidden bg-navy-900 shrink-0">
-      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-navy-950 via-navy-950/30 to-transparent" />
       {member.image ? (
         <Image
           src={member.image}
           alt={member.name}
           fill
-          className="object-cover object-[center_15%] transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+          className="object-cover object-[center_18%] transition-transform duration-700 ease-out group-hover:scale-[1.05]"
           sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, 360px"
         />
       ) : (
@@ -117,10 +80,10 @@ function TeamPortrait({ member }: { member: TeamMember }) {
           </span>
         </div>
       )}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[2] bg-[linear-gradient(105deg,transparent_40%,rgba(212,175,55,0.12)_50%,transparent_60%)]" />
-      <div className="absolute top-3 left-3 z-[3]">
-        <span className="px-2 py-0.5 rounded-full bg-black/40 backdrop-blur-md border border-gold/25 text-[8px] uppercase tracking-[0.18em] text-gold font-bold">
-          {member.department.split(" ")[0]}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[2] bg-[linear-gradient(105deg,transparent_40%,rgba(212,175,55,0.08)_50%,transparent_60%)] pointer-events-none" />
+      <div className="absolute top-3 right-3 z-[3] max-w-[85%]">
+        <span className="inline-block px-2.5 py-1 rounded-lg bg-white/95 text-navy-950 border border-gold/30 text-[9px] font-bold leading-tight shadow-sm line-clamp-2">
+          {member.designation}
         </span>
       </div>
     </div>
@@ -185,8 +148,8 @@ function TeamCard({
             </div>
           </div>
 
-          <p className="text-sm font-medium text-gold">{member.designation}</p>
-          <p className="mt-1 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.16em] text-white/50 font-semibold">
+          <p className="text-sm font-semibold text-gold">{member.designation}</p>
+          <p className="mt-2 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.16em] text-white/50 font-semibold">
             <i
               className={cx(
                 "fas",
@@ -500,8 +463,8 @@ export const OurTeamSection = () => {
           <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-white/10">
             <i className="fas fa-briefcase text-gold" aria-hidden />
             <span className="text-sm text-white/80">
-              Dedicated professionals across{" "}
-              <span className="font-semibold text-white">6 departments</span>
+              <span className="font-semibold text-white">{TEAM.length}</span> team members
+              across governance &amp; operations
             </span>
           </div>
           <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass border border-white/10">
@@ -511,6 +474,10 @@ export const OurTeamSection = () => {
             </span>
           </div>
         </motion.div>
+
+        <p className="mt-8 max-w-3xl mx-auto text-center text-sm text-white/50 leading-relaxed px-4">
+          {OPERATIONAL_TEAM_GOVERNANCE_NOTE}
+        </p>
       </div>
 
       <AnimatePresence>
