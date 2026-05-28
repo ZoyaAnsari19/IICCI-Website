@@ -28,9 +28,9 @@ const OBJECTIVES: ReadonlyArray<Objective> = [
   {
     id: "protect",
     icon: "fa-shield-halved",
-    title: "Protect interests of the importing community",
+    title: "Protect interests of importers & exporters",
     description:
-      "Policy advocacy, dispute resolution guidance, and representation before regulators.",
+      "Policy advocacy, dispute resolution guidance, and representation before regulators for the trade community.",
   },
   {
     id: "connect",
@@ -79,7 +79,7 @@ const OBJECTIVES: ReadonlyArray<Objective> = [
 const HIGHLIGHTS = [
   { value: "9", label: "Core Objectives" },
   { value: "50+", label: "Global Chapters" },
-  { value: "47+", label: "Years of Legacy" },
+  { value: "25+", label: "Years of Experience" },
   { value: "10K+", label: "Member Network" },
 ] as const;
 

@@ -1,3 +1,5 @@
+import { ORG_ESTABLISHED_BADGE } from "@/config/org";
+
 export const Hero = () => {
   return (
     <section
@@ -24,7 +26,7 @@ export const Hero = () => {
                 <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-gold opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-gold" />
               </span>
-              <span className="text-[11px] tracking-[0.2em] uppercase text-white/80 font-medium">Established 1978 · 47 Years of Trade Excellence</span>
+              <span className="text-[11px] tracking-[0.2em] uppercase text-white/80 font-medium">{ORG_ESTABLISHED_BADGE}</span>
             </div>
 
             {/* Main headline */}
@@ -40,7 +42,7 @@ export const Hero = () => {
 
             {/* Subhead */}
             <p className="text-base md:text-lg text-white/70 max-w-2xl mb-10 leading-relaxed reveal-up">
-              The premier international chamber empowering importers, fostering global partnerships, and unlocking bilateral trade and investment opportunities across <span className="text-gold font-semibold">50+ countries</span>.
+              The premier international chamber empowering importers and exporters, fostering global partnerships, and unlocking bilateral trade and investment opportunities across <span className="text-gold font-semibold">50+ countries</span>.
             </p>
 
             {/* CTAs */}
@@ -75,7 +77,7 @@ export const Hero = () => {
             <div className="grid grid-cols-3 gap-6 max-w-xl reveal-up">
               <div className="border-l border-gold/30 pl-4">
                 <div className="text-2xl md:text-3xl font-display font-bold text-white">10K+</div>
-                <div className="text-[11px] uppercase tracking-wider text-white/50 mt-1">Importers</div>
+                <div className="text-[11px] uppercase tracking-wider text-white/50 mt-1">Importers &amp; Exporters</div>
               </div>
               <div className="border-l border-gold/30 pl-4">
                 <div className="text-2xl md:text-3xl font-display font-bold text-white">50+</div>

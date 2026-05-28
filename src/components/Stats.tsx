@@ -1,6 +1,8 @@
+import { ORG_EXPERIENCE_YEARS, ORG_SINCE_LABEL } from "@/config/org";
+
 export const Stats = () => {
   const stats = [
-    { value: 47, suffix: '+', label: 'Years of Legacy', icon: 'fa-landmark', desc: 'Since 1978' },
+    { value: 25, suffix: '+', label: 'Years of Experience', icon: 'fa-landmark', desc: ORG_SINCE_LABEL },
     { value: 50000, suffix: '+', label: 'Registered Businesses', icon: 'fa-users', desc: 'Active Members' },
     { value: 50, suffix: '+', label: 'Countries Connected', icon: 'fa-globe', desc: 'Global Reach' },
     { value: 500, suffix: '+', label: 'Trade Delegations', icon: 'fa-handshake', desc: 'Hosted & Led' },
@@ -26,7 +28,7 @@ export const Stats = () => {
             <span className="text-gradient-gold italic font-serif font-normal">at scale.</span>
           </h2>
           <p className="text-navy-950/60 text-base md:text-lg leading-relaxed">
-            Five decades of fostering international commerce, bilateral relationships, and economic prosperity for Indian importers worldwide.
+            {ORG_EXPERIENCE_YEARS} years of fostering international commerce, bilateral relationships, and economic prosperity for Indian importers and exporters worldwide.
           </p>
         </div>
 

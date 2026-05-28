@@ -235,7 +235,7 @@
     partner: "We have 10,000+ verified businesses across 50+ countries. Tell me your sector or country of interest, and I'll connect you with our matchmaking team.",
     india: "Excellent! Our Foreign Company Desk specializes in India entry. We help with market research, JV partnerships, legal compliance, and distributor identification. Shall I schedule a consultation?",
     event: "Our flagship India-GCC Trade Summit 2025 is happening Dec 12-14 in Dubai. We also have monthly delegations and webinars. Would you like the full event calendar?",
-    default: "That's a great question! Our team would love to assist you in detail. Please share your contact info or call us at +91 11 4567 8900. You can also email info@iicci.global.",
+    default: "That's a great question! Our team would love to assist you in detail. Please share your contact info or call us at +91-11-41655142 / +91-11-46572221. You can also email info@iicci.global or president@indianimporterschambers.com.",
     greeting: "Hello! Welcome to IICCI. How can I help you with global trade today?",
   };
 

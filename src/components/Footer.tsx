@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { delhiOffice } from "@/config/contact";
+import { ORG_FOUNDED_YEAR } from "@/config/org";
 
 export const Footer = () => {
   return (
@@ -76,24 +78,51 @@ export const Footer = () => {
               </div>
             </div>
             <p className="text-sm text-white/60 leading-relaxed mb-6 max-w-sm">
-              Indian Importers Chambers of Commerce & Industry — the premier apex body connecting India to global trade opportunities since 1978.
+              Indian Importers Chambers of Commerce & Industry — the premier apex body connecting India to global trade opportunities for importers and exporters since {ORG_FOUNDED_YEAR}.
             </p>
 
             <div className="space-y-2 text-sm text-white/70 mb-6">
               <div className="flex items-start gap-3">
                 <i className="fas fa-location-dot text-gold mt-1 w-4"></i>
                 <div>
-                  <div className="text-white">Global Headquarters</div>
-                  <div className="text-xs text-white/60">IICCI Tower, Connaught Place,<br />New Delhi 110001, India</div>
+                  <div className="text-white">{delhiOffice.label}</div>
+                  <div className="text-xs text-white/60">
+                    {delhiOffice.addressLines.map((line) => (
+                      <span key={line}>
+                        {line}
+                        <br />
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <i className="fas fa-phone text-gold w-4"></i>
-                <a href="tel:+911145678900" className="hover:text-gold transition">+91 11 4567 8900</a>
+              <div className="flex items-start gap-3">
+                <i className="fas fa-phone text-gold mt-1 w-4"></i>
+                <div className="space-y-1">
+                  {delhiOffice.phones.map((phone) => (
+                    <a
+                      key={phone.tel}
+                      href={`tel:${phone.tel}`}
+                      className="block hover:text-gold transition"
+                    >
+                      {phone.display}
+                    </a>
+                  ))}
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <i className="fas fa-envelope text-gold w-4"></i>
-                <a href="mailto:info@iicci.global" className="hover:text-gold transition">info@iicci.global</a>
+              <div className="flex items-start gap-3">
+                <i className="fas fa-envelope text-gold mt-1 w-4"></i>
+                <div className="space-y-1">
+                  {delhiOffice.emails.map((email) => (
+                    <a
+                      key={email.href}
+                      href={`mailto:${email.href}`}
+                      className="block hover:text-gold transition break-all"
+                    >
+                      {email.display}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -135,7 +164,15 @@ export const Footer = () => {
             <div>
               <div className="text-[10px] uppercase tracking-[0.2em] text-gold font-bold mb-4">Services</div>
               <ul className="space-y-2.5 text-sm">
-                {['Trade Facilitation', 'Foreign Desk', 'Certifications', 'Training', 'Drone Pilot', 'Matchmaking'].map((l) => (
+                {[
+                  'Trade Facilitation',
+                  'ECGC Empanelment',
+                  'Certificate of Origin',
+                  'Trade Events',
+                  'Foreign Desk',
+                  'Training',
+                  'Matchmaking',
+                ].map((l) => (
                   <li key={l}><a href="#" className="text-white/60 hover:text-white transition link-underline">{l}</a></li>
                 ))}
               </ul>
@@ -148,7 +185,7 @@ export const Footer = () => {
                   { l: 'Market Intelligence', href: '/media/currentAffairs' },
                   { l: 'Policy Updates', href: '/media/currentAffairs' },
                   { l: 'Media Center', href: '/media' },
-                  { l: 'Events', href: '/media/events' },
+                  { l: 'Trade Events', href: '/media/events' },
                   { l: 'Resources Center', href: '/resources' },
                 ].map((item) => (
                   <li key={item.l}>

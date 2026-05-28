@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Stats } from "@/components/Stats";
+import { ChamberCapabilitiesSection } from "@/components/ChamberCapabilitiesSection";
 
 import { ObjectivesSection } from "@/components/ObjectivesSection";
 import { LeadershipVisionSection } from "@/components/LeadershipVisionSection";
@@ -19,6 +20,7 @@ import {
   LiveExchangeRatesTicker,
 } from "@/components/LiveExchangeRatesSection";
 import { Footer } from "@/components/Footer";
+import { MembershipSection } from "@/components/MembershipSection";
 export default function Home() {
   return (
     <>
@@ -30,6 +32,7 @@ export default function Home() {
         <div className="relative z-30">
           <Stats />
         </div>
+        <ChamberCapabilitiesSection />
         <ObjectivesSection />
         <LeadershipVisionSection />
         {/* <MentorsForewordSection /> */}
@@ -42,6 +45,7 @@ export default function Home() {
         <Directory />
         <LiveExchangeRatesSection preview />
         <DownloadsResourcesSection preview />
+        <MembershipSection />
         </main>
         <Footer />
       </ExchangeRatesProvider>

@@ -140,7 +140,7 @@ export const About = () => {
             <span className="text-white font-semibold">
               Indian Importers Chambers of Commerce &amp; Industry (IICCI)
             </span>{" "}
-            is committed to empowering India's importing community through
+            is committed to empowering India&apos;s importers and exporters through
             policy advocacy, market intelligence, trade facilitation services,
             and strategic global collaborations that enable seamless and
             sustainable international trade.
