@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 export const Events = () => {
   const events = [
     { day: '12', month: 'Dec', year: '2025', title: 'India-GCC Trade Summit 2025', loc: 'Dubai, UAE', type: 'Summit', spots: '342 / 500' },
@@ -6,15 +10,67 @@ export const Events = () => {
     { day: '17', month: 'Mar', year: '2026', title: 'AI & Trade Innovation Webinar', loc: 'Online', type: 'Webinar', spots: 'Free' },
   ]
 
+  const pastEvents = [
+    { day: '18', month: 'Oct', year: '2024', title: 'India–GCC Business Roundtable', loc: 'Riyadh, KSA', type: 'Roundtable', spots: 'Completed' },
+    { day: '07', month: 'Feb', year: '2025', title: 'Export Compliance Workshop', loc: 'Mumbai, India', type: 'Workshop', spots: 'Completed' },
+    { day: '21', month: 'Jun', year: '2025', title: 'India–Africa Trade Delegation', loc: 'Addis Ababa, Ethiopia', type: 'Delegation', spots: 'Completed' },
+    { day: '10', month: 'Sep', year: '2025', title: 'Women in Trade Leadership Forum', loc: 'New Delhi, India', type: 'Forum', spots: 'Completed' },
+  ]
+
+  const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
+  const pastEventsId = "past-events";
+
   return (
     <section id="events" className="relative page-nav-offset overflow-hidden bg-white">
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="reveal-up">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950/5 border border-navy-950/10 mb-4">
-              <i className="fas fa-calendar-days text-gold text-xs"></i>
-              <span className="text-[10px] uppercase tracking-[0.25em] text-navy-950/70">Upcoming Events</span>
+            <div
+              className="inline-flex items-center gap-2 rounded-full bg-navy-950/5 border border-navy-950/10 mb-4 p-1"
+              role="tablist"
+              aria-label="Events tabs"
+            >
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === "upcoming"}
+                onClick={() => setActiveTab("upcoming")}
+                className={
+                  activeTab === "upcoming"
+                    ? "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-sm border border-navy-950/10"
+                    : "inline-flex items-center gap-2 px-3 py-1 rounded-full hover:bg-white/70 transition"
+                }
+              >
+                <i className="fas fa-calendar-days text-gold text-xs"></i>
+                <span className="text-[10px] uppercase tracking-[0.25em] text-navy-950/70">
+                  Upcoming Events
+                </span>
+              </button>
+
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === "past"}
+                onClick={() => {
+                  setActiveTab("past");
+                  requestAnimationFrame(() => {
+                    document
+                      .getElementById(pastEventsId)
+                      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  });
+                }}
+                className={
+                  activeTab === "past"
+                    ? "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-sm border border-navy-950/10"
+                    : "inline-flex items-center gap-2 px-3 py-1 rounded-full hover:bg-white/70 transition"
+                }
+              >
+                <i className="fas fa-clock-rotate-left text-gold text-xs"></i>
+                <span className="text-[10px] uppercase tracking-[0.25em] text-navy-950/70">
+                  Past Events
+                </span>
+              </button>
             </div>
             <h2 className="display-title font-display font-bold">
               <span className="text-navy-950">Where global</span>{' '}
@@ -28,6 +84,8 @@ export const Events = () => {
           </div>
         </div>
 
+        {activeTab === "upcoming" && (
+        <>
         {/* Featured event with countdown */}
         <div className="relative rounded-3xl overflow-hidden mb-8 border border-gold/20 reveal-up">
           <div className="absolute inset-0 bg-gradient-to-br from-royal-dark via-navy-900 to-navy-950"></div>
@@ -107,6 +165,62 @@ export const Events = () => {
             </div>
           ))}
         </div>
+        </>
+        )}
+
+        {/* Past events */}
+        {activeTab === "past" && (
+        <div id={pastEventsId} className="mt-2 lg:mt-2 scroll-mt-24">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div className="reveal-up">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-950/5 border border-navy-950/10 mb-4">
+                <i className="fas fa-clock-rotate-left text-gold text-xs"></i>
+                <span className="text-[10px] uppercase tracking-[0.25em] text-navy-950/70">Past Events</span>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-display font-bold text-navy-950">
+                Highlights from recent engagements.
+              </h3>
+              <p className="mt-2 text-navy-950/65 text-sm md:text-base max-w-2xl">
+                A quick look at completed summits, delegations, and forums delivered with IICCI partners.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-4">
+            {pastEvents.map((e) => (
+              <div
+                key={`past-${e.day}-${e.month}-${e.year}`}
+                className="group glass-light rounded-2xl p-5 border border-navy-950/10 flex items-center gap-5 reveal-up"
+              >
+                <div className="shrink-0 w-20 h-24 rounded-xl bg-gradient-to-br from-navy-950/5 to-navy-950/0 border border-navy-950/10 flex flex-col items-center justify-center text-center">
+                  <div className="text-[10px] uppercase tracking-wider text-navy-950/60">{e.month}</div>
+                  <div className="text-3xl font-display font-bold text-navy-950">{e.day}</div>
+                  <div className="text-[10px] text-navy-950/45">{e.year}</div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="px-2 py-0.5 rounded-full bg-navy-950/5 text-navy-950/70 text-[10px] uppercase tracking-wider font-bold">
+                      {e.type}
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 text-[10px] uppercase tracking-wider font-bold">
+                      {e.spots}
+                    </span>
+                  </div>
+                  <h4 className="text-base lg:text-lg font-display font-bold text-navy-950 mb-1">
+                    {e.title}
+                  </h4>
+                  <div className="flex items-center gap-4 text-xs text-navy-950/60">
+                    <span className="flex items-center gap-1.5">
+                      <i className="fas fa-location-dot text-gold text-[10px]"></i> {e.loc}
+                    </span>
+                  </div>
+                </div>
+                <i className="fas fa-check text-emerald-600/70"></i>
+              </div>
+            ))}
+          </div>
+        </div>
+        )}
       </div>
     </section>
   )

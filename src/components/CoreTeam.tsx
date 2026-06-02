@@ -12,6 +12,7 @@ import {
 type TeamMember = OperationalTeamMember;
 
 const TEAM: TeamMember[] = [...OPERATIONAL_TEAM];
+const TK_PANDEY_ID = "tk-pandey";
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -204,10 +205,10 @@ function TeamCard({
 }) {
   if (horizontal) {
     return (
-      <motion.article variants={cardVariants} className="group relative reveal-up h-full">
+      <motion.article variants={cardVariants} className="group relative reveal-up">
         <div
           className={cx(
-            "relative h-full min-h-[300px] sm:min-h-[320px] rounded-3xl overflow-hidden border border-white/10",
+            "relative rounded-3xl overflow-hidden border border-white/10",
             "bg-navy-950/40 backdrop-blur-xl shadow-premium",
             "transition-all duration-500",
             "hover:border-gold/45 hover:shadow-gold",
@@ -216,19 +217,22 @@ function TeamCard({
             "group-hover:before:opacity-100",
           )}
         >
-          <div className="relative flex h-full flex-row items-stretch">
+          <div className="relative flex flex-col lg:flex-row">
             <div
               className={cx(
-                "relative shrink-0 overflow-hidden",
-                featured
-                  ? "w-[48%] sm:w-[46%] lg:w-[44%] min-w-[200px] sm:min-w-[260px] lg:min-w-[300px]"
-                  : "w-[38%] sm:w-[40%] lg:w-[38%] min-w-[120px]",
+                "relative w-full lg:w-[44%] shrink-0 overflow-hidden bg-navy-900",
+                "h-[260px] sm:h-[320px] lg:h-auto lg:min-h-[320px]",
               )}
             >
               <Portrait member={member} horizontal featured={featured} />
+              <div className="absolute top-3 left-3 z-[3] max-w-[85%]">
+                <span className="inline-block px-2.5 py-1 rounded-lg bg-white/95 text-navy-950 border border-gold/30 text-[9px] sm:text-[10px] font-bold leading-tight shadow-sm line-clamp-2">
+                  {member.designation}
+                </span>
+              </div>
             </div>
 
-            <div className="relative flex flex-1 flex-col items-start justify-center text-left border-l border-white/8 bg-navy-950/75 p-5 backdrop-blur-md sm:p-6 lg:p-8">
+            <div className="relative flex flex-1 flex-col justify-center text-left border-t border-white/8 lg:border-t-0 lg:border-l border-white/8 bg-navy-950/75 p-5 backdrop-blur-md sm:p-6 lg:p-8">
               <h3 className="font-display text-xl font-bold text-white transition-colors duration-300 group-hover:text-gold sm:text-2xl">
                 {member.name}
               </h3>
@@ -316,9 +320,7 @@ function TeamCard({
 }
 
 export const CoreTeam = () => {
-  const leadership = TEAM.filter((m) => m.tier === "leadership");
-  const management = TEAM.filter((m) => m.tier === "management");
-  const operations = TEAM.filter((m) => m.tier === "operations");
+  const tkPandey = TEAM.find((m) => m.id === TK_PANDEY_ID);
 
   return (
     <section
@@ -361,85 +363,18 @@ export const CoreTeam = () => {
           viewport={{ once: true, margin: "-60px" }}
           className="space-y-10 lg:space-y-12"
         >
-          <div>
-            <div className="flex items-center gap-3 mb-6 reveal-up">
-              <span className="text-[10px] uppercase tracking-[0.28em] text-gold font-bold">
-                Leadership
-              </span>
-              <span className="flex-1 h-px bg-gradient-to-r from-gold/40 to-transparent" />
+          {tkPandey ? (
+            <div className="max-w-4xl mx-auto">
+              <TeamCard member={tkPandey} horizontal featured />
             </div>
-            <div
-              className={cx(
-                "grid gap-5 lg:gap-6",
-                leadership.length <= 2
-                  ? "grid-cols-1 md:grid-cols-2"
-                  : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
-              )}
-            >
-              {leadership.map((member) => (
-                <TeamCard key={member.id} member={member} horizontal featured />
-              ))}
-            </div>
-          </div>
-
-          {management.length > 0 && (
-            <div>
-              <div className="flex items-center gap-3 mb-6 reveal-up">
-                <span className="text-[10px] uppercase tracking-[0.28em] text-gold font-bold">
-                  Management
-                </span>
-                <span className="flex-1 h-px bg-gradient-to-r from-gold/40 to-transparent" />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-                {management.map((member) => (
-                  <TeamCard key={member.id} member={member} compact />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {operations.length > 0 && (
-            <div>
-              <div className="flex items-center gap-3 mb-6 reveal-up">
-                <span className="text-[10px] uppercase tracking-[0.28em] text-gold font-bold">
-                  Operations &amp; Support
-                </span>
-                <span className="flex-1 h-px bg-gradient-to-r from-gold/40 to-transparent" />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-                {operations.map((member) => (
-                  <TeamCard key={member.id} member={member} compact />
-                ))}
-              </div>
-            </div>
+          ) : (
+            <p className="text-center text-navy-950/60 reveal-up">
+              Team member not found.
+            </p>
           )}
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-14 lg:mt-16 flex flex-wrap items-center justify-center gap-6 reveal-up"
-        >
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass-light border border-navy-950/10">
-            <i className="fas fa-building-columns text-gold" aria-hidden />
-            <span className="text-sm text-navy-950/70">
-              <span className="font-semibold text-navy-950">{TEAM.length}</span> core team
-              members
-            </span>
-          </div>
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl glass-light border border-navy-950/10">
-            <i className="fas fa-handshake text-gold" aria-hidden />
-            <span className="text-sm text-navy-950/70">
-              Institutional strength & corporate governance
-            </span>
-          </div>
-        </motion.div>
-
-        <p className="mt-8 max-w-3xl mx-auto text-center text-sm text-navy-950/55 leading-relaxed reveal-up px-4">
-          {OPERATIONAL_TEAM_GOVERNANCE_NOTE}
-        </p>
+        {/* Intentionally trimmed to show only the requested team member. */}
       </div>
     </section>
   );
