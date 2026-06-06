@@ -43,7 +43,6 @@ export const Floats = () => {
     const root = document.documentElement;
     const lenis = window.__iicciLenis;
     const panel = document.getElementById("ai-panel");
-    const messages = document.getElementById("ai-messages");
 
     lenis?.stop();
 
@@ -76,26 +75,15 @@ export const Floats = () => {
       e.preventDefault();
     };
 
-    const containMessageWheel = (e: WheelEvent) => {
-      if (!messages) return;
-      const { scrollTop, scrollHeight, clientHeight } = messages;
-      const atTop = scrollTop <= 0 && e.deltaY < 0;
-      const atBottom =
-        scrollTop + clientHeight >= scrollHeight - 1 && e.deltaY > 0;
-      if (atTop || atBottom) e.preventDefault();
-    };
-
     window.addEventListener("keydown", onKey);
     document.addEventListener("touchmove", blockBackgroundTouch, {
       passive: false,
     });
     document.addEventListener("wheel", blockBackgroundWheel, { passive: false });
-    messages?.addEventListener("wheel", containMessageWheel, { passive: false });
 
     return () => {
       document.removeEventListener("touchmove", blockBackgroundTouch);
       document.removeEventListener("wheel", blockBackgroundWheel);
-      messages?.removeEventListener("wheel", containMessageWheel);
       window.removeEventListener("keydown", onKey);
 
       body.classList.remove("ai-assistant-open");
@@ -131,7 +119,7 @@ export const Floats = () => {
             : "opacity-0 pointer-events-none invisible",
         )}
         onClick={close}
-        aria-label="Close AI assistant"
+        aria-label="Close popup"
         tabIndex={isOpen ? 0 : -1}
       />
 
@@ -149,96 +137,47 @@ export const Floats = () => {
             aria-hidden={!isOpen}
             data-lenis-prevent
             className={cx(
-              "ai-assistant-panel glass-dark border border-white/10 rounded-3xl shadow-premium overflow-hidden flex flex-col",
+              "ai-assistant-panel glass-dark border border-white/10 rounded-3xl shadow-premium overflow-hidden",
               isOpen && "open",
             )}
           >
-            <div className="relative shrink-0 p-5 bg-gradient-to-br from-royal-dark to-navy-900 border-b border-white/10">
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-gold-600 flex items-center justify-center text-navy-950">
-                    <i className="fas fa-robot text-sm" aria-hidden />
-                  </div>
-                  <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-navy-900" />
-                </div>
-                <div>
-                  <div
-                    id="ai-panel-title"
-                    className="text-white font-semibold text-sm"
-                  >
-                    IICCI AI Concierge
-                  </div>
-                  <div className="text-[11px] text-white/60">
-                    Online • Avg response 30s
-                  </div>
-                </div>
-                <button
-                  id="ai-close"
-                  type="button"
-                  onClick={close}
-                  className="ml-auto w-8 h-8 rounded-lg hover:bg-white/10 text-white/60 hover:text-white transition pointer-events-auto"
-                  aria-label="Close"
-                >
-                  <i className="fas fa-xmark" aria-hidden />
-                </button>
-              </div>
-            </div>
+            <div className="relative p-6 sm:p-8 text-center">
+              <button
+                id="ai-close"
+                type="button"
+                onClick={close}
+                className="absolute top-4 right-4 w-8 h-8 rounded-lg hover:bg-white/10 text-white/60 hover:text-white transition pointer-events-auto"
+                aria-label="Close"
+              >
+                <i className="fas fa-xmark" aria-hidden />
+              </button>
 
-            <div
-              data-lenis-prevent
-              className="p-4 space-y-3 flex-1 min-h-0 overflow-y-auto overscroll-contain touch-pan-y"
-              id="ai-messages"
-            >
-              <div className="flex items-start gap-2">
-                <div className="w-7 h-7 rounded-full bg-gold/15 flex items-center justify-center text-gold text-xs shrink-0">
-                  <i className="fas fa-robot" aria-hidden />
-                </div>
-                <div className="glass rounded-2xl rounded-tl-sm p-3 max-w-[260px]">
-                  <p className="text-sm text-white/90">
-                    Hello! I&apos;m IICCI&apos;s AI Concierge. I can help with
-                    membership, services, trade queries, and more. How can I
-                    assist you today?
-                  </p>
-                </div>
+              <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-gold to-gold-600 flex items-center justify-center text-navy-950 shadow-gold mb-5">
+                <i className="fas fa-robot text-2xl" aria-hidden />
               </div>
-            </div>
 
-            <div className="shrink-0 p-3 border-t border-white/10">
-              <div className="flex flex-wrap gap-2 mb-3">
-                {[
-                  "Membership info",
-                  "Find a partner",
-                  "India entry",
-                  "Events",
-                ].map((q) => (
-                  <button
-                    key={q}
-                    type="button"
-                    className="quick-question px-3 py-1.5 rounded-full bg-white/5 hover:bg-gold/15 hover:text-gold border border-white/10 text-xs text-white/70 transition pointer-events-auto"
-                  >
-                    {q}
-                  </button>
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <input
-                  id="ai-input"
-                  type="text"
-                  placeholder="Ask anything..."
-                  className="flex-1 bg-white/5 border border-white/10 focus:border-gold/40 rounded-full px-4 py-2.5 text-sm text-white outline-none placeholder:text-white/40 pointer-events-auto"
-                />
-                <button
-                  id="ai-send"
-                  type="button"
-                  className="w-10 h-10 rounded-full bg-gradient-gold text-navy-950 flex items-center justify-center btn-premium pointer-events-auto"
-                  aria-label="Send"
-                >
-                  <i className="fas fa-paper-plane text-xs" aria-hidden />
-                </button>
-              </div>
-              <div className="text-center text-[10px] text-white/30 mt-2">
-                Powered by IICCI AI · For complex queries please call us
-              </div>
+              <span className="inline-block text-[10px] uppercase tracking-[0.2em] text-gold font-bold mb-2">
+                IICCI AI Concierge
+              </span>
+              <h2
+                id="ai-panel-title"
+                className="font-display font-bold text-white text-2xl mb-3"
+              >
+                Coming Soon
+              </h2>
+              <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-[280px] mx-auto">
+                Our intelligent trade assistant is under development. Stay tuned
+                for membership help, partner matching, and more.
+              </p>
+
+              <button
+                type="button"
+                onClick={close}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-gold text-navy-950 text-sm font-bold btn-premium pointer-events-auto"
+              >
+                Got it
+                <i className="fas fa-check text-[10px]" aria-hidden />
+              </button>
             </div>
           </div>
 
@@ -247,7 +186,7 @@ export const Floats = () => {
             type="button"
             onClick={toggle}
             className="chat-float-btn group pointer-events-auto relative w-16 h-16 rounded-full bg-gradient-to-br from-gold to-gold-600 shadow-gold flex items-center justify-center text-navy-950 magnetic"
-            aria-label={isOpen ? "Close AI Assistant" : "Open AI Assistant"}
+            aria-label={isOpen ? "Close popup" : "Open AI Assistant"}
             aria-expanded={isOpen}
             aria-controls="ai-panel"
           >
