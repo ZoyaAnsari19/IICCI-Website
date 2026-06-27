@@ -28,6 +28,11 @@ type MediaItem = {
     src: string;
     alt: string;
   };
+  images?: Array<{
+    src: string;
+    alt: string;
+  }>;
+  body?: string[];
   video?: {
     src: string;
     durationLabel: string;
@@ -121,14 +126,45 @@ function MediaLightbox({
 }) {
   const reduced = usePrefersReducedMotion();
 
+  const galleryImages = useMemo(() => {
+    if (!item) return [];
+    if (item.images && item.images.length > 0) return item.images;
+    return [item.image];
+  }, [item]);
+
+  const [activeImage, setActiveImage] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    setActiveImage(0);
+  }, [item]);
+
+  const hasMultiple = galleryImages.length > 1;
+
+  useEffect(() => {
+    if (!open || !hasMultiple || paused || reduced) return;
+    const id = window.setTimeout(() => {
+      setActiveImage((i) => (i + 1) % galleryImages.length);
+    }, 3500);
+    return () => window.clearTimeout(id);
+  }, [open, hasMultiple, paused, reduced, galleryImages.length, activeImage]);
+
+  const goPrev = () =>
+    setActiveImage((i) => (i - 1 + galleryImages.length) % galleryImages.length);
+  const goNext = () =>
+    setActiveImage((i) => (i + 1) % galleryImages.length);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft" && hasMultiple) goPrev();
+      if (e.key === "ArrowRight" && hasMultiple) goNext();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, onClose, hasMultiple, galleryImages.length]);
 
   useEffect(() => {
     if (!open) return;
@@ -149,22 +185,31 @@ function MediaLightbox({
           exit={{ opacity: 0 }}
           transition={{ duration: reduced ? 0 : 0.2 }}
         >
-          <motion.button
-            type="button"
+          <motion.div
             className="absolute inset-0 bg-black/70 backdrop-blur-md"
-            aria-label="Close media viewer"
-            onClick={onClose}
+            aria-hidden="true"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: reduced ? 0 : 0.2 }}
           />
 
-          <div className="relative h-full w-full flex items-center justify-center px-4 py-8">
+          <div
+            className="absolute inset-0 overflow-y-auto overscroll-contain"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) onClose();
+            }}
+          >
+            <div
+              className="flex min-h-full items-center justify-center px-4 py-8"
+              onClick={(e) => {
+                if (e.target === e.currentTarget) onClose();
+              }}
+            >
             <motion.div
               role="dialog"
               aria-modal="true"
-              className="relative w-full max-w-5xl overflow-hidden rounded-3xl border border-white/12 bg-navy-950/70 shadow-premium"
+              className="relative w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden rounded-3xl border border-white/12 bg-navy-950/70 shadow-premium"
               initial={{ y: 18, opacity: 0, scale: 0.98 }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
               exit={{ y: 18, opacity: 0, scale: 0.98 }}
@@ -177,7 +222,7 @@ function MediaLightbox({
             >
               <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none" />
 
-              <div className="flex items-center justify-between gap-4 p-5 sm:p-6 border-b border-white/10">
+              <div className="relative shrink-0 flex items-center justify-between gap-4 p-5 sm:p-6 border-b border-white/10">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="px-2.5 py-1 rounded-full bg-white/8 border border-white/10 text-[10px] uppercase tracking-[0.2em] text-gold font-bold">
@@ -200,35 +245,115 @@ function MediaLightbox({
                 </button>
               </div>
 
+              <div className="relative flex-1 min-h-0 overflow-y-auto overscroll-contain">
               <div className="relative bg-black/40">
                 {item.kind === "video" && item.video ? (
                   <video
                     src={item.video.src}
-                    poster={item.image.src}
+                    poster={item.image.src || undefined}
                     controls
                     autoPlay={!reduced}
                     playsInline
                     className="w-full aspect-video object-cover"
                   />
                 ) : (
-                  <div className="relative w-full aspect-[16/9]">
-                    <Image
-                      src={item.image.src}
-                      alt={item.image.alt}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 1024px"
-                      priority={Boolean(item.featured)}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-navy-950/10 to-transparent" />
+                  <div
+                    className="relative w-full aspect-[16/9]"
+                    onMouseEnter={() => setPaused(true)}
+                    onMouseLeave={() => setPaused(false)}
+                  >
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeImage}
+                        className="absolute inset-0"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: reduced ? 0 : 0.25 }}
+                      >
+                        <Image
+                          src={galleryImages[activeImage]?.src ?? item.image.src}
+                          alt={galleryImages[activeImage]?.alt ?? item.image.alt}
+                          fill
+                          className="object-contain"
+                          sizes="(max-width: 1024px) 100vw, 1024px"
+                          priority={Boolean(item.featured)}
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-navy-950/10 to-transparent pointer-events-none" />
+
+                    {hasMultiple ? (
+                      <>
+                        <button
+                          type="button"
+                          onClick={goPrev}
+                          aria-label="Previous image"
+                          className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full glass border border-white/15 text-white/85 hover:text-white hover:border-gold/40 transition grid place-items-center"
+                        >
+                          <i className="fas fa-chevron-left" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={goNext}
+                          aria-label="Next image"
+                          className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full glass border border-white/15 text-white/85 hover:text-white hover:border-gold/40 transition grid place-items-center"
+                        >
+                          <i className="fas fa-chevron-right" />
+                        </button>
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/45 backdrop-blur border border-white/10 text-[11px] text-white/80">
+                          {activeImage + 1} / {galleryImages.length}
+                        </div>
+                      </>
+                    ) : null}
                   </div>
                 )}
               </div>
+
+              {hasMultiple ? (
+                <div className="flex gap-2 overflow-x-auto px-5 sm:px-6 pt-4">
+                  {galleryImages.map((img, i) => (
+                    <button
+                      key={img.src}
+                      type="button"
+                      onClick={() => setActiveImage(i)}
+                      aria-label={`View image ${i + 1}`}
+                      className={cx(
+                        "relative shrink-0 w-20 h-14 rounded-xl overflow-hidden border transition",
+                        i === activeImage
+                          ? "border-gold"
+                          : "border-white/12 hover:border-white/30 opacity-70 hover:opacity-100",
+                      )}
+                    >
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        className="object-cover"
+                        sizes="80px"
+                      />
+                    </button>
+                  ))}
+                </div>
+              ) : null}
 
               <div className="p-5 sm:p-6">
                 <p className="text-sm sm:text-[15px] text-white/70 leading-relaxed">
                   {item.excerpt}
                 </p>
+
+                {item.body && item.body.length > 0 ? (
+                  <div className="mt-4 space-y-3">
+                    {item.body.map((para, i) => (
+                      <p
+                        key={i}
+                        className="text-sm text-white/65 leading-relaxed"
+                      >
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                ) : null}
                 <div className="mt-4 flex items-center justify-between gap-4">
                   <div className="text-[11px] text-white/50">
                     Category:{" "}
@@ -243,7 +368,9 @@ function MediaLightbox({
                   </button>
                 </div>
               </div>
+              </div>
             </motion.div>
+            </div>
           </div>
         </motion.div>
       ) : null}
@@ -328,12 +455,12 @@ function MediaCard({
                   muted
                   loop
                   playsInline
-                  preload="none"
-                  poster={item.image.src}
+                  preload={item.image.src ? "none" : "metadata"}
+                  poster={item.image.src || undefined}
                   className="h-full w-full object-cover scale-[1.02] group-hover:scale-[1.06] transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/35 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-950/95 via-navy-950/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/5" />
               </>
             ) : (
               <>
@@ -349,8 +476,8 @@ function MediaCard({
                   }
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/35 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-950/95 via-navy-950/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/15 via-transparent to-black/5" />
               </>
             )}
 
@@ -370,6 +497,11 @@ function MediaCard({
               {item.kind === "video" ? (
                 <span className="px-2.5 py-1 rounded-full bg-black/35 backdrop-blur border border-white/10 text-[10px] uppercase tracking-[0.18em] text-white/80">
                   {item.video?.durationLabel ?? "Video"}
+                </span>
+              ) : item.images && item.images.length > 1 ? (
+                <span className="px-2.5 py-1 rounded-full bg-black/35 backdrop-blur border border-white/10 text-[10px] uppercase tracking-[0.18em] text-white/80">
+                  <i className="fas fa-images mr-1.5 text-[9px]" />
+                  {item.images.length} Photos
                 </span>
               ) : null}
               <div className="w-11 h-11 rounded-full bg-white/8 backdrop-blur-md border border-white/12 flex items-center justify-center">
@@ -404,28 +536,35 @@ function MediaCard({
           ) : null}
 
           {/* Bottom content */}
-          <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
-            <div className="glass-dark rounded-2xl border border-white/10 p-4 sm:p-5">
+          <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+            <div className="glass-dark rounded-2xl border border-white/10 px-4 py-3.5 sm:px-5 sm:py-4 transition-colors duration-300 group-hover:border-gold/25">
               <h3
                 className={cx(
-                  "font-display font-bold text-white leading-snug group-hover:text-gold transition",
+                  "font-display font-bold text-white leading-snug group-hover:text-gold transition line-clamp-2",
                   variant === "featured" || item.featured
-                    ? "text-xl sm:text-2xl"
+                    ? "text-lg sm:text-2xl"
                     : "text-base",
                 )}
               >
                 {item.title}
               </h3>
-              <p className="mt-2 text-sm text-white/65 leading-relaxed line-clamp-2">
-                {item.excerpt}
-              </p>
-              <div className="mt-4 flex items-center justify-between gap-4">
+
+              {/* Excerpt reveals on hover so the photo stays visible by default */}
+              <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-500 ease-out group-hover:grid-rows-[1fr] group-hover:opacity-100 group-hover:mt-2">
+                <div className="overflow-hidden">
+                  <p className="text-sm text-white/70 leading-relaxed line-clamp-3">
+                    {item.excerpt}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-2.5 flex items-center justify-between gap-4">
                 <div className="text-[10px] uppercase tracking-[0.25em] text-white/45">
                   {item.category}
                 </div>
                 <div className="flex items-center gap-2 text-xs text-white/80 group-hover:text-gold transition">
                   {item.kind === "video" ? "Watch" : "Open"}{" "}
-                  <i className="fas fa-arrow-right text-[10px]" />
+                  <i className="fas fa-arrow-right text-[10px] transition-transform group-hover:translate-x-0.5" />
                 </div>
               </div>
             </div>
@@ -444,6 +583,246 @@ export const Media = () => {
   const items: MediaItem[] = useMemo(
     () => [
       {
+        id: "vietnam-embassy-trade-meeting",
+        kind: "gallery",
+        category: "Gallery",
+        tag: "Featured • Bilateral Trade",
+        date: "Jun 28, 2026",
+        title:
+          "IICCI team meets Trade Director of Vietnam Embassy to explore bilateral trade opportunities",
+        excerpt:
+          "An IICCI delegation led by President Mr. Rajesh Kaithwas and Vice President Mr. T. K. Pandey met Mr. Bui Trung Thuong, Trade Director at the Embassy of Vietnam in New Delhi, to strengthen India–Vietnam trade and economic cooperation.",
+        body: [
+          "The Indian Importers Chambers of Commerce & Industry (IICCI) delegation, led by the President Mr Rajesh Kaithwas & Vice President Mr T K Pandey, had the privilege of meeting Mr. Bui Trung Thuong, Trade Director at the Embassy of Vietnam in New Delhi, who also serves as Trade Counsellor and Head of the Trade Office.",
+          "The meeting focused on strengthening bilateral trade and economic cooperation between India and Vietnam, with discussions centered on identifying new avenues for trade growth, investment promotion, and business collaboration that would benefit both economies.",
+          "Key areas of mutual interest included the organization of Reverse Buyer-Seller Meets to facilitate direct business engagement between enterprises from both countries, development of agricultural value chains to enhance market access and increase export opportunities, and exploration of fertilizer import and supply partnerships to support agricultural productivity and food security.",
+          "Both sides acknowledged the significant potential for expanding trade volumes and fostering long-term partnerships across sectors such as agriculture, agribusiness, manufacturing, trade facilitation, and investment. These initiatives are expected to contribute to increased foreign exchange earnings, stronger commercial ties, and sustainable economic growth for both nations.",
+          "IICCI remains committed to working closely with the Embassy of Vietnam and relevant stakeholders to promote meaningful business engagement and unlock new opportunities for India–Vietnam trade and investment cooperation.",
+        ],
+        image: {
+          src: "/images/gallery/embassy-of-vietnam/embassy-vietnam-1.jpeg",
+          alt: "IICCI delegation meeting the Trade Director of the Embassy of Vietnam in New Delhi",
+        },
+        images: [
+          {
+            src: "/images/gallery/embassy-of-vietnam/embassy-vietnam-1.jpeg",
+            alt: "IICCI delegation meeting the Trade Director of the Embassy of Vietnam in New Delhi",
+          },
+          {
+            src: "/images/gallery/embassy-of-vietnam/embassy-vietnam-2.jpeg",
+            alt: "IICCI leadership in discussion with Mr. Bui Trung Thuong, Trade Director, Embassy of Vietnam",
+          },
+          {
+            src: "/images/gallery/embassy-of-vietnam/embassy-vietnam-3.jpeg",
+            alt: "Bilateral trade cooperation discussion between IICCI and the Embassy of Vietnam",
+          },
+          {
+            src: "/images/gallery/embassy-of-vietnam/embassy-vietnam-4.jpeg",
+            alt: "IICCI delegation with the Trade Office of the Embassy of Vietnam in New Delhi",
+          },
+        ],
+        featured: true,
+      },
+      {
+        id: "rwanda-embassy-trade-meeting",
+        kind: "gallery",
+        category: "Gallery",
+        tag: "Bilateral Trade • Rwanda",
+        date: "Jun 28, 2026",
+        title:
+          "IICCI delegation meets High Commissioner of Rwanda to strengthen India–Rwanda trade and investment cooperation",
+        excerpt:
+          "An IICCI delegation led by President Mr. Rajesh Kaithwas and Vice President Mr. T. K. Pandey met H.E. Ms. Jacqueline Mukangira, High Commissioner of the Republic of Rwanda, to explore bilateral trade and investment opportunities.",
+        body: [
+          "The Indian Importers Chambers & Industry (IICCI), represented by Mr. Rajesh Kaithwas, President, and Mr. T.K. Pandey, Vice President, had the honor of meeting H.E. Ms. Jacqueline Mukangira, High Commissioner of the Republic of Rwanda, at the Embassy of Rwanda in New Delhi.",
+          "The meeting focused on exploring and strengthening bilateral trade and investment opportunities between India and Rwanda, with the objective of creating sustainable economic partnerships that would benefit both nations. Discussions highlighted the growing importance of India as Rwanda's second-largest trading partner and the significant untapped potential for further economic collaboration.",
+          "Several strategic initiatives were discussed, including the organization of Reverse Buyer-Seller Meets, Entrepreneurship Development Programs, and the development of agricultural value chains aimed at enhancing trade volumes and increasing foreign exchange earnings for both countries. The discussions also explored opportunities in gold mining and imports, rare earth metals, and the potential utilization of Rwanda's abundant methane gas resources.",
+          "Both sides identified strong prospects for collaboration in sectors such as Real Estate, Hospitality, Art & Culture, Tourism, Food Processing, Agribusiness, and Investment Promotion. As part of its commitment to fostering deeper business engagement, IICCI also expressed its intention to sign a Memorandum of Understanding (MoU) with leading chambers and business associations in Rwanda to facilitate knowledge sharing, promote best business practices, and strengthen institutional cooperation.",
+          "A business delegation visit to Rwanda is also being planned to explore investment opportunities, establish strategic partnerships, and further enhance India–Rwanda economic relations.",
+          "The meeting concluded on a positive note, reaffirming the shared commitment of both countries to expanding trade, investment, and people-to-people connections for mutual growth and prosperity.",
+        ],
+        image: {
+          src: "/images/gallery/embassy-of-rwanda/embassy-rwanda-1.jpeg",
+          alt: "IICCI delegation meeting the High Commissioner of Rwanda at the Embassy of Rwanda in New Delhi",
+        },
+        images: Array.from({ length: 14 }, (_, i) => ({
+          src: `/images/gallery/embassy-of-rwanda/embassy-rwanda-${i + 1}.jpeg`,
+          alt: `IICCI delegation meeting with H.E. Ms. Jacqueline Mukangira, High Commissioner of Rwanda — photo ${i + 1}`,
+        })),
+      },
+      {
+        id: "mali-embassy-trade-meeting",
+        kind: "gallery",
+        category: "Gallery",
+        tag: "Bilateral Trade • Mali",
+        date: "Jun 28, 2026",
+        title:
+          "IICCI delegation meets Ambassador of Mali to strengthen India–Mali trade and investment relations",
+        excerpt:
+          "An IICCI delegation led by President Mr. Rajesh Kaithwas and Vice President Mr. T. K. Pandey met H.E. Brig. Gen. Felix Diallo, Ambassador of the Republic of Mali to India, to explore bilateral trade and investment opportunities.",
+        body: [
+          "The Indian Importers Chambers & Industry (IICCI), represented by Mr. Rajesh Kaithwas, President, and Mr. T.K. Pandey, Vice President, had the privilege of meeting H.E. Brig. Gen. Felix Diallo, Ambassador of the Republic of Mali to India, at the Embassy of Mali in New Delhi.",
+          "The meeting focused on exploring bilateral trade and investment opportunities between India and Mali, with the objective of strengthening economic cooperation and creating mutually beneficial business partnerships. Discussions emphasized the vast untapped potential between the two countries and the importance of enhancing private-sector engagement to increase trade volumes and investment flows.",
+          "A key area of discussion was the organization of business delegations from India to Mali to facilitate direct engagement with government authorities, industry stakeholders, and local businesses. The Ambassador and the IICCI delegation also discussed investment facilitation measures, including mechanisms that can provide greater confidence and ease of doing business for Indian companies seeking to invest and operate in Mali.",
+          "Several strategic initiatives were explored, including Reverse Buyer-Seller Meets, Entrepreneurship Development Programs, and the development of agricultural value chains aimed at increasing bilateral trade and foreign exchange earnings for both nations. IICCI also presented a comprehensive India–Mali Trade and Investment Roadmap (2026–2036), outlining priority sectors, trade targets, and long-term opportunities for economic cooperation.",
+          "Both sides identified significant opportunities in sectors such as Cotton, Shea Butter, Pharmaceuticals, Chemicals, Electrical Equipment, Agriculture, and Value-Added Processing Industries. Discussions also covered the possibility of institutional collaboration through partnerships with local chambers and business organizations to promote best business practices and facilitate trade and investment.",
+          "The meeting concluded on a highly positive note, with H.E. Brig. Gen. Felix Diallo extending an invitation to IICCI to visit Bamako, Mali, to gain deeper insights into the country's economic landscape and explore investment and trade opportunities firsthand.",
+          "IICCI remains committed to fostering stronger India–Mali relations and creating meaningful platforms for business collaboration, trade expansion, and sustainable economic growth.",
+        ],
+        image: {
+          src: "/images/gallery/embassy-of-mali/embassy-mali-1.jpeg",
+          alt: "IICCI delegation meeting the Ambassador of Mali at the Embassy of Mali in New Delhi",
+        },
+        images: Array.from({ length: 5 }, (_, i) => ({
+          src: `/images/gallery/embassy-of-mali/embassy-mali-${i + 1}.jpeg`,
+          alt: `IICCI delegation meeting with H.E. Brig. Gen. Felix Diallo, Ambassador of Mali — photo ${i + 1}`,
+        })),
+      },
+      {
+        id: "uzbekistan-embassy-trade-meeting",
+        kind: "gallery",
+        category: "Gallery",
+        tag: "Bilateral Trade • Uzbekistan",
+        date: "Jun 28, 2026",
+        title:
+          "IICCI delegation meets Ambassador of Uzbekistan to strengthen bilateral trade and economic cooperation",
+        excerpt:
+          "An IICCI delegation led by President Mr. Rajesh Kaithwas and Vice President Mr. T. K. Pandey met H.E. Mr. Sardor Mirzayusupovich Rustambaev, Ambassador of Uzbekistan to India, to expand bilateral trade and investment opportunities.",
+        body: [
+          "The Indian Importers Chambers & Industry (IICCI), represented by Mr. Rajesh Kaithwas, President, and Mr. T.K. Pandey, Vice President, had the honor of meeting H.E. Mr. Sardor Mirzayusupovich Rustambaev, Ambassador of Uzbekistan to India, at the Embassy of Uzbekistan in New Delhi.",
+          "The meeting focused on expanding bilateral trade and investment opportunities between India and Uzbekistan, with both sides expressing a strong commitment to strengthening economic ties and enhancing business collaboration. During the discussions, His Excellency emphasized the need to significantly increase trade volumes between the two countries and reiterated Uzbekistan's positive outlook towards India as a strategic economic partner. Uzbekistan has set an ambitious vision of achieving bilateral trade volumes in the range of USD 10–15 billion in the coming years.",
+          "Key areas of cooperation discussed included the organization of Reverse Buyer-Seller Meets, development of agricultural value chains, trade facilitation initiatives, and measures to enhance foreign exchange earnings for both nations. IICCI also presented a comprehensive India–Uzbekistan Trade and Investment Roadmap (2026–2036), outlining strategic sectors and opportunities for long-term economic cooperation.",
+          "The Ambassador highlighted the need for IICCI's support and guidance in facilitating smoother export access for Uzbek products into the Indian market, including assistance on trade procedures, market connectivity, and business facilitation. Both sides also discussed plans for signing a Memorandum of Understanding (MoU) with leading chambers and business organizations to promote best business practices and strengthen institutional cooperation.",
+          "Significant opportunities were jointly identified in sectors such as Copper Cathodes, Fertilizers, Spices, Dry Fruits, Fresh Fruits, Chemicals, Textiles, Electronics, and other high-potential products. His Excellency also expressed a keen interest in connecting with Indian buyers for Uzbek dry fruits ahead of the upcoming Diwali season.",
+          "The meeting concluded with discussions on organizing business delegations and a proposed India–Uzbekistan Business Forum in the near future, aimed at creating new trade partnerships, investment opportunities, and stronger commercial linkages between the two countries.",
+          "IICCI remains committed to supporting initiatives that promote bilateral trade, investment, and sustainable economic growth between India and Uzbekistan.",
+        ],
+        image: {
+          src: "/images/gallery/embassy-of-uzbeskistan/embassy-uzbekistan-1.jpeg",
+          alt: "IICCI delegation meeting the Ambassador of Uzbekistan at the Embassy of Uzbekistan in New Delhi",
+        },
+        images: Array.from({ length: 6 }, (_, i) => ({
+          src: `/images/gallery/embassy-of-uzbeskistan/embassy-uzbekistan-${i + 1}.jpeg`,
+          alt: `IICCI delegation meeting with H.E. Mr. Sardor Mirzayusupovich Rustambaev, Ambassador of Uzbekistan — photo ${i + 1}`,
+        })),
+      },
+      {
+        id: "syrian-chamber-trade-meeting",
+        kind: "gallery",
+        category: "Gallery",
+        tag: "Bilateral Trade • Syria",
+        date: "Jun 28, 2026",
+        title:
+          "IICCI holds discussions with Syrian Chamber representatives to explore trade and investment opportunities",
+        excerpt:
+          "An IICCI delegation led by President Mr. Rajesh Kaithwas and Vice President Mr. T. K. Pandey held a productive meeting with representatives of Syrian Chambers in New Delhi to strengthen bilateral trade and economic cooperation.",
+        body: [
+          "The Indian Importers Chambers & Industry (IICCI), represented by Mr. Rajesh Kaithwas, President, and Mr. T.K. Pandey, Vice President, recently held a productive meeting with representatives of Syrian Chambers in New Delhi to explore avenues for strengthening bilateral trade and economic cooperation between India and Syria.",
+          "The discussions focused on identifying mutually beneficial trade and investment opportunities that can contribute to economic growth and commercial engagement between the two countries. During the meeting, IICCI team was appraised of Syria's significant reserves of Calcium Phosphate, presenting potential opportunities for collaboration in the fertilizer and mineral sectors.",
+          "A detailed discussion was also held on the possibility of establishing a Nano Fertilizer manufacturing plant in Syria, leveraging Indian expertise and technology to support agricultural productivity and value-added industrial development. In addition, both sides explored opportunities in the Oil & Gas sector, including the rehabilitation of war-affected energy fields, development of new offshore infrastructure, and participation in international energy and transit corridor projects.",
+          "The meeting highlighted the strong potential for future cooperation across sectors such as agriculture, fertilizers, minerals, energy, infrastructure, and industrial development. Both sides expressed their commitment to continuing the dialogue and agreed to meet again to take the discussions forward and develop concrete business and investment initiatives.",
+          "IICCI remains dedicated to fostering international partnerships and creating new opportunities for trade, investment, and economic collaboration between India and emerging global markets.",
+        ],
+        image: {
+          src: "/images/gallery/syrian-chamber/syrian-chamber-1.jpeg",
+          alt: "IICCI delegation meeting with Syrian Chamber representatives in New Delhi",
+        },
+        images: Array.from({ length: 3 }, (_, i) => ({
+          src: `/images/gallery/syrian-chamber/syrian-chamber-${i + 1}.jpeg`,
+          alt: `IICCI delegation meeting with Syrian Chamber representatives — photo ${i + 1}`,
+        })),
+      },
+      {
+        id: "cameroon-chamber-trade-meeting",
+        kind: "gallery",
+        category: "Gallery",
+        tag: "Bilateral Trade • Cameroon",
+        date: "Jun 28, 2026",
+        title:
+          "IICCI holds productive discussions with Cameroon Chamber representatives to strengthen bilateral trade relations",
+        excerpt:
+          "An IICCI delegation led by President Mr. Rajesh Kaithwas and Vice President Mr. T. K. Pandey held a fruitful meeting with representatives of the Chambers from Cameroon in New Delhi to explore bilateral trade and investment opportunities.",
+        body: [
+          "The Indian Importers Chambers & Industry (IICCI), represented by Mr. Rajesh Kaithwas, President, and Mr. T.K. Pandey, Vice President, recently held a fruitful meeting with representatives of the Chambers from Cameroon in New Delhi to explore bilateral trade and investment opportunities between India and Cameroon.",
+          "The discussions focused on identifying areas of mutual cooperation that can strengthen economic relations and create sustainable business opportunities for both nations. The Cameroon delegation sought IICCI's support and guidance in sectors including automobiles and spare parts, seeds, fertilizers, pharmaceuticals, and skilled manpower for healthcare, tourism, agriculture, and hospitality industries.",
+          "Significant opportunities were also identified for imports from Cameroon into India, including cocoa, cashew nuts, agricultural seeds, cassava, palm oil, maize, bauxite, gold, diamonds, and other mineral resources. Both sides discussed the potential for enhancing trade flows and creating reliable market linkages for these products.",
+          "A noteworthy discussion was held on the possibility of establishing dialysis centers in Cameroon, leveraging Indian expertise in healthcare infrastructure, medical technology, and healthcare services. The delegation also highlighted the strong support extended by the Government of Cameroon towards agricultural development, creating favorable conditions for investment and technology partnerships in the sector.",
+          "The meeting concluded on a positive note, with IICCI reaffirming its commitment to supporting the Cameroon Chambers in promoting trade, investment, business partnerships, and knowledge exchange. Both sides expressed confidence that closer collaboration would create a win-win relationship and contribute to the economic growth and prosperity of both India and Cameroon.",
+        ],
+        image: {
+          src: "/images/gallery/cameroon-chamber/cameroon-chamber-1.jpeg",
+          alt: "IICCI delegation meeting with Cameroon Chamber representatives in New Delhi",
+        },
+        images: Array.from({ length: 2 }, (_, i) => ({
+          src: `/images/gallery/cameroon-chamber/cameroon-chamber-${i + 1}.jpeg`,
+          alt: `IICCI delegation meeting with Cameroon Chamber representatives — photo ${i + 1}`,
+        })),
+      },
+      {
+        id: "new-opportunities-member-meet",
+        kind: "gallery",
+        category: "Gallery",
+        tag: "Member Engagement",
+        date: "Jun 28, 2026",
+        title:
+          "Building stronger connections, creating new opportunities",
+        excerpt:
+          "During his recent visit to New Delhi, IICCI President Mr. Rajesh Kaithwas met several IICCI members in an interactive one-to-one session to understand their businesses, aspirations, and future growth plans.",
+        body: [
+          "Meaningful business growth begins with meaningful conversations.",
+          "During his recent visit to New Delhi, the newly appointed President of the Indian Importers Chambers of Commerce & Industry (IICCI), Mr. Rajesh Kaithwas, met with several IICCI members in an interactive one-to-one session aimed at understanding their businesses, aspirations, and future growth plans.",
+          "The members shared their company profiles, discussed their areas of expertise, and expressed their interest in exploring new domestic and international business opportunities with the support of IICCI.",
+          "Mr. Kaithwas patiently listened to each member, gaining valuable insights into their business objectives and challenges. He assured them that IICCI is committed to identifying sector-specific opportunities, facilitating strategic connections, and creating platforms that enable members to expand their business horizons.",
+          "The interaction concluded on a highly positive note, with a shared commitment to continue these discussions through regular engagements and collaborative initiatives that translate ideas into meaningful business outcomes.",
+          "At IICCI, we believe that every conversation has the potential to become a successful partnership, and every member's growth contributes to the collective success of our business community.",
+          "Together, we look forward to creating new opportunities, stronger networks, and lasting business relationships.",
+        ],
+        image: {
+          src: "/images/gallery/new-opportunities/new-opportunities-1.jpeg",
+          alt: "IICCI President Mr. Rajesh Kaithwas meeting IICCI members in an interactive session in New Delhi",
+        },
+        images: Array.from({ length: 6 }, (_, i) => ({
+          src: `/images/gallery/new-opportunities/new-opportunities-${i + 1}.jpeg`,
+          alt: `IICCI President Mr. Rajesh Kaithwas in a one-to-one session with IICCI members — photo ${i + 1}`,
+        })),
+      },
+      {
+        id: "iicci-video-1",
+        kind: "video",
+        category: "Videos",
+        tag: "IICCI Highlights",
+        date: "Jun 27, 2026",
+        title: "IICCI highlights: engagements, meetings and member moments",
+        excerpt:
+          "A short video capturing IICCI's recent engagements, leadership meetings, and member interactions.",
+        image: {
+          src: "",
+          alt: "IICCI highlights video",
+        },
+        video: {
+          src: "/images/videos/iicci-video-1.mp4",
+          durationLabel: "Video",
+        },
+      },
+      {
+        id: "iicci-video-2",
+        kind: "video",
+        category: "Videos",
+        tag: "IICCI Highlights",
+        date: "Jun 27, 2026",
+        title: "IICCI in action: building partnerships and new opportunities",
+        excerpt:
+          "Glimpses of IICCI's bilateral meetings and business engagements driving trade and investment cooperation.",
+        image: {
+          src: "",
+          alt: "IICCI in action video",
+        },
+        video: {
+          src: "/images/videos/iicci-video-2.mp4",
+          durationLabel: "Video",
+        },
+      },
+      {
         id: "featured-mou-signing",
         kind: "gallery",
         category: "MOUs",
@@ -457,7 +836,6 @@ export const Media = () => {
           src: "/images/img3.png",
           alt: "IICCI MoU signing ceremony — leadership handshake with agreement folders",
         },
-        featured: true,
       },
       {
         id: "mou-signing-ceremony",
