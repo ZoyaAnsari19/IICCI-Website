@@ -168,10 +168,35 @@ function MediaLightbox({
 
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const body = document.body;
+    const html = document.documentElement;
+    const scrollY = window.scrollY;
+    const prev = {
+      bodyOverflow: body.style.overflow,
+      htmlOverflow: html.style.overflow,
+      bodyPosition: body.style.position,
+      bodyTop: body.style.top,
+      bodyWidth: body.style.width,
+    };
+    const scrollbarWidth = window.innerWidth - html.clientWidth;
+
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
     return () => {
-      document.body.style.overflow = prev;
+      html.style.overflow = prev.htmlOverflow;
+      body.style.overflow = prev.bodyOverflow;
+      body.style.position = prev.bodyPosition;
+      body.style.top = prev.bodyTop;
+      body.style.width = prev.bodyWidth;
+      body.style.paddingRight = "";
+      window.scrollTo(0, scrollY);
     };
   }, [open]);
 
@@ -201,7 +226,7 @@ function MediaLightbox({
             }}
           >
             <div
-              className="flex min-h-full items-center justify-center px-4 py-8"
+              className="flex min-h-full items-start justify-center px-4 py-6 sm:py-8"
               onClick={(e) => {
                 if (e.target === e.currentTarget) onClose();
               }}
@@ -209,7 +234,7 @@ function MediaLightbox({
             <motion.div
               role="dialog"
               aria-modal="true"
-              className="relative w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden rounded-3xl border border-white/12 bg-navy-950/70 shadow-premium"
+              className="relative w-full max-w-5xl overflow-hidden rounded-3xl border border-white/12 bg-navy-950/70 shadow-premium"
               initial={{ y: 18, opacity: 0, scale: 0.98 }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
               exit={{ y: 18, opacity: 0, scale: 0.98 }}
@@ -245,7 +270,6 @@ function MediaLightbox({
                 </button>
               </div>
 
-              <div className="relative flex-1 min-h-0 overflow-y-auto overscroll-contain">
               <div className="relative bg-black/40">
                 {item.kind === "video" && item.video ? (
                   <video
@@ -367,7 +391,6 @@ function MediaLightbox({
                     Back to newsroom <i className="fas fa-arrow-right text-[10px]" />
                   </button>
                 </div>
-              </div>
               </div>
             </motion.div>
             </div>
