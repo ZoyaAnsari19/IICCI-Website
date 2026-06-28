@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type MediaCategory =
+export type MediaCategory =
   | "News"
   | "Videos"
   | "Gallery"
@@ -14,9 +15,9 @@ type MediaCategory =
   | "Media Coverage"
   | "Press Releases";
 
-type MediaKind = "article" | "video" | "gallery" | "press";
+export type MediaKind = "article" | "video" | "gallery" | "press";
 
-type MediaItem = {
+export type MediaItem = {
   id: string;
   kind: MediaKind;
   category: MediaCategory;
@@ -40,7 +41,7 @@ type MediaItem = {
   featured?: boolean;
 };
 
-const FILTERS: Array<"All" | MediaCategory> = [
+export const FILTERS: Array<"All" | MediaCategory> = [
   "All",
   "News",
   "Videos",
@@ -51,7 +52,7 @@ const FILTERS: Array<"All" | MediaCategory> = [
   "Media Coverage",
 ];
 
-function cx(...parts: Array<string | false | null | undefined>) {
+export function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
@@ -115,7 +116,7 @@ function PlayButton({ subtle }: { subtle?: boolean }) {
   );
 }
 
-function MediaLightbox({
+export function MediaLightbox({
   open,
   item,
   onClose,
@@ -401,14 +402,14 @@ function MediaLightbox({
   );
 }
 
-function MediaCard({
+export function MediaCard({
   item,
   onOpen,
   variant,
 }: {
   item: MediaItem;
   onOpen: (item: MediaItem) => void;
-  variant?: "featured" | "stack";
+  variant?: "featured" | "stack" | "grid";
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const reduced = usePrefersReducedMotion();
@@ -461,11 +462,13 @@ function MediaCard({
             "relative",
             variant === "featured"
               ? "h-[520px]"
-              : variant === "stack"
-                ? "h-[260px] sm:h-[280px]"
-                : item.featured
-                  ? "h-[520px]"
-                  : "h-[320px]",
+              : variant === "grid"
+                ? "h-[380px]"
+                : variant === "stack"
+                  ? "h-[260px] sm:h-[280px]"
+                  : item.featured
+                    ? "h-[520px]"
+                    : "h-[320px]",
           )}
         >
           {/* Visual */}
@@ -509,28 +512,27 @@ function MediaCard({
           </div>
 
           {/* Top badges */}
-          <div className="absolute top-5 left-5 right-5 flex items-start justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur border border-white/15 text-[10px] uppercase tracking-[0.22em] text-gold font-bold">
+          <div className="absolute top-4 left-4 right-4 sm:top-5 sm:left-5 sm:right-5 flex items-start justify-between gap-2">
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="min-w-0 truncate px-3 py-1 rounded-full bg-white/10 backdrop-blur border border-white/15 text-[10px] uppercase tracking-[0.18em] text-gold font-bold">
                 {item.tag}
               </span>
-              <span className="text-[11px] text-white/65">{item.date}</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-2">
               {item.kind === "video" ? (
-                <span className="px-2.5 py-1 rounded-full bg-black/35 backdrop-blur border border-white/10 text-[10px] uppercase tracking-[0.18em] text-white/80">
+                <span className="whitespace-nowrap px-2.5 py-1 rounded-full bg-black/40 backdrop-blur border border-white/10 text-[10px] uppercase tracking-[0.16em] text-white/85">
                   {item.video?.durationLabel ?? "Video"}
                 </span>
               ) : item.images && item.images.length > 1 ? (
-                <span className="px-2.5 py-1 rounded-full bg-black/35 backdrop-blur border border-white/10 text-[10px] uppercase tracking-[0.18em] text-white/80">
+                <span className="whitespace-nowrap px-2.5 py-1 rounded-full bg-black/40 backdrop-blur border border-white/10 text-[10px] uppercase tracking-[0.16em] text-white/85">
                   <i className="fas fa-images mr-1.5 text-[9px]" />
-                  {item.images.length} Photos
+                  {item.images.length}
                 </span>
               ) : null}
-              <div className="w-11 h-11 rounded-full bg-white/8 backdrop-blur-md border border-white/12 flex items-center justify-center">
+              <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/8 backdrop-blur-md border border-white/12 flex items-center justify-center">
                 <i
                   className={cx(
-                    "text-white text-sm",
+                    "text-white text-xs sm:text-sm",
                     item.kind === "video"
                       ? "fas fa-video"
                       : item.kind === "gallery"
@@ -582,10 +584,11 @@ function MediaCard({
               </div>
 
               <div className="mt-2.5 flex items-center justify-between gap-4">
-                <div className="text-[10px] uppercase tracking-[0.25em] text-white/45">
+                <div className="min-w-0 truncate text-[10px] uppercase tracking-[0.22em] text-white/45">
                   {item.category}
+                  <span className="text-white/30"> • {item.date}</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-white/80 group-hover:text-gold transition">
+                <div className="flex shrink-0 items-center gap-2 text-xs text-white/80 group-hover:text-gold transition">
                   {item.kind === "video" ? "Watch" : "Open"}{" "}
                   <i className="fas fa-arrow-right text-[10px] transition-transform group-hover:translate-x-0.5" />
                 </div>
@@ -598,13 +601,7 @@ function MediaCard({
   );
 }
 
-export const Media = () => {
-  const [active, setActive] = useState<(typeof FILTERS)[number]>("All");
-  const [openItem, setOpenItem] = useState<MediaItem | null>(null);
-  const [visibleCount, setVisibleCount] = useState(3);
-
-  const items: MediaItem[] = useMemo(
-    () => [
+export const MEDIA_ITEMS: MediaItem[] = [
       {
         id: "vietnam-embassy-trade-meeting",
         kind: "gallery",
@@ -982,9 +979,14 @@ export const Media = () => {
           alt: "Business networking and collaboration in a premium setting",
         },
       },
-    ],
-    [],
-  );
+];
+
+export const Media = () => {
+  const [active, setActive] = useState<(typeof FILTERS)[number]>("All");
+  const [openItem, setOpenItem] = useState<MediaItem | null>(null);
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  const items = MEDIA_ITEMS;
 
   const featured = items.find((i) => i.featured) ?? items[0];
   const rest = items.filter((i) => i.id !== featured.id);
@@ -1083,14 +1085,13 @@ export const Media = () => {
 
               {canLoadMore ? (
                 <div className="mt-5">
-                  <button
-                    type="button"
-                    onClick={() => setVisibleCount((c) => c + 4)}
+                  <Link
+                    href="/media/all"
                     className="w-full inline-flex items-center justify-center gap-3 px-6 py-3 rounded-2xl glass border border-white/10 text-white text-sm font-semibold hover:border-gold/40 transition"
                   >
                     Load more
-                    <i className="fas fa-plus text-[10px] text-gold" />
-                  </button>
+                    <i className="fas fa-arrow-right text-[10px] text-gold" />
+                  </Link>
                 </div>
               ) : null}
             </div>
@@ -1098,13 +1099,13 @@ export const Media = () => {
         </div>
 
         <div className="text-center mt-10 reveal-up">
-          <a
-            href="#"
+          <Link
+            href="/media/all"
             className="inline-flex items-center gap-3 px-7 py-3 rounded-full glass border border-white/10 text-white text-sm font-semibold hover:border-gold/40 transition"
           >
             View all media coverage
             <i className="fas fa-arrow-right text-[10px] text-gold" />
-          </a>
+          </Link>
         </div>
       </div>
 
